@@ -16,13 +16,17 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Service gérant l'authentification des utilisateurs.
+ * Permet l'inscription et la connexion des utilisateurs avec génération de token JWT.
+ */
 @Service
 public class AuthenticationService {
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    PasswordEncoder passwordEncoder;
-    JwtService jwtService;
-    AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
@@ -34,10 +38,10 @@ public class AuthenticationService {
 
     public void registerUser(RegisterUserRequest registerUserRequest) {
         var userRole = roleRepository.findByName("USER")
-                .orElseThrow(() -> new IllegalStateException("Role user was not found or not initialized"));
+                .orElseThrow(() -> new IllegalStateException("Le rôle utilisateur n'a pas été trouvé ou n'est pas initialisé."));
         var existingUser = userRepository.findByEmail(registerUserRequest.getEmail());
         if (existingUser.isPresent()) {
-            throw new UserAlreadyExistException("User with email " + registerUserRequest.getEmail() + " already exists");
+            throw new UserAlreadyExistException("Un utilisateur avec l'email " + registerUserRequest.getEmail() + " existe déjà.");
         }
         var user = User.builder()
                 .name(registerUserRequest.getName())
@@ -61,7 +65,6 @@ public class AuthenticationService {
 
     private AuthenticationResponse getToken(User user) {
         var claims = new HashMap<String, Object>();
-
         claims.put("fullName", user.getName());
         var jwtToken = jwtService.generateToken(claims, user);
         return AuthenticationResponse.builder()
