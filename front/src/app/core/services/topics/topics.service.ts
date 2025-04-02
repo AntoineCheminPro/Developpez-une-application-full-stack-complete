@@ -19,13 +19,13 @@ export class TopicsService extends FetchService {
   }
 
   public getAll(): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${this.apiUrl}/topics`).pipe(
+    return this.fetch<Topic[]>(`${this.apiUrl}/topics`).pipe(
       map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
     );
   }
 
   public getSubscribed(): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${this.apiUrl}/topics/subscribed`).pipe(
+    return this.fetch<Topic[]>(`${this.apiUrl}/topics/subscribed`).pipe(
       map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
     );
   }

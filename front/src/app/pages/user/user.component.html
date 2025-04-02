@@ -1,7 +1,7 @@
 <div class="user">
   <h2 class="user__title">Profil utilisateur</h2>
   
-  <form [formGroup]="form" (ngSubmit)="updateUserProfile()" class="user__form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user__form">
     <div class="user__form-fields">
       <div class="user__form-group">
         <input formControlName="name" placeholder="Nouveau nom d'utilisateur">
@@ -18,12 +18,12 @@
       </div>
 
       <div class="user__form-submit">
-        <p *ngIf="onError" class="user__error">Une erreur est survenue</p>
+        <p *ngIf="hasError" class="user__error">Une erreur est survenue</p>
         <button 
           mat-flat-button 
           color="primary" 
           type="submit" 
-          [disabled]="isUpdateButtonDisabled()"
+          [disabled]="form.invalid || isLoading"
           class="user__button">
           Mettre à jour le profil
         </button>
@@ -64,7 +64,7 @@
             [description]="topic.description"
             [isSubscribed]="topic.isSubscribed"
             [isSubscribeCase]="false"
-            (onSubscribe)="unsubscribeFromTopic($event)">
+            (onSubscribe)="unsubscribeFromTopic(topic.id)">
           </app-topic-card>
         </div>
       }

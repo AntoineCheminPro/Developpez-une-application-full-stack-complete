@@ -1,191 +1,144 @@
-import {Component, inject, OnInit, OnDestroy} from '@angular/core';
-import {TopicsService} from "../../core/services/topics/topics.service";
-import {Topic} from "../../core/models/topics/topic.interface";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatButton} from "@angular/material/button";
-import {MatInput} from "@angular/material/input";
-import {NgForOf, NgIf} from "@angular/common";
-import {UserService} from "../../core/services/user/user.service";
-import {IUserDetails} from "../../core/models/user/user.interface";
-import {SessionService} from "../../core/services/auth/auth.session.service";
-import {TopicEvent} from "../../core/EventEmitters/topic-event.interface";
-import {Subscription} from "rxjs";
-import { TopicCardComponent } from '../../components/topics/topic-card/topic-card.component';
-import { LoaderComponent } from '../../components/loader/loader.component';
-import { catchError, map, of, Subject, takeUntil } from "rxjs";
-import { CollectionSort } from "../../core/utils/collection.sort";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { UserService } from "../../core/services/user/user.service";
+import { TopicsService } from "../../core/services/topics/topics.service";
+import { Topic } from "../../core/models/topics/topic.interface";
+import { User } from "../../core/models/user/user.interface";
+import { Subscription } from "rxjs";
+import { TopicCardComponent } from "../../components/topics/topic-card/topic-card.component";
+import { LoaderComponent } from "../../components/loader/loader.component";
+import { NgIf } from "@angular/common";
+import { userProvider } from '@core/providers/user.provider';
+import { topicsProvider } from '@core/providers/topics.provider';
+import { SessionService } from "@core/services/auth/auth.session.service";
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [
-    MatButton,
-    MatInput,
-    NgForOf,
-    NgIf,
     ReactiveFormsModule,
     TopicCardComponent,
-    LoaderComponent
+    LoaderComponent,
+    NgIf
+  ],
+  providers: [
+    userProvider, 
+    topicsProvider,
+    SessionService
   ],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  [key: string]: any; // Index signature
+  private userSubscription$?: Subscription;
+  private topicsSubscription$?: Subscription;
+  private updateSubscription$?: Subscription;
 
-  private readonly topicsService: TopicsService = inject(TopicsService);
-  private readonly userService: UserService = inject(UserService);
-  private readonly sessionService: SessionService = inject(SessionService);
-  public form: FormGroup<{ name: FormControl<string | null>; email: FormControl<string | null>;}>
-
-  public nameValidationMessage : string = "";
-  public emailValidationMessage : string = "";
+  public currentUser?: User;
+  public subscribedTopics: Topic[] = [];
+  public isLoading = false;
+  public hasError = false;
+  public onErrorFetchingSubscriptions = false;
   public userSubscribedTopicsArray: Topic[] = [];
-  public currentUserDetails: IUserDetails | undefined;
-  public onErrorFetchingUserDetails: boolean = false;
-  public onErrorFetchingSubscriptions: boolean = false;
-  public onError: boolean = false;
-  public isLoading: boolean = false;
-  public hasSubscriptions: boolean = false;
-  private destroy$: Subject<void> = new Subject<void>();
+  public hasSubscriptions = false;
+  public form: FormGroup<{
+    name: FormControl<string | null>;
+    email: FormControl<string | null>;
+  }>;
+  public nameValidationMessage = '';
+  public emailValidationMessage = '';
 
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.maxLength(255)
-        ]
-      ],
-      email: [
-        '',
-        [
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}')
-        ]
-      ]
+  constructor(
+    private userService: UserService,
+    private topicsService: TopicsService,
+    private formBuilder: FormBuilder,
+    private sessionService: SessionService
+  ) {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe(_ => {
-      this.isUpdateButtonDisabled();
-    });
-
-    this.topicsService.isFetching.subscribe(isFetching => {
-      this.isLoading = isFetching;
-    });
-
-    this.getUserDetails();
-    this.getUserAllSubscription();
-  }
-
-  public getUserAllSubscription() : void {
-      const userTopicsGetAllSubscription$ = this.topicsService.getSubscribed().subscribe({
-      next: (values: Topic[]) => {
-        this.hasSubscriptions = values.length > 0;
-        this.userSubscribedTopicsArray = values;
-        userTopicsGetAllSubscription$.unsubscribe();
-      },
-      error: err => {
-        console.log(err);
-        this.onErrorFetchingSubscriptions = true;
-      }
-    });
-  }
-
-  private getUserDetails() : void {
-    const getUserDetailsSubscription$ = this.userService.get().subscribe({
-      next: (value: IUserDetails) => {
-        this.currentUserDetails = value;
-        getUserDetailsSubscription$.unsubscribe();
-      },
-      error: err => {
-        console.log(err);
-        this.onErrorFetchingUserDetails = true;
-      }
-    });
-  }
-
-  public isUpdateButtonDisabled() : boolean {
-    // Early return if there's an error fetching user details
-    if(this.onErrorFetchingUserDetails)
-      return true;
-
-    // Reset validation messages
-    this.nameValidationMessage = "";
-    this.emailValidationMessage = "";
-
-    const { name, email } = this.form.controls;
-
-    // Helper function to set validation messages
-    const setValidationMessage = (control: FormControl<string | null>, messageKey : string, message : string) => {
-      if (control.errors && control.errors[messageKey]) {
-        this[messageKey + 'ValidationMessage'] = message;
-        return true;
-      }
-      return false;
-    };
-
-    // Check for 'name' field errors
-    if (setValidationMessage(name, 'name', 'Name cannot be more than 255 characters.')) return true;
-
-    // Check for 'email' field errors
-    if (setValidationMessage(email, 'email', 'Please enter a valid email address.')) return true;
-
-    // Check if both inputs are empty
-    if (!name.value && !email.value) return true;
-
-    //finally check if user tries to update same values...it doesn't make sense to update details with same data
-
-    // Check if the name is the same as the current one
-    if (name.value && name.value.trim().toLowerCase() === this.currentUserDetails!.name.toLowerCase()) {
-      this.nameValidationMessage = 'Username is the same as the current one, please type a different username or leave it blank to not update it';
-      return true;
-    }
-
-    // Check if the email is the same as the current one
-    if (email.value && email.value.trim().toLowerCase() === this.currentUserDetails!.email.toLowerCase()) {
-      this.emailValidationMessage = 'Email address is the same as the current one, please type a different email or leave it blank to not update it';
-      return true;
-    }
-
-    return !this.form.valid;
-  }
-
-  public updateUserProfile(): void{
-    const updatedUserDetails: IUserDetails = {
-      name: this.form.controls['name'].value!.trim() || this.currentUserDetails!.name,
-      email: this.form.controls['email'].value!.trim() || this.currentUserDetails!.email,
-    };
-
-    const userUpdateDetailsSubscription$: Subscription = this.userService.updateDetails(updatedUserDetails).subscribe({
-      next: (_: void) => {
-        userUpdateDetailsSubscription$.unsubscribe();
-        this.logout('You have updated your details, please log-in again.');
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-  }
-
-  public logout(reason: string = ''): void {
-    this.sessionService.logOut(reason);
-  }
-
-  public unsubscribeFromTopic(event: TopicEvent): void {
-    this.topicsService.unSubscribeToTopic(event.id).subscribe({
-      next: () => {
-        this.getUserAllSubscription();
-      },
-      error: (error) => {
-        console.error('Erreur lors de la désinscription du topic:', error);
-      }
-    });
+    this.fetchUserData();
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.userSubscription$?.unsubscribe();
+    this.topicsSubscription$?.unsubscribe();
+    this.updateSubscription$?.unsubscribe();
+  }
+
+  private fetchUserData(): void {
+    this.isLoading = true;
+    this.hasError = false;
+
+    this.userSubscription$ = this.userService.getCurrentUser().subscribe({
+      next: (user: User) => {
+        this.currentUser = user;
+        this.form.patchValue({
+          name: user.name,
+          email: user.email
+        });
+        this.fetchSubscribedTopics();
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private fetchSubscribedTopics(): void {
+    this.topicsSubscription$ = this.topicsService.getSubscribed().subscribe({
+      next: (topics: Topic[]) => {
+        this.subscribedTopics = topics;
+        this.userSubscribedTopicsArray = topics;
+        this.hasSubscriptions = topics.length > 0;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.onErrorFetchingSubscriptions = true;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  public onSubmit(): void {
+    if (this.form.invalid || !this.currentUser) {
+      return;
+    }
+
+    const updatedUser: Partial<User> = {
+      name: this.form.value.name!,
+      email: this.form.value.email!
+    };
+
+    this.updateSubscription$ = this.userService.updateUser(updatedUser).subscribe({
+      next: (user: User) => {
+        this.currentUser = user;
+      },
+      error: () => {
+        this.hasError = true;
+      }
+    });
+  }
+
+  public unsubscribeFromTopic(topicId: string): void {
+    this.topicsService.unSubscribeToTopic(topicId).subscribe({
+      next: () => {
+        this.subscribedTopics = this.subscribedTopics.filter(topic => topic.id !== topicId);
+        this.userSubscribedTopicsArray = this.userSubscribedTopicsArray.filter(topic => topic.id !== topicId);
+        this.hasSubscriptions = this.userSubscribedTopicsArray.length > 0;
+      },
+      error: () => {
+        this.hasError = true;
+      }
+    });
+  }
+
+  public logout(): void {
+    this.sessionService.logOut();
   }
 }

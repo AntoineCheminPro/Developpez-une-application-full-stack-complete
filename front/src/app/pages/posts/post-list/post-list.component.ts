@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { PostsService } from "@core/services/posts/posts.service";
 import { Post } from "@core/models/posts/post.interface";
 import { catchError, map, of, Subscription, finalize } from 'rxjs';
@@ -9,6 +9,7 @@ import { DateTimeFormatter } from "@core/utils/date.formatter";
 import { CollectionSort } from "@core/utils/collection.sort";
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { PostCardComponent } from '../../../components/posts/post-card/post-card.component';
+import { postsProvider } from '@core/providers/posts.provider';
 
 @Component({
   selector: 'app-post-list',
@@ -20,6 +21,7 @@ import { PostCardComponent } from '../../../components/posts/post-card/post-card
     LoaderComponent,
     PostCardComponent
   ],
+  providers: [postsProvider],
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,6 +29,7 @@ import { PostCardComponent } from '../../../components/posts/post-card/post-card
 export class PostListComponent implements OnInit, OnDestroy {
   private readonly postsService: PostsService = inject(PostsService);
   private readonly router: Router = inject(Router);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private postsSubscription$?: Subscription;
 
   public readonly ERROR_MESSAGES = {
@@ -39,31 +42,36 @@ export class PostListComponent implements OnInit, OnDestroy {
   public isAscending = true;
   public isLoading = false;
 
+  constructor() {}
+
   ngOnInit(): void {
     this.fetchPosts();
   }
 
   private fetchPosts(): void {
     this.isLoading = true;
-    this.postsService.isFetching.subscribe(isFetching => {
-      this.isLoading = isFetching;
-    });
+    this.hasError = false;
+    this.cdr.markForCheck();
 
-    this.postsSubscription$ = this.postsService.getFeed().pipe(
-      map((posts: Post[]) => posts.map(post => ({
-        ...post,
-        createdAt: DateTimeFormatter.Format(new Date(post.createdAt))
-      }))),
-      catchError((error: Error) => {
-        this.hasError = true;
-        console.error(this.ERROR_MESSAGES.FETCH, error);
-        return of([]);
-      }),
-      finalize(() => this.isLoading = false)
-    ).subscribe((posts: Post[]) => {
-      this.hasData = posts.length > 0;
-      this.posts = CollectionSort.sortByCreationDateDescending(posts);
-    });
+    this.postsSubscription$ = this.postsService.getFeed()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: (posts: Post[]) => {
+          this.hasData = posts.length > 0;
+          this.posts = CollectionSort.sortByCreationDateDescending(posts);
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.hasError = true;
+          console.error(this.ERROR_MESSAGES.FETCH, error);
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   public onSortPosts(): void {
@@ -71,6 +79,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.posts = this.isAscending
       ? CollectionSort.sortByCreationDateDescending(this.posts)
       : CollectionSort.sortByCreationDateAscending(this.posts);
+    this.cdr.markForCheck();
   }
 
   public onCreatePost(): void {

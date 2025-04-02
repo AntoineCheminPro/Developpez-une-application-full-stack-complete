@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   catchError,
   forkJoin,
@@ -15,6 +15,7 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 import { TopicCardComponent } from '../../components/topics/topic-card/topic-card.component';
 import { Topic } from '../../core/models/topics/topic.interface';
 import { TopicEvent } from "../../core/EventEmitters/topic-event.interface";
+import { topicsProvider } from '@core/providers/topics.provider';
 
 const ERROR_MESSAGES = {
   FETCH: 'Une erreur est survenue lors de la récupération des sujets',
@@ -29,12 +30,16 @@ const ERROR_MESSAGES = {
     TopicCardComponent,
     LoaderComponent
   ],
+  providers: [
+    topicsProvider
+  ],
   templateUrl: './topics.component.html',
   styleUrl: './topics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopicsComponent implements OnInit, OnDestroy {
   private readonly topicsService: TopicsService = inject(TopicsService);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroy$ = new Subject<void>();
 
   public topics: Topic[] = [];
@@ -43,15 +48,17 @@ export class TopicsComponent implements OnInit, OnDestroy {
   public isLoading = false;
 
   ngOnInit(): void {
+    this.topicsService.isFetching
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isFetching => {
+        this.isLoading = isFetching;
+        this.cdr.markForCheck();
+      });
+
     this.getTopics();
   }
 
   private getTopics(): void {
-    this.isLoading = true;
-    this.topicsService.isFetching.subscribe(isFetching => {
-      this.isLoading = isFetching;
-    });
-
     forkJoin({
       allTopics: this.topicsService.getAll(),
       subscribedTopics: this.topicsService.getSubscribed()
@@ -68,22 +75,21 @@ export class TopicsComponent implements OnInit, OnDestroy {
         console.error(ERROR_MESSAGES.FETCH, error);
         return of([]);
       }),
-      finalize(() => this.isLoading = false),
       takeUntil(this.destroy$)
     ).subscribe(topics => {
       this.topics = CollectionSort.sortByCreationDateDescending(topics);
       this.hasData = this.topics.length > 0;
+      this.cdr.markForCheck();
     });
   }
 
   public subscribeTopic(event: TopicEvent): void {
-    this.isLoading = true;
     this.topicsService.subscribeToTopic(event.id).pipe(
-      finalize(() => this.isLoading = false),
       catchError((error: Error) => {
         console.error(ERROR_MESSAGES.SUBSCRIBE, error);
         return of(null);
-      })
+      }),
+      takeUntil(this.destroy$)
     ).subscribe(() => this.getTopics());
   }
 

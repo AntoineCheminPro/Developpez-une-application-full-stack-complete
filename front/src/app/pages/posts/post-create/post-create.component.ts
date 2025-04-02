@@ -13,6 +13,7 @@ import { IPostRequest } from '@core/payloads/posts/post.request.interface';
 import { LoggingService, LOGGING_SERVICE } from '@core/services/logging/logging.service';
 import { Topic } from "@core/models/topics/topic.interface";
 import { catchError, finalize, map, of } from 'rxjs';
+import { loggingProvider } from '@core/providers/logging.provider';
 
 @Component({
   selector: 'app-post-create',
@@ -26,6 +27,7 @@ import { catchError, finalize, map, of } from 'rxjs';
     MatFormFieldModule,
     RouterLink
   ],
+  providers: [loggingProvider],
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
