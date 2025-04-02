@@ -1,6 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
 import {MatButton} from "@angular/material/button";
-import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -15,7 +14,6 @@ import {Subscription} from "rxjs";
   standalone: true,
   imports: [
     MatButton,
-    MatInput,
     NgIf,
     ReactiveFormsModule,
     HeaderComponent

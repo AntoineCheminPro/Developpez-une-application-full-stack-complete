@@ -1,4 +1,4 @@
-import { Component, Input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type LoaderSize = 'default' | 'small' | 'large';
@@ -9,14 +9,15 @@ type LoaderColor = 'primary' | 'secondary' | 'accent';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss']
+  styleUrls: ['./loader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoaderComponent {
   @Input() public size: LoaderSize = 'default';
   @Input() public color: LoaderColor = 'primary';
-  @Input() public text: string = 'Chargement...';
-  @Input() public showText: boolean = true;
-  @Input() public fullScreen: boolean = false;
+  @Input() public text = 'Chargement...';
+  @Input() public showText = true;
+  @Input() public fullScreen = false;
 
   protected readonly loaderClasses = computed(() => {
     const classes = ['loader'];

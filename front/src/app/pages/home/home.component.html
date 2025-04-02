@@ -1,7 +1,15 @@
 <div class="container">
   <img src="/assets/logo_p6.png" alt="Your Image" class="image">
   <div class="button-container">
-    <button mat-stroked-button (click)="navigateTo('/login')">Se connecter</button>
-    <button mat-stroked-button (click)="navigateTo('/signup')">S'inscrire</button>
+    <app-btn
+      text="Se connecter"
+      type="none"
+      routerLink="/login"
+    ></app-btn>
+    <app-btn
+      text="S'inscrire"
+      type="none"
+      routerLink="/signup"
+    ></app-btn>
   </div>
 </div>

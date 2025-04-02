@@ -1,15 +1,26 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subscription } from "rxjs";
 import { PostsService, POSTS_SERVICE } from "@core/services/posts/posts.service";
-import { IPost } from "@core/models/posts/post.interface";
-import { IComment } from "@core/models/posts/comment.interface";
+import { Post } from "@core/models/posts/post.interface";
+import { Comment } from "@core/models/posts/comment.interface";
 import { CommentEvent } from "@core/EventEmitters/comment-event.interface";
 import { CommentListComponent } from "@app/components/posts/comments/comment-list/comment-list.component";
 import { CommentFormComponent } from "@app/components/posts/comments/comment-form/comment-form.component";
 import { LOGGING_SERVICE } from "@core/services/logging/logging.service";
+
+const ERROR_MESSAGES = {
+  SAVE_COMMENT: 'Impossible de sauvegarder le commentaire',
+  LOAD_POST: 'Erreur lors du chargement des données du post',
+  LOAD_COMMENTS: 'Erreur lors du chargement des commentaires',
+  INVALID_POST: 'Données du post invalides'
+} as const;
+
+const SUCCESS_MESSAGES = {
+  COMMENT_CREATED: 'Commentaire créé avec succès !'
+} as const;
 
 @Component({
   selector: 'app-post-detail',
@@ -21,7 +32,8 @@ import { LOGGING_SERVICE } from "@core/services/logging/logging.service";
     CommentFormComponent
   ],
   templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.scss']
+  styleUrls: ['./post-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   private readonly postsService = inject(POSTS_SERVICE);
@@ -29,8 +41,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   private readonly snackBar = inject(MatSnackBar);
   private readonly loggingService = inject(LOGGING_SERVICE);
 
-  public comments: IComment[] = [];
-  public postData: IPost | undefined;
+  public comments: Comment[] = [];
+  public postData: Post | undefined;
   public hasError = false;
   public isLoading = false;
 
@@ -56,7 +68,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   public saveComment(commentData: { emitterParams: CommentEvent }): void {
     if (!this.postData?.id) {
-      this.loggingService.error('Impossible de sauvegarder le commentaire', new Error('Post ID manquant'));
+      this.loggingService.error(ERROR_MESSAGES.SAVE_COMMENT, new Error('Post ID manquant'));
       return;
     }
 
@@ -65,18 +77,18 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .saveComment(this.postData.id, commentData.emitterParams.comment)
       .subscribe({
         next: () => {
-          const newComment: IComment = {
-            id: 0,
+          const newComment: Comment = {
+            id: '0',
             username: "me",
             text: commentData.emitterParams.comment
           };
 
           this.comments.unshift(newComment);
           commentData.emitterParams.onSuccess(true);
-          this.snackBar.open("Commentaire créé avec succès !", "Fermer", { duration: 2000 });
+          this.snackBar.open(SUCCESS_MESSAGES.COMMENT_CREATED, "Fermer", { duration: 2000 });
         },
         error: (error: Error) => {
-          this.loggingService.error('Erreur lors de la création du commentaire', error);
+          this.loggingService.error(ERROR_MESSAGES.SAVE_COMMENT, error);
           commentData.emitterParams.onSuccess(false);
         },
         complete: () => {
@@ -88,7 +100,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   private loadPostData(): void {
     const navigation = this.router.getCurrentNavigation();
-    const navigationData = navigation?.extras?.state as { data: IPost } | undefined;
+    const navigationData = navigation?.extras?.state as { data: Post } | undefined;
 
     if (navigationData?.data) {
       this.postData = navigationData.data;
@@ -98,14 +110,14 @@ export class PostDetailComponent implements OnInit, OnDestroy {
         const storedData = sessionStorage.getItem(this.STORAGE_KEY);
         this.postData = storedData ? JSON.parse(storedData) : undefined;
       } catch (error) {
-        this.loggingService.error('Erreur lors du chargement des données du post', error as Error);
+        this.loggingService.error(ERROR_MESSAGES.LOAD_POST, error as Error);
         this.hasError = true;
       }
     }
 
     if (!this.hasError && !this.postData?.id) {
       this.hasError = true;
-      this.loggingService.error('Données du post invalides', new Error('Post ID manquant'));
+      this.loggingService.error(ERROR_MESSAGES.INVALID_POST, new Error('Post ID manquant'));
     }
   }
 
@@ -118,12 +130,12 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     this.commentsSubscription$ = this.postsService
       .getAllComments(this.postData.id)
       .subscribe({
-        next: (comments: IComment[]) => {
+        next: (comments: Comment[]) => {
           this.comments = comments;
           this.isLoading = false;
         },
         error: (error: Error) => {
-          this.loggingService.error('Erreur lors du chargement des commentaires', error);
+          this.loggingService.error(ERROR_MESSAGES.LOAD_COMMENTS, error);
           this.isLoading = false;
         }
       });

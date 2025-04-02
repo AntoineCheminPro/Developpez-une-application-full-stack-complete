@@ -1,8 +1,9 @@
 import {Injectable, InjectionToken} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {ITopic} from "../../models/topics/topic.interface";
+import {Observable, map} from 'rxjs';
+import {Topic} from "../../models/topics/topic.interface";
 import {FetchService} from "../fetch.service";
+import {environment} from "../../../../environments/environment";
 
 export const TOPICS_SERVICE = new InjectionToken<TopicsService>('TOPICS_SERVICE');
 
@@ -11,25 +12,29 @@ export const TOPICS_SERVICE = new InjectionToken<TopicsService>('TOPICS_SERVICE'
   useClass: TopicsService
 })
 export class TopicsService extends FetchService {
-  private pathService: string = '/api/topics';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     super(http);
   }
 
-  public getAll(): Observable<ITopic[]> {
-    return this.fetch<ITopic[]>(this.pathService);
+  public getAll(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(`${this.apiUrl}/topics`).pipe(
+      map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
+    );
   }
 
-  public getSubscribed(): Observable<ITopic[]> {
-    return this.fetch<ITopic[]>(`${this.pathService}/subscribed`);
+  public getSubscribed(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(`${this.apiUrl}/topics/subscribed`).pipe(
+      map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
+    );
   }
 
-  public subscribeToTopic(topicId: number): Observable<void> {
-    return this.httpClient.post<void>(`${this.pathService}/subscribe?topicId=${topicId}&subscribe=true`, null);
+  public subscribeToTopic(topicId: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/topics/${topicId}/subscribe`, {});
   }
 
-  public unSubscribeToTopic(topicId: number): Observable<void> {
-    return this.httpClient.post<void>(`${this.pathService}/subscribe?topicId=${topicId}&subscribe=false`, null);
+  public unSubscribeToTopic(topicId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/topics/${topicId}/unsubscribe`);
   }
 }

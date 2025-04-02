@@ -3,31 +3,27 @@
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
-
+  padding: 15px 20px;
+  
   &__image {
-    height: 80px; 
+    height: 60px;
     width: auto;
+    object-fit: contain;
   }
 }
-
 
 // Mobile styles
 @media screen and (max-width: $tablet) {
   .logo {
-    display: flex;
-    align-items: center;
+    width: 100%;
     justify-content: center;
-    width: 75%;
-    height: auto;
-    margin: 20px auto;
-    text-align: center;
-  }
-
-  .logo__image {
-    padding: 20px;
-    height: 25vh;
-    width: auto;
+    padding: 0 20px;
+    margin: 0;
+    
+    &__image {
+      height: 50px;
+      width: auto;
+    }
   }
 }
 

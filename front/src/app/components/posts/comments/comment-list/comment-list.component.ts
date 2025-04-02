@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IComment } from '../../../../core/models/posts/comment.interface';
+import { Comment } from '@core/models/posts/comment.interface';
 
 @Component({
   selector: 'post-comment-list',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './comment-list.component.html',
-  styleUrls: ['./comment-list.component.scss']
+  styleUrls: ['./comment-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentListComponent {
-  @Input() comments: IComment[] = [];
+  @Input() comments: Comment[] = [];
 }

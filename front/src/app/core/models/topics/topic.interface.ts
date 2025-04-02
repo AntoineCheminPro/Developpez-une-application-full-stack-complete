@@ -1,7 +1,8 @@
-import {ICreatedAt} from "../created-at";
+import { ICreatedAt } from "../created-at";
 
-export interface ITopic extends ICreatedAt {
-    id : number,
-    title: string
-    description: string
+export interface Topic extends ICreatedAt {
+    id: string;
+    title: string;
+    description: string;
+    isSubscribed: boolean;
 }

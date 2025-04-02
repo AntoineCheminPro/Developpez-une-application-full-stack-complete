@@ -1,0 +1,75 @@
+@import '../../../../styles/variables';
+
+.topic-card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: $background-light;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  box-shadow: $box-shadow;
+  min-height: 200px;
+  width: 100%;
+
+  &__title {
+    color: $text-primary;
+    font-size: 1.2rem;
+    font-weight: $font-weight-bold;
+    margin: 0;
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: $spacing-sm;
+
+    p {
+      color: $text-secondary;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $background-grey;
+      border-radius: $border-radius-sm;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $primary;
+      border-radius: $border-radius-sm;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+
+  &__button {
+    min-width: 120px;
+    
+    &--disabled {
+      opacity: 0.7;
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .topic-card {
+    padding: $spacing-sm;
+    gap: $spacing-sm;
+    min-height: 180px;
+
+    &__title {
+      font-size: 1.1rem;
+    }
+  }
+}
+  
+  

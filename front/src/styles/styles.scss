@@ -1,9 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import './variables';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Styles globaux
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $text-primary;
+}
 
+// Réinitialisation des styles de base
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-.error-txt {
-    color: red;
+// Container pour les pages
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-md;
+  min-height: 80vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $border-color;
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
   }
+
+  @media screen and (max-width: $tablet) {
+    padding: $spacing-sm;
+  }
+}
+
+// Écraser les styles de typographie d'Angular Material
+.mat-typography,
+.mat-h1, .mat-headline-1, h1,
+.mat-h2, .mat-headline-2, h2,
+.mat-h3, .mat-headline-3, h3,
+.mat-h4, .mat-headline-4, h4,
+.mat-h5, .mat-headline-5, h5,
+.mat-h6, .mat-headline-6, h6,
+.mat-subtitle-1,
+.mat-subtitle-2,
+.mat-body, .mat-body-1,
+.mat-body-2,
+.mat-caption,
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button,
+.mat-button-toggle,
+.mat-card,
+.mat-chip,
+.mat-tab-group,
+.mat-paginator,
+.mat-select {
+  font-family: $font-family !important;
+}
+
+// Styles des boutons
+button {
+  &.primary {
+    background-color: $primary;
+    color: white;
+    border: none;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-dark;
+    }
+
+    &:disabled {
+      background-color: $primary-light;
+      cursor: not-allowed;
+    }
+  }
+} 

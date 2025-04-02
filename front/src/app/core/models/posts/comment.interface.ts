@@ -1,5 +1,5 @@
-export interface IComment {
-    id: number
-    username : string
-    text: string
+export interface Comment {
+    id: string;
+    username: string;
+    text: string;
 }

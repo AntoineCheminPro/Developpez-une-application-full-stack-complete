@@ -1,13 +1,6 @@
 @import '../../../../styles/variables';
 
 .login {
-  min-height: calc(100vh - 120px);
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-
   &__back {
     position: absolute;
     left: 20px;

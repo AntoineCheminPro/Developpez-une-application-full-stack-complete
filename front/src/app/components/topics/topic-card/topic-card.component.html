@@ -1,1 +1,29 @@
-<p>topic-card works!</p>
+<div class="topic-card">
+  <h3 class="topic-card__title">{{ title }}</h3>
+  
+  <div class="topic-card__content">
+    <p>{{ description }}</p>
+  </div>
+  
+  <div class="topic-card__footer">
+    <button 
+      mat-flat-button 
+      color="primary" 
+      type="submit" 
+      [class.topic-card__button--disabled]="isSubscribed"
+      [disabled]="isSubscribed"
+      (click)="fn()"
+      class="topic-card__button">
+      @if (isSubscribeCase) {
+        @if (isSubscribed) {
+          Abonné
+        } @else {
+          S'abonner
+        }
+      } @else {
+        Se désabonner
+      }
+    </button>
+  </div>
+</div>
+  

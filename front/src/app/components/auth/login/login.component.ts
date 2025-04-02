@@ -1,9 +1,6 @@
 import {Component, OnDestroy, Inject} from '@angular/core';
-import {MatButton} from "@angular/material/button";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatInput} from "@angular/material/input";
 import {Router} from "@angular/router";
-import {NgIf} from "@angular/common";
 import {LoginRequest} from "@core/payloads/auth/loginRequest.interface";
 import {AuthService} from "@core/services/auth/auth.service";
 import {SessionInformation} from "@core/models/auth/sessionInformation.interface";
@@ -17,10 +14,7 @@ import {LoggingService} from "@core/services/logging/logging.service";
   standalone: true,
   imports: [
     HeaderComponent,
-    MatButton,
-    MatInput,
-    ReactiveFormsModule,
-    NgIf
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
