@@ -19,9 +19,10 @@ import { CommentListComponent } from './components/posts/comments/comment-list/c
 import { PostCardComponent } from './components/posts/post-card/post-card.component';
 import { TopicCardComponent } from './components/topics/topic-card/topic-card.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoaderComponent } from './core/loader/loader.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, TopicComponent, PostCreateComponent, PostDetailComponent, PostListComponent, UserComponent, TopicsComponent, HeaderComponent, CommentFormComponent, CommentListComponent, PostCardComponent, TopicCardComponent, NavbarComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, TopicComponent, PostCreateComponent, PostDetailComponent, PostListComponent, UserComponent, TopicsComponent, HeaderComponent, CommentFormComponent, CommentListComponent, PostCardComponent, TopicCardComponent, NavbarComponent, LoaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
