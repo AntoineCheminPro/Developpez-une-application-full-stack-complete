@@ -1,0 +1,127 @@
+/* Desktop styles */
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+  background-color: white;
+  width: 100%;
+}
+
+.logo {
+  display: block;
+  height: 75px; /* Adjust size as needed */
+  margin-left: 30px;
+}
+
+.profile-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* Align menu items to the right */
+  width: 100%;
+  margin-right: 30px;
+}
+
+.menu {
+  display: flex;
+  list-style: none; /* Remove list styles */
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  padding: 0 10px; /* Spacing between menu items */
+}
+
+.menu a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Hover effect for links */
+.menu a:hover {
+  font-weight: bold;
+  color: black;
+}
+
+.menu a.active {
+  color: blue;
+  text-decoration: none;
+}
+
+/* Additional styling for hover state */
+.menu a:not(.active):hover {
+  text-decoration: underline; /* Underline on hover for inactive links */
+}
+
+a img:hover {
+  opacity: 0.8;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .toolbar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    right: 0;
+    width: 150px; /* Adjust width as needed */
+    height: 100%;
+    border: 1px solid black;
+    padding: 0;
+    z-index: 1000;
+  }
+
+  .menu-container {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end; /* Align menu items to the right */
+    top: 50px;
+  }
+
+  .menu {
+    display: flex; /* Displays list as flex container */
+    flex-direction: column;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .logo-top-left {
+    display: block;
+    height: 50px;
+    width: 70px;
+    margin-left: 30px;
+  }
+
+  .profile-icon {
+    display: block;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .toggle-icon {
+    display: block;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    cursor: pointer;
+    color: black;
+    font-size: 36px;
+  }
+}
+
+

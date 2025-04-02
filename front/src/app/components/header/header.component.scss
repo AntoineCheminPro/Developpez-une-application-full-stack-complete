@@ -1,0 +1,141 @@
+@import '../../../styles/variables';
+
+.header {
+  background-color: white;
+
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__logo-container {
+    padding: 15px 20px;
+    height: 51px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__nav-container {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    order: 2;
+  }
+
+
+
+  // Style pour la page d'accueil
+  &--home {
+    .header__logo {
+      width: 75%;
+      margin: 0 auto;
+
+      @media screen and (min-width: $tablet) {
+        width: 50%;
+      }
+    }
+
+    .header__navigation,
+    .header__backlink {
+      display: none;
+    }
+  }
+
+  // Style pour les pages d'authentification
+  &--auth {
+    @media screen and (min-width: $tablet) {
+      padding: 0;
+
+      .header__container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header__logo {
+        height: 100%;
+        width: auto;
+        margin: 0;
+        padding: 15px 20px;
+        border-bottom: 1px solid #000;
+      }
+
+      .header__backlink {
+        position: static;
+        transform: none;
+        padding: 15px 20px;
+      }
+    }
+  }
+}
+
+// Mobile styles
+@media screen and (max-width: $tablet) {
+  .header {
+    &__container {
+      flex-direction: column;
+    }
+
+    &__nav-container {
+      order: 1;
+    }
+
+    &__logo-container {
+      order: 2;
+      justify-content: center;
+    }
+
+    &__logo {
+      width: 75%;
+      height: auto;
+    }
+
+    &__title {
+      display: none;
+    }
+  }
+}
+
+// Desktop styles
+@media screen and (min-width: $tablet) {
+  .header {
+    &__logo-container {
+      border-bottom: 1px solid #000;
+      justify-content: flex-start;
+    }
+  }
+}
+
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+
+  &__image {
+    width: 100%;
+    height: auto;
+  }
+
+  &__back-link {
+    font-size: 2rem;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: #1976d2;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    &__back-link {
+      font-size: 1.75rem;
+    }
+  }
+}
+  

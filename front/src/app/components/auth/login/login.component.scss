@@ -1,0 +1,110 @@
+@import '../../../../styles/variables';
+
+.login {
+  min-height: calc(100vh - 120px);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+
+  &__back {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 1.5rem;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &__logo {
+    width: 60px;
+    margin-bottom: 30px;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    color: #000;
+    font-weight: normal;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    color: #000;
+    font-size: 0.9rem;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: #F5F8FF;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    background-color: $primary;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  &__error {
+    color: $error;
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (min-width: $tablet) {
+  .login {
+    padding-top: 20px;
+  }
+}
+
+@media screen and (max-width: $mobile) {
+  .login {
+    padding: $spacing-md;
+
+    &__container {
+      padding: $spacing-lg;
+    }
+  }
+}
+  
+  
+  

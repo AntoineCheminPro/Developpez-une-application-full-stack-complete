@@ -30,7 +30,7 @@ import {CommonModule} from "@angular/common";
 })
 export class NavbarComponent {
 
-  isToggled = false;
+  isShow = false;
   isMobile = window.innerWidth < 768;
 
   @HostListener('window:resize', ['$event'])
@@ -38,8 +38,8 @@ export class NavbarComponent {
     this.isMobile = window.innerWidth < 768;
   }
 
-  toggleToolbar(): void {
-    this.isToggled = !this.isToggled;
+  showNavbar(): void {
+    this.isShow = !this.isShow;
   }
 
 }

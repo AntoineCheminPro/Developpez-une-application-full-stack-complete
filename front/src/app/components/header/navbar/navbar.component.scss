@@ -1,5 +1,4 @@
-/* Desktop styles */
-.toolbar {
+.navbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -66,7 +65,7 @@
   }
   
   @media screen and (max-width: 768px) {
-    .toolbar {
+    .navbar {
       position: fixed;
       display: flex;
       flex-direction: column;

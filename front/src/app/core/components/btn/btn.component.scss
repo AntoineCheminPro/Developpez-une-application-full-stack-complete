@@ -1,0 +1,139 @@
+// Variables
+$btn-padding: 0.75rem 1.5rem;
+$btn-border-radius: 0.5rem;
+$btn-transition: all 0.3s ease;
+
+// Colors
+$btn-color-primary: #7451eb;
+$btn-color-primary-hover: darken($btn-color-primary, 10%);
+$btn-color-disabled: #666666;
+$btn-color-text: #ffffff;
+$btn-color-text-disabled: rgba(255, 255, 255, 0.7);
+
+// Base button styles
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: $btn-padding;
+  border: none;
+  border-radius: $btn-border-radius;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $btn-transition;
+  min-width: 120px;
+  position: relative;
+
+  &:disabled {
+    background-color: $btn-color-disabled;
+    color: $btn-color-text-disabled;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    .btn__icon {
+      opacity: 0.7;
+    }
+  }
+
+  &__text {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    transition: $btn-transition;
+  }
+
+  // Types
+  &--cta,
+  &--submit {
+    background-color: $btn-color-primary;
+    color: $btn-color-text;
+
+    &:hover:not(:disabled) {
+      background-color: $btn-color-primary-hover;
+    }
+  }
+
+  &--none {
+    background-color: transparent;
+    color: $btn-color-primary;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($btn-color-primary, 0.1);
+    }
+  }
+
+  // States
+  &--disabled {
+    background-color: $btn-color-disabled;
+    color: $btn-color-text-disabled;
+    cursor: not-allowed;
+  }
+
+  &--loading {
+    cursor: wait;
+    
+    .btn__text {
+      opacity: 0;
+    }
+
+    .btn__icon {
+      display: none;
+    }
+  }
+
+  // Vertical Positions
+  &--vertical {
+    &-top {
+      align-self: flex-start;
+    }
+
+    &-center {
+      align-self: center;
+    }
+
+    &-bottom {
+      align-self: flex-end;
+    }
+  }
+
+  // Horizontal Positions
+  &--horizontal {
+    &-left {
+      margin-right: auto;
+      margin-left: 0;
+    }
+
+    &-center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &-right {
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
+
+  // Loader
+  &__loader {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+} 

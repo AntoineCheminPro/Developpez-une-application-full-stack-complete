@@ -1,1 +1,58 @@
-<p>post-list works!</p>
+<div class="post-list">
+  @if(this.isLoading){
+    <div class="post-list__loading">
+      <app-loader 
+        text="Chargement des posts..."
+        [fullScreen]="true"
+        color="primary">
+      </app-loader>
+    </div>
+  }
+
+  @if(this.hasError){
+    <div class="post-list__error">
+      <p class="post-list__error-message">Une erreur est survenue lors du chargement des posts...</p>
+    </div>
+  } @else {
+    @if (!this.hasData){
+      <div class="post-list__empty">
+        <p class="post-list__empty-message">Aucun post disponible...</p>
+      </div>
+    }
+
+    <div class="post-list__header">
+      <button 
+        mat-flat-button 
+        color="primary" 
+        class="post-list__create-button"
+        (click)="createPost()">
+        Créer un post
+      </button>
+
+      @if (this.hasData){
+        <button 
+          class="post-list__sort-button"
+          [class.post-list__sort-button--asc]="isAscending"
+          [class.post-list__sort-button--desc]="!isAscending"
+          (click)="sortPosts()">
+          Trier par date {{ isAscending ? '▲' : '▼' }}
+        </button>
+      }
+    </div>
+
+    <div class="post-list__container">
+      @for (post of this.posts; track post.id) {
+        <div class="post-list__item" (click)="navigateWithData(post)">
+          <app-post-card 
+            [id]="post.id"
+            [title]="post.title"
+            [description]="post.description"
+            [author]="post.author"
+            [date]="post.createdAt">
+          </app-post-card>
+        </div>
+      }
+    </div>
+  }
+</div>
+  

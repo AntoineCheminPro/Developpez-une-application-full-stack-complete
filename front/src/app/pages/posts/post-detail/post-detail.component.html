@@ -1,1 +1,32 @@
-<p>post-detail works!</p>
+<a [routerLink]="['../']" class="post-detail__back-link">←</a>
+<div class="post-detail">
+  <div class="post-detail__wrapper">
+    @if(hasError) {
+      <h2 class="post-detail__error">Une erreur s'est produite lors du chargement de l'article !</h2>
+    }
+    @else {
+      <div class="post-detail__content">
+        <h3 class="post-detail__title">{{postData?.title}}</h3>
+        <div class="post-detail__info">
+          <span>{{postData?.createdAt}}</span>
+          <span>Auteur : {{postData?.author}}</span>
+          <span>Thème : {{postData?.topicName}}</span>
+        </div>
+        <div class="post-detail__description">
+          <p>{{postData?.description}}</p>
+        </div>
+      </div>
+
+      <div class="post-detail__divider"></div>
+
+      <div class="post-detail__comments">
+        <post-comment-list [comments]="comments"></post-comment-list>
+      </div>
+
+      <div class="post-detail__comment-form">
+        <post-comment-form (addCommentEvent)="saveComment($event)"></post-comment-form>
+      </div>
+    }
+  </div>
+</div>
+

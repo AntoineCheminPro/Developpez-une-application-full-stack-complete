@@ -1,0 +1,25 @@
+<div class="navbar" [@slideInOut]="isMobile ? (isShow ? 'in' : 'out') : 'in'">
+    <img class="logo" src="assets/logo_p6.png" alt="Banner Image">
+    <div class="menu-container">
+      <ul class="menu">
+        <li><a [routerLink]="['/posts']" (click)="showNavbar()" routerLinkActive="active" ariaCurrentWhenActive="page">Articles</a></li>
+        <li><a [routerLink]="['/topics']" (click)="showNavbar()" routerLinkActive="active" ariaCurrentWhenActive="page">Thèmes</a></li>
+      </ul>
+      <a [routerLink]="['/user']" (click)="showNavbar()">
+        <img class="profile-icon" src="assets/user-profile.jpg" alt="Profile">
+      </a>
+    </div>
+  </div>
+  @if (isMobile){
+    <div>
+      <img class="logo-top-left" src="assets/logo_p6.png" alt="Banner Image">
+      <div class="toggle-icon" (click)="showNavbar()">
+        @if(!isShow){
+          <span>☰</span>
+        } @else {
+          <span>×</span>
+        }
+      </div>
+    </div>
+  }
+  

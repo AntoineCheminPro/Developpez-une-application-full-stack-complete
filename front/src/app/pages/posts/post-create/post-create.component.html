@@ -1,1 +1,40 @@
-<p>post-create works!</p>
+<a [routerLink]="['../']" class="post-create__back-link">←</a>
+<div class="post-create">
+  <h2>Créer un article</h2>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-create__form">
+    <div class="post-create__field">
+      <label for="title">Titre</label>
+      <input matInput formControlName="title" id="title">
+      <p *ngIf="postForm.get('title')?.hasError('minlength') && postForm.get('title')?.touched" 
+         class="post-create__error">
+        Le titre doit contenir au moins 3 caractères
+      </p>
+    </div>
+
+    <div class="post-create__field">
+      <label for="content">Contenu</label>
+      <textarea matInput formControlName="content" id="content"></textarea>
+      <p *ngIf="postForm.get('content')?.hasError('minlength') && postForm.get('content')?.touched" 
+         class="post-create__error">
+        Le contenu doit contenir au moins 10 caractères
+      </p>
+    </div>
+
+    <div class="post-create__field">
+      <label for="topic">Topic</label>
+      <mat-form-field>
+        <mat-select formControlName="topicId" id="topic">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">
+            {{topic.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="post-create__submit">
+      <button mat-flat-button color="primary" type="submit" [disabled]="postForm.invalid">
+        Créer l'article
+      </button>
+    </div>
+  </form>
+</div>

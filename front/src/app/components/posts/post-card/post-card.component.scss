@@ -1,0 +1,119 @@
+// Variables
+$card-padding: 1rem;
+$card-border-radius: 8px;
+$card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+$card-transition: all 0.3s ease;
+
+// Couleurs
+$card-bg: #ffffff;
+$card-text: #333333;
+$card-meta: #666666;
+$card-border: #e0e0e0;
+
+.post-card {
+  background: $card-bg;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  padding: $card-padding;
+  transition: $card-transition;
+  border: 1px solid $card-border;
+
+  &:hover {
+    box-shadow: $card-hover-shadow;
+    transform: translateY(-2px);
+  }
+
+  &__header {
+    margin-bottom: $card-padding;
+  }
+
+  &__title {
+    color: $card-text;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $card-meta;
+    font-size: 0.875rem;
+  }
+
+  &__author {
+    font-weight: 500;
+  }
+
+  &__date {
+    font-style: italic;
+  }
+
+  &__content {
+    color: $card-text;
+    line-height: 1.6;
+  }
+
+  &__description {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .post-card {
+    padding: $card-padding * 0.75;
+
+    &__title {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.post-box-container {
+    background-color: #EAE7F8;
+    border-radius: 5px;
+    width: 360px;
+    border: 1px solid #EAE7F8;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .post-box-container h3 {
+    color: #333;
+    font-weight: bold;
+  }
+  .post-info {
+    display: flex;
+    justify-content: space-between;
+  }
+  .post-box p {
+    color: #666;
+    text-align: left;
+  
+  }
+  .post-date {
+    margin-right: 20px;
+  }
+  .scrollable-paragraph {
+    height: 150px;
+    overflow-y: auto;   
+    text-align: left;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .post-box-container {
+      width: 320px;
+    }
+  
+    .scrollable-paragraph {
+      height: 100px;
+    }
+  }
+  

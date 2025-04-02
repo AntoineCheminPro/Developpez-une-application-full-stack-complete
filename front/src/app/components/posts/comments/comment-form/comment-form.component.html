@@ -1,1 +1,17 @@
-<p>comment-form works!</p>
+<div class="comment-form">
+    <div class="comment-form__input-container">
+      <textarea 
+        class="comment-form__textarea"
+        [(ngModel)]="commentText" 
+        placeholder="Écrivez votre commentaire..." 
+        rows="4" 
+        maxlength="{{maxLengthCommentText}}" 
+        (input)="updateRemainingCharacters()">
+      </textarea>
+      <div class="comment-form__char-count">{{remainingCharacters}} caractères restants</div>
+    </div>
+    <button class="comment-form__submit-button" aria-label="Envoyer le commentaire" (click)="onSubmit($event)">
+      <img src="/assets/paper-plane.png" alt="Envoyer">
+    </button>
+  </div>
+  
