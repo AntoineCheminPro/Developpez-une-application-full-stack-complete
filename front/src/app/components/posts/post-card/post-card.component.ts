@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-post-card',
+  standalone: true,
+  imports: [
+    
+  ],
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss']
 })
