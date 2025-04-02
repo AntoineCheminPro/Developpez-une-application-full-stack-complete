@@ -23,3 +23,7 @@ This library is `@angular/material`, it's one of the most famous in the angular 
 Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
 
 Good luck!
+
+generer la doc avec Javdoc
+mvn javadoc:javadoc
+accessible ici : /Developpez-une-application-full-stack-complete/back/target/site/apidocs/index.html

@@ -13,9 +13,16 @@ import { PostDetailComponent } from './pages/posts/post-detail/post-detail.compo
 import { PostListComponent } from './pages/posts/post-list/post-list.component';
 import { UserComponent } from './pages/user/user.component';
 import { TopicsComponent } from './pages/topics/topics.component';
+import { HeaderComponent } from './components/auth/header/header.component';
+import { CommentFormComponent } from './components/posts/comments/comment-form/comment-form.component';
+import { CommentListComponent } from './components/posts/comments/comment-list/comment-list.component';
+import { PostCardComponent } from './components/posts/post-card/post-card.component';
+import { TopicCardComponent } from './components/topics/topic-card/topic-card.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoaderComponent } from './core/loader/loader.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, TopicComponent, PostCreateComponent, PostDetailComponent, PostListComponent, UserComponent, TopicsComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, TopicComponent, PostCreateComponent, PostDetailComponent, PostListComponent, UserComponent, TopicsComponent, HeaderComponent, CommentFormComponent, CommentListComponent, PostCardComponent, TopicCardComponent, NavbarComponent, LoaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
