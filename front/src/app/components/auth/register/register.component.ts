@@ -8,6 +8,10 @@ import {AuthService} from "../../../core/services/auth/auth.service";
 import {HeaderComponent} from "../../header/header.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Subscription} from "rxjs";
+import { authProvider } from '@core/providers/auth.provider';
+import { sessionProvider } from '@core/providers/session.provider';
+import { storageProvider } from '@core/providers/storage.provider';
+import { AuthStorageService } from '@core/services/auth.storage.service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +21,12 @@ import {Subscription} from "rxjs";
     NgIf,
     ReactiveFormsModule,
     HeaderComponent
+  ],
+  providers: [
+    authProvider,
+    sessionProvider,
+    storageProvider,
+    AuthStorageService
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -68,7 +78,7 @@ export class RegisterComponent implements OnDestroy {
     this.isSigningUp = true;
 
     const registerRequest = this.form.value as RegisterRequest;
-    this.signupSubscription$ = this.authService.register(registerRequest).subscribe({
+    this.signupSubscription$ = this.authService.createUser(registerRequest).subscribe({
       next: (_: void): void => {
         this.snackBar.open("Account successfully created, you will be redirected to the login page.", "Close", { duration: 2000 });
         setTimeout((): void => {

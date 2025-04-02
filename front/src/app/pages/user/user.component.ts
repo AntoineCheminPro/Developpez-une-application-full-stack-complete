@@ -11,6 +11,9 @@ import { NgIf } from "@angular/common";
 import { userProvider } from '@core/providers/user.provider';
 import { topicsProvider } from '@core/providers/topics.provider';
 import { SessionService } from "@core/services/auth/auth.session.service";
+import { storageProvider } from '@core/providers/storage.provider';
+import { AuthStorageService } from '@core/services/auth.storage.service';
+import { sessionProvider } from '@core/providers/session.provider';
 
 @Component({
   selector: 'app-user',
@@ -24,7 +27,9 @@ import { SessionService } from "@core/services/auth/auth.session.service";
   providers: [
     userProvider, 
     topicsProvider,
-    SessionService
+    sessionProvider,
+    storageProvider,
+    AuthStorageService
   ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
@@ -74,7 +79,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.hasError = false;
 
-    this.userSubscription$ = this.userService.getCurrentUser().subscribe({
+    this.userSubscription$ = this.userService.getUser().subscribe({
       next: (user: User) => {
         this.currentUser = user;
         this.form.patchValue({
@@ -91,7 +96,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private fetchSubscribedTopics(): void {
-    this.topicsSubscription$ = this.topicsService.getSubscribed().subscribe({
+    this.topicsSubscription$ = this.topicsService.getSubscribedTopics().subscribe({
       next: (topics: Topic[]) => {
         this.subscribedTopics = topics;
         this.userSubscribedTopicsArray = topics;
@@ -115,7 +120,7 @@ export class UserComponent implements OnInit, OnDestroy {
       email: this.form.value.email!
     };
 
-    this.updateSubscription$ = this.userService.updateUser(updatedUser).subscribe({
+    this.updateSubscription$ = this.userService.update(updatedUser).subscribe({
       next: (user: User) => {
         this.currentUser = user;
       },
@@ -126,7 +131,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   public unsubscribeFromTopic(topicId: string): void {
-    this.topicsService.unSubscribeToTopic(topicId).subscribe({
+    this.topicsService.unsubscribe(topicId).subscribe({
       next: () => {
         this.subscribedTopics = this.subscribedTopics.filter(topic => topic.id !== topicId);
         this.userSubscribedTopicsArray = this.userSubscribedTopicsArray.filter(topic => topic.id !== topicId);
@@ -139,6 +144,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   public logout(): void {
-    this.sessionService.logOut();
+    this.sessionService.logout();
   }
 }

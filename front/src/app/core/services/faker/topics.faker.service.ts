@@ -61,7 +61,7 @@ export class TopicsFakerService extends FetchService {
     super(http);
   }
 
-  public getAll(): Observable<Topic[]> {
+  public getTopics(): Observable<Topic[]> {
     this.isFetchingData$.next(true);
     return of(this.topics).pipe(
       delay(this.FAKE_DELAY),
@@ -69,7 +69,7 @@ export class TopicsFakerService extends FetchService {
     );
   }
 
-  public getSubscribed(): Observable<Topic[]> {
+  public getSubscribedTopics(): Observable<Topic[]> {
     this.isFetchingData$.next(true);
     return of(this.topics.filter(topic => topic.isSubscribed)).pipe(
       delay(this.FAKE_DELAY),
@@ -77,7 +77,7 @@ export class TopicsFakerService extends FetchService {
     );
   }
 
-  public subscribeToTopic(topicId: string): Observable<void> {
+  public subscribe(topicId: string): Observable<void> {
     this.isFetchingData$.next(true);
     const topic = this.topics.find(t => t.id === topicId);
     if (topic) {
@@ -89,7 +89,7 @@ export class TopicsFakerService extends FetchService {
     );
   }
 
-  public unSubscribeToTopic(topicId: string): Observable<void> {
+  public unsubscribe(topicId: string): Observable<void> {
     this.isFetchingData$.next(true);
     const topic = this.topics.find(t => t.id === topicId);
     if (topic) {
@@ -101,7 +101,7 @@ export class TopicsFakerService extends FetchService {
     );
   }
 
-  public override get isFetching(): Observable<boolean> {
+  public override getIsFetching(): Observable<boolean> {
     return this.isFetchingData$.asObservable();
   }
 } 

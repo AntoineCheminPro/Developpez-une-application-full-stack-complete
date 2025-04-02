@@ -48,7 +48,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   public isLoading = false;
 
   ngOnInit(): void {
-    this.topicsService.isFetching
+    this.topicsService.getIsFetching()
       .pipe(takeUntil(this.destroy$))
       .subscribe(isFetching => {
         this.isLoading = isFetching;
@@ -60,8 +60,8 @@ export class TopicsComponent implements OnInit, OnDestroy {
 
   private getTopics(): void {
     forkJoin({
-      allTopics: this.topicsService.getAll(),
-      subscribedTopics: this.topicsService.getSubscribed()
+      allTopics: this.topicsService.getTopics(),
+      subscribedTopics: this.topicsService.getSubscribedTopics()
     }).pipe(
       map(({ allTopics, subscribedTopics }) => {
         const subscribedIds = new Set(subscribedTopics.map(topic => topic.id));
@@ -84,7 +84,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   public subscribeTopic(event: TopicEvent): void {
-    this.topicsService.subscribeToTopic(event.id).pipe(
+    this.topicsService.subscribe(event.id).pipe(
       catchError((error: Error) => {
         console.error(ERROR_MESSAGES.SUBSCRIBE, error);
         return of(null);

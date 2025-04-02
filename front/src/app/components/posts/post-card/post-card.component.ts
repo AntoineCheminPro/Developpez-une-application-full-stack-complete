@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DateTimeFormatter } from '@core/utils/date.formatter';
 
 @Component({
   selector: 'app-post-card',
@@ -15,4 +16,8 @@ export class PostCardComponent {
   @Input({ required: true }) author!: string;
   @Input({ required: true }) description!: string;
   @Input() id?: string;
+
+  public get formattedDate(): string {
+    return DateTimeFormatter.formatShort(new Date(this.date));
+  }
 }

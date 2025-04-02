@@ -1,8 +1,8 @@
-import { PostsService } from '../services/posts/posts.service';
+import { PostsService, POSTS_SERVICE } from '../services/posts/posts.service';
 import { PostsFakerService } from '../services/faker/posts.faker.service';
 import { environment } from '../../../environments/environment';
 
 export const postsProvider = {
-  provide: PostsService,
+  provide: POSTS_SERVICE,
   useClass: environment.useFaker ? PostsFakerService : PostsService
 }; 

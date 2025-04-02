@@ -1,21 +1,19 @@
-import {ICreatedAt} from "../models/created-at";
+import { CreatedAt } from "../models/created-at";
 
-export class CollectionSort{
-  public static sortByCreationDateAscending<T extends ICreatedAt>(posts: T[]): T[] {
+export class CollectionSort {
+  public static readonly sortByCreationDateAscending = <T extends CreatedAt>(posts: T[]): T[] => {
     return posts.sort((a, b) => {
-      if (a.createdAt !== undefined && a.createdAt !== null && a.createdAt.trim() !== "") {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-      }
-      return 0;
+      const dateA = a.createdAt?.trim();
+      const dateB = b.createdAt?.trim();
+      return dateA ? new Date(dateA).getTime() - new Date(dateB).getTime() : 0;
     });
   }
 
-  public static sortByCreationDateDescending<T extends ICreatedAt>(posts: T[]): T[] {
+  public static readonly sortByCreationDateDescending = <T extends CreatedAt>(posts: T[]): T[] => {
     return posts.sort((a, b) => {
-      if (a.createdAt !== undefined && a.createdAt !== null && a.createdAt.trim() !== "") {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      }
-      return 0;
+      const dateA = a.createdAt?.trim();
+      const dateB = b.createdAt?.trim();
+      return dateA ? new Date(dateB).getTime() - new Date(dateA).getTime() : 0;
     });
   }
 }

@@ -7,34 +7,43 @@ import {environment} from "../../../../environments/environment";
 
 export const TOPICS_SERVICE = new InjectionToken<TopicsService>('TOPICS_SERVICE');
 
+const API_PATHS = {
+  TOPICS: `${environment.apiUrl}/topics`,
+  SUBSCRIBED: `${environment.apiUrl}/topics/subscribed`,
+  SUBSCRIBE: (topicId: string) => `${environment.apiUrl}/topics/${topicId}/subscribe`,
+  UNSUBSCRIBE: (topicId: string) => `${environment.apiUrl}/topics/${topicId}/unsubscribe`
+} as const;
+
+/**
+ * Service gérant les opérations liées aux thèmes.
+ * Permet de récupérer, s'abonner et se désabonner des thèmes.
+ */
 @Injectable({
   providedIn: 'root',
   useClass: TopicsService
 })
 export class TopicsService extends FetchService {
-  private readonly apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     super(http);
   }
 
-  public getAll(): Observable<Topic[]> {
-    return this.fetch<Topic[]>(`${this.apiUrl}/topics`).pipe(
+  public getTopics(): Observable<Topic[]> {
+    return this.fetch<Topic[]>(API_PATHS.TOPICS).pipe(
       map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
     );
   }
 
-  public getSubscribed(): Observable<Topic[]> {
-    return this.fetch<Topic[]>(`${this.apiUrl}/topics/subscribed`).pipe(
+  public getSubscribedTopics(): Observable<Topic[]> {
+    return this.fetch<Topic[]>(API_PATHS.SUBSCRIBED).pipe(
       map(topics => topics.map(topic => ({...topic, id: String(topic.id)})))
     );
   }
 
-  public subscribeToTopic(topicId: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/topics/${topicId}/subscribe`, {});
+  public subscribe(topicId: string): Observable<void> {
+    return this.http.post<void>(API_PATHS.SUBSCRIBE(topicId), {});
   }
 
-  public unSubscribeToTopic(topicId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/topics/${topicId}/unsubscribe`);
+  public unsubscribe(topicId: string): Observable<void> {
+    return this.http.delete<void>(API_PATHS.UNSUBSCRIBE(topicId));
   }
 }

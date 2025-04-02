@@ -10,6 +10,9 @@ import { CommentEvent } from "@core/EventEmitters/comment-event.interface";
 import { CommentListComponent } from "@app/components/posts/comments/comment-list/comment-list.component";
 import { CommentFormComponent } from "@app/components/posts/comments/comment-form/comment-form.component";
 import { LOGGING_SERVICE } from "@core/services/logging/logging.service";
+import { postsProvider } from '@core/providers/posts.provider';
+import { loggingProvider } from '@core/providers/logging.provider';
+import { DateTimeFormatter } from '@core/utils/date.formatter';
 
 const ERROR_MESSAGES = {
   SAVE_COMMENT: 'Impossible de sauvegarder le commentaire',
@@ -31,6 +34,7 @@ const SUCCESS_MESSAGES = {
     CommentListComponent,
     CommentFormComponent
   ],
+  providers: [postsProvider, loggingProvider],
   templateUrl: './post-detail.component.html',
   styleUrls: ['./post-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -68,19 +72,20 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   public saveComment(commentData: { emitterParams: CommentEvent }): void {
     if (!this.postData?.id) {
-      this.loggingService.error(ERROR_MESSAGES.SAVE_COMMENT, new Error('Post ID manquant'));
+      this.loggingService.logError(ERROR_MESSAGES.SAVE_COMMENT, new Error('Post ID manquant'));
       return;
     }
 
     this.isLoading = true;
     const saveCommentSubscription$ = this.postsService
-      .saveComment(this.postData.id, commentData.emitterParams.comment)
+      .createComment(this.postData.id, commentData.emitterParams.comment)
       .subscribe({
         next: () => {
           const newComment: Comment = {
             id: '0',
             username: "me",
-            text: commentData.emitterParams.comment
+            text: commentData.emitterParams.comment,
+            createdAt: new Date().toISOString()
           };
 
           this.comments.unshift(newComment);
@@ -88,7 +93,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
           this.snackBar.open(SUCCESS_MESSAGES.COMMENT_CREATED, "Fermer", { duration: 2000 });
         },
         error: (error: Error) => {
-          this.loggingService.error(ERROR_MESSAGES.SAVE_COMMENT, error);
+          this.loggingService.logError(ERROR_MESSAGES.SAVE_COMMENT, error);
           commentData.emitterParams.onSuccess(false);
         },
         complete: () => {
@@ -110,14 +115,14 @@ export class PostDetailComponent implements OnInit, OnDestroy {
         const storedData = sessionStorage.getItem(this.STORAGE_KEY);
         this.postData = storedData ? JSON.parse(storedData) : undefined;
       } catch (error) {
-        this.loggingService.error(ERROR_MESSAGES.LOAD_POST, error as Error);
+        this.loggingService.logError(ERROR_MESSAGES.LOAD_POST, error as Error);
         this.hasError = true;
       }
     }
 
     if (!this.hasError && !this.postData?.id) {
       this.hasError = true;
-      this.loggingService.error(ERROR_MESSAGES.INVALID_POST, new Error('Post ID manquant'));
+      this.loggingService.logError(ERROR_MESSAGES.INVALID_POST, new Error('Post ID manquant'));
     }
   }
 
@@ -128,16 +133,22 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     this.commentsSubscription$ = this.postsService
-      .getAllComments(this.postData.id)
+      .getComments(this.postData.id)
       .subscribe({
         next: (comments: Comment[]) => {
           this.comments = comments;
           this.isLoading = false;
         },
         error: (error: Error) => {
-          this.loggingService.error(ERROR_MESSAGES.LOAD_COMMENTS, error);
+          this.loggingService.logError(ERROR_MESSAGES.LOAD_COMMENTS, error);
           this.isLoading = false;
         }
       });
+  }
+
+  public get formattedDate(): string {
+    return this.postData?.createdAt 
+      ? DateTimeFormatter.formatLong(new Date(this.postData.createdAt))
+      : '';
   }
 }

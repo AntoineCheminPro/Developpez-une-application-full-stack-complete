@@ -13,6 +13,8 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
 .post-list {
   padding: $post-list-spacing;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 
   &__loading {
     display: flex;
@@ -48,6 +50,9 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
   }
 
   &__header {
+    width: 100%;
+    max-width: 1070px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,7 +96,7 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
 
   &__container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: $post-list-spacing;
     margin-top: $post-list-spacing;
   }

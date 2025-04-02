@@ -11,7 +11,7 @@ import { RegisterRequest } from '@core/payloads/auth/registerRequest.interface';
 export class AuthFakerService {
   private readonly FAKE_DELAY = 1000;
 
-  public login(loginRequest: LoginRequest): Observable<SessionInformation> {
+  public authenticate(loginRequest: LoginRequest): Observable<SessionInformation> {
     const fakeResponse: SessionInformation = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake',
       username: loginRequest.email,
@@ -23,7 +23,7 @@ export class AuthFakerService {
     );
   }
 
-  public register(registerRequest: RegisterRequest): Observable<void> {
+  public createUser(registerRequest: RegisterRequest): Observable<void> {
     return of(void 0).pipe(
       delay(this.FAKE_DELAY)
     );

@@ -60,10 +60,10 @@ export class PostCreateComponent implements OnInit, OnDestroy {
 
   private loadTopics(): void {
     this.isLoading = true;
-    this.topicsSubscription$ = this.topicService.getAll().pipe(
+    this.topicsSubscription$ = this.topicService.getTopics().pipe(
       finalize(() => this.isLoading = false),
       catchError((error: Error) => {
-        this.loggingService.error('Erreur lors du chargement des topics', error);
+        this.loggingService.logError('Erreur lors du chargement des topics', error);
         this.onError = true;
         return of([]);
       })
@@ -85,10 +85,10 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     };
     
     this.isLoading = true;
-    this.createPostSubscription$ = this.postsService.savePost(formValue.topicId, postRequest).pipe(
+    this.createPostSubscription$ = this.postsService.createPostInTopic(formValue.topicId, postRequest).pipe(
       finalize(() => this.isLoading = false),
       catchError((error: Error) => {
-        this.loggingService.error('Erreur lors de la création du post', error);
+        this.loggingService.logError('Erreur lors de la création du post', error);
         this.onError = true;
         return of(null);
       })

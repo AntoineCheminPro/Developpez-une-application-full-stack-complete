@@ -4,19 +4,25 @@ import { Observable } from 'rxjs';
 import { User } from "../../models/user/user.interface";
 import { environment } from '../../../../environments/environment';
 
+const API_PATHS = {
+  USER: `${environment.apiUrl}/user`
+} as const;
+
+/**
+ * Service gérant les opérations liées à l'utilisateur.
+ * Permet de récupérer et mettre à jour les informations de l'utilisateur.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly pathService = `${environment.apiUrl}/user`;
+  constructor(private readonly httpClient: HttpClient) { }
 
-  constructor(private httpClient: HttpClient) { }
-
-  public getCurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(this.pathService);
+  public getUser(): Observable<User> {
+    return this.httpClient.get<User>(API_PATHS.USER);
   }
 
-  public updateUser(user: Partial<User>): Observable<User> {
-    return this.httpClient.patch<User>(this.pathService, user);
+  public update(user: Partial<User>): Observable<User> {
+    return this.httpClient.patch<User>(API_PATHS.USER, user);
   }
 }

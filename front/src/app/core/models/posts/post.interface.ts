@@ -1,6 +1,6 @@
-import { ICreatedAt } from "../created-at";
+import { CreatedAt } from "../created-at";
 
-export interface Post extends ICreatedAt {
+export interface Post extends CreatedAt {
     id: string;
     topicId: string;
     topicName: string;

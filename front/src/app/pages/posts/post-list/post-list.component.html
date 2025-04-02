@@ -1,22 +1,23 @@
-<div class="post-list">
-  @if (isLoading) {
+<div class="page-container">
+  <div class="post-list page-container__main">
+  @if (currentState === state.LOADING) {
     <div class="post-list__loading">
       <app-loader 
-        text="Chargement des articles..."
+        [text]="messages.LOADING"
         [fullScreen]="true"
         color="primary">
       </app-loader>
     </div>
   }
 
-  @if (hasError) {
+  @if (currentState === state.ERROR) {
     <div class="post-list__error">
-      <p class="post-list__error-message">{{ ERROR_MESSAGES.FETCH }}</p>
+      <p class="post-list__error-message">{{ messages.ERROR.FETCH }}</p>
     </div>
   } @else {
-    @if (!hasData) {
+    @if (currentState === state.IDLE) {
       <div class="post-list__empty">
-        <p class="post-list__empty-message">Aucun article disponible...</p>
+        <p class="post-list__empty-message">{{ messages.EMPTY }}</p>
       </div>
     }
 
@@ -25,24 +26,24 @@
         mat-flat-button 
         color="primary" 
         class="post-list__create-button"
-        (click)="onCreatePost()">
+        (click)="navigateToCreate()">
         Créer un article
       </button>
 
-      @if (hasData) {
+      @if (currentState === state.SUCCESS) {
         <button 
           class="post-list__sort-button"
           [class.post-list__sort-button--asc]="isAscending"
           [class.post-list__sort-button--desc]="!isAscending"
-          (click)="onSortPosts()">
-          Trier par date {{ isAscending ? '▲' : '▼' }}
+          (click)="sortPosts()">
+          {{ isAscending ? messages.SORT.ASC : messages.SORT.DESC }}
         </button>
       }
     </div>
 
     <div class="post-list__container">
       @for (post of posts; track post.id) {
-        <div class="post-list__item" (click)="onPostClick(post)">
+        <div class="post-list__item" (click)="navigateToDetail(post)">
           <app-post-card 
             [id]="post.id"
             [title]="post.title"
@@ -55,4 +56,3 @@
     </div>
   }
 </div>
-  

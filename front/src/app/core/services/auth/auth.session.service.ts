@@ -9,45 +9,48 @@ const defaultAuthenticationState: SessionInformation = {
   isAuthenticated: false,
   username: undefined,
   token: undefined
-}
+} as const;
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService implements OnDestroy {
-  private authenticationSubject : BehaviorSubject<SessionInformation> = new BehaviorSubject<SessionInformation>(defaultAuthenticationState);
-  private auth$ : Observable<SessionInformation> = this.authenticationSubject.asObservable();
+  private readonly sessionSubject: BehaviorSubject<SessionInformation> = new BehaviorSubject<SessionInformation>(defaultAuthenticationState);
+  private readonly session$: Observable<SessionInformation> = this.sessionSubject.asObservable();
 
-  constructor(private authStorageService: AuthStorageService,
-              private router: Router,
-              private snackBar: MatSnackBar) {
-    this.auth$.subscribe((sessionInfo: SessionInformation) => {
+  constructor(
+    private readonly authStorageService: AuthStorageService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar
+  ) {
+    this.session$.subscribe((sessionInfo: SessionInformation) => {
       if (sessionInfo.isAuthenticated) {
-        this.authStorageService.set(sessionInfo.token!);
+        this.authStorageService.setToken(sessionInfo.token!);
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.authenticationSubject.next(defaultAuthenticationState);
-    this.authenticationSubject.complete();
-    this.authStorageService.delete();
+    this.sessionSubject.next(defaultAuthenticationState);
+    this.sessionSubject.complete();
+    this.authStorageService.removeToken();
   }
 
-  public logIn(userSession: SessionInformation): void {
-    this.authenticationSubject.next(userSession);
+  public authenticate(userSession: SessionInformation): void {
+    this.sessionSubject.next(userSession);
   }
 
-  public logOut(reason: string = ''): void {
-    this.authenticationSubject.next(defaultAuthenticationState);
-    this.authStorageService.delete();
-    if(reason === '') {
-      this.snackBar.open("Logout successful, you will be redirected to the home page.", "Close", { duration: 2000 });
-    }
-    else{
-      this.snackBar.open(reason, "Close", { duration: 2000 });
-    }
-    setTimeout(() : void => {
+  public logout(reason: string = ''): void {
+    this.sessionSubject.next(defaultAuthenticationState);
+    this.authStorageService.removeToken();
+    
+    const message = reason === '' 
+      ? "Déconnexion réussie, vous allez être redirigé vers la page d'accueil."
+      : reason;
+      
+    this.snackBar.open(message, "Fermer", { duration: 2000 });
+    
+    setTimeout((): void => {
       this.router.navigate(['/home']);
     }, 2_000);
   }

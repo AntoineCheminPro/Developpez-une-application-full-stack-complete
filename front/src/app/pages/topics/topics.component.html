@@ -1,10 +1,11 @@
-<div class="topics">
-  @if (isLoading) {
-    <div class="topics__loading">
-      <p>Chargement des sujets...</p>
-      <app-loader></app-loader>
-    </div>
-  }
+<div class="page-container">
+  <div class="topics page-container__main">
+    @if (isLoading) {
+      <div class="topics__loading">
+        <p>Chargement des sujets...</p>
+        <app-loader></app-loader>
+      </div>
+    }
 
   @if (hasError) {
     <p class="topics__error">
@@ -29,6 +30,7 @@
         </div>
       }
     </div>
-  }
+    }
+  </div>
 </div>
   

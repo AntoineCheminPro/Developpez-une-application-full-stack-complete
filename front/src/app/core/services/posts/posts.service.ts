@@ -10,9 +10,9 @@ import { HttpClient } from '@angular/common/http';
 export const POSTS_SERVICE = new InjectionToken<PostsService>('POSTS_SERVICE');
 
 const API_PATHS = {
-  POSTS: '/api/posts',
-  FEED: '/api/posts/feed',
-  COMMENTS: '/api/posts/:id/comments'
+  POSTS_BASE: '/api/posts',
+  POSTS_FEED: '/api/posts/feed',
+  POST_COMMENTS: '/api/posts/:id/comments'
 } as const;
 
 @Injectable({
@@ -20,35 +20,35 @@ const API_PATHS = {
   useClass: PostsService
 })
 export class PostsService extends FetchService {
-  private readonly pathService: string = API_PATHS.POSTS;
+  private readonly basePath: string = API_PATHS.POSTS_BASE;
 
   constructor(private readonly http: HttpClient) {
     super(http);
   }
 
   public getFeed(): Observable<Post[]> {
-    return this.fetch<Post[]>(API_PATHS.FEED);
+    return this.fetch<Post[]>(API_PATHS.POSTS_FEED);
   }
 
-  public getAllComments(id: string): Observable<Comment[]> {
-    return this.fetch<Comment[]>(API_PATHS.COMMENTS.replace(':id', id));
+  public getComments(postId: string): Observable<Comment[]> {
+    return this.fetch<Comment[]>(API_PATHS.POST_COMMENTS.replace(':id', postId));
   }
 
-  public savePost(topicId: string, postRequest: IPostRequest): Observable<void> {
-    return this.httpClient.post<void>(`${this.pathService}?topicId=${topicId}`, postRequest);
+  public createPostInTopic(postTopicId: string, postRequest: IPostRequest): Observable<void> {
+    return this.httpClient.post<void>(`${this.basePath}?topicId=${postTopicId}`, postRequest);
   }
 
-  public saveComment(id: string, commentStr: string): Observable<void> {
-    const comment = { comment: commentStr };
+  public createComment(postId: string, commentText: string): Observable<void> {
+    const comment = { comment: commentText };
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.post<void>(
-      API_PATHS.COMMENTS.replace(':id', id),
+      API_PATHS.POST_COMMENTS.replace(':id', postId),
       JSON.stringify(comment),
       { headers }
     );
   }
 
   public createPost(postRequest: IPostRequest): Observable<void> {
-    return this.http.post<void>(this.pathService, postRequest);
+    return this.http.post<void>(this.basePath, postRequest);
   }
 }

@@ -1,6 +1,6 @@
-<a [routerLink]="['../']" class="post-detail__back-link">←</a>
-<div class="post-detail">
-  <div class="post-detail__wrapper">
+<div class="page-container">
+  <div class="post-detail page-container__main">
+    <div class="post-detail__wrapper">
     @if(hasError) {
       <h2 class="post-detail__error">Une erreur s'est produite lors du chargement de l'article !</h2>
     }
@@ -8,7 +8,7 @@
       <div class="post-detail__content">
         <h3 class="post-detail__title">{{postData?.title}}</h3>
         <div class="post-detail__info">
-          <span>{{postData?.createdAt}}</span>
+          <span>{{formattedDate}}</span>
           <span>Auteur : {{postData?.author}}</span>
           <span>Thème : {{postData?.topicName}}</span>
         </div>

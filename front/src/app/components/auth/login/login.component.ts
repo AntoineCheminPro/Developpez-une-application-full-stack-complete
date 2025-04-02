@@ -10,6 +10,9 @@ import {LoggingService} from "@core/services/logging/logging.service";
 import { BtnComponent } from '@app/components/btn/btn.component';
 import { AuthService } from '@core/services/auth/auth.service';
 import { authProvider } from '@core/providers/auth.provider';
+import { sessionProvider } from '@core/providers/session.provider';
+import { storageProvider } from '@core/providers/storage.provider';
+import { AuthStorageService } from '@core/services/auth.storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +22,12 @@ import { authProvider } from '@core/providers/auth.provider';
     ReactiveFormsModule,
     BtnComponent
   ],
-  providers: [authProvider],
+  providers: [
+    authProvider,
+    sessionProvider,
+    storageProvider,
+    AuthStorageService
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -55,14 +63,14 @@ export class LoginComponent implements OnDestroy {
     this.onError = false;
 
     const loginRequest = this.loginForm.value as LoginRequest;
-    this.loginSubscription$ = this.authService.login(loginRequest).subscribe({
+    this.loginSubscription$ = this.authService.authenticate(loginRequest).subscribe({
       next: (response: SessionInformation): void => {
-        this.sessionService.logIn(response);
+        this.sessionService.authenticate(response);
         this.router.navigate(['/posts']);
       },
       error: (error: Error) => {
         this.onError = true;
-        this.loggingService.error('Erreur de connexion', error);
+        this.loggingService.logError('Erreur de connexion', error);
       },
       complete: () => {
         this.isLoading = false;

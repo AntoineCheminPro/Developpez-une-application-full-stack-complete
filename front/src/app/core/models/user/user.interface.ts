@@ -1,6 +1,6 @@
-import { ICreatedAt } from "../created-at";
+import { CreatedAt } from "../created-at";
 
-export interface User extends ICreatedAt {
+export interface User extends CreatedAt {
   id: string;
   name: string;
   email: string;
