@@ -1,5 +1,6 @@
 <button
-  [class]="btnClasses()"
+  class="btn"
+  [ngClass]="btnClasses()"
   [disabled]="disabled || loading"
   [attr.aria-label]="ariaLabel || text"
   [attr.aria-disabled]="disabled || loading"

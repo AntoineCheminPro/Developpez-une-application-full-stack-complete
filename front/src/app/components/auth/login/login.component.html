@@ -25,11 +25,12 @@
             >
         </div>
 
-        <button type="submit"
-                class="login__submit"
-                [disabled]="loginForm.invalid || isLoading">
-          Se connecter
-        </button>
+        <app-btn
+          text="Se connecter"
+          type="cta"
+          [disabled]="loginForm.invalid || isLoading"
+          (btnClick)="submit()">
+        </app-btn>
       </form>
     </div>
   </div>

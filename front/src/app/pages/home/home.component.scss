@@ -2,12 +2,16 @@
   width: 60%; /* Adjust width for mobile */
   max-width: 500px; /* Set a maximum width */
   height: auto; /* Allow height to adjust proportionally */
+  margin-bottom: 2rem;
 }
 
 .button-container {
   display: flex;
-  gap: 120px;
+  gap: 2rem;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
 }
 
 .container {
@@ -16,19 +20,26 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 1rem;
-  gap: 2rem;
+  padding: 2rem;
+  gap: 120px;
 }
-
 
 @media screen and (max-width: 768px) {
   .container {
-    gap: 30px;
+    padding: 1rem;
+    gap: 1.5rem;
   }
+
+  .image {
+    width: 80%;
+    margin-bottom: 1.5rem;
+  }
+
   .button-container {
     flex-direction: column;
-    gap: 30px;
-    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
   }
 }
 

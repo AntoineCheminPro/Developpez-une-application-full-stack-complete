@@ -8,13 +8,15 @@ import {SessionService} from "@core/services/auth/auth.session.service";
 import {HeaderComponent} from "../../header/header.component";
 import {Subscription} from "rxjs";
 import {LoggingService} from "@core/services/logging/logging.service";
+import { BtnComponent } from '@app/components/btn/btn.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     HeaderComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BtnComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
