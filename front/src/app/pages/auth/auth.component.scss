@@ -1,0 +1,42 @@
+@import '../../../styles/variables';
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-lg;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: $spacing-xl;
+    background-color: $background-light;
+    border-radius: $border-radius-lg;
+  }
+}
+
+.logo {
+  display: none;
+}
+
+@media screen and (max-width: $mobile) {
+  .page-container {
+    padding: $spacing-md;
+
+    &__main {
+      padding: $spacing-lg;
+    }
+  }
+
+  .logo {
+    display: block;
+    width: 60%;
+    max-width: 500px;
+    height: auto;
+  }
+} 

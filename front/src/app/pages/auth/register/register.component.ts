@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {Component, OnDestroy} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -15,16 +16,21 @@ import { ERROR_MESSAGES } from '@core/constants/error-messages';
 import { VALIDATION_PATTERNS } from '@core/constants/validation-patterns';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { BtnComponent } from '../../../components/btn/btn.component';
+import { AuthComponent } from '../auth.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     HeaderComponent,
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    BtnComponent,
+    AuthComponent
   ],
   providers: [
     authProvider,

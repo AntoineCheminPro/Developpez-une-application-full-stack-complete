@@ -1,10 +1,7 @@
 @import '../../../../styles/variables';
 
-.image {
+.logo {
     display: none;
-    width: 60%; /* Adjust width for mobile */
-    max-width: 500px; /* Set a maximum width */
-    height: auto; /* Allow height to adjust proportionally */
   }
   
   .container {
@@ -12,7 +9,6 @@
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center horizontally */
     justify-content: center;
-    gap: 30px; /* Add spacing between buttons */
     height: 100vh; /* Full viewport height */
   }
   
@@ -50,18 +46,13 @@
     margin-bottom: 20px;
   }
   
-  @media (max-width: 768px) {
-    .image{
-      display: block;
-    }
-  }
   
 .register {
   max-width: 400px;
   margin: 0 auto;
   padding: $spacing-md;
 
-  h2 {
+  h1 {
     text-align: center;
     margin-bottom: $spacing-lg;
   }
@@ -117,4 +108,31 @@
     color: $error;
   }
 }
-  
+
+@media screen and (max-width: $mobile) {
+  ::ng-deep {
+    app-backlink {
+      top: $spacing-md;
+    }
+  }
+
+  .logo {
+    display: block;
+    width: 60%; /* Adjust width for mobile */
+    max-width: 500px; /* Set a maximum width */
+    height: auto; /* Allow height to adjust proportionally */
+  }
+
+  .register {
+    form {
+      gap: 0;
+    }
+  }
+
+  .image{
+    display: block;
+  }
+
+}
+
+

@@ -1,7 +1,6 @@
-<app-header [isAuthPage]="true"></app-header>
-<div class="page-container">
-  <div class="register page-container__main">
-    <h2>Inscription</h2>
+<app-auth>
+  <div class="register">
+    <h1>Inscription</h1>
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="input-group">
         <div class="input-group">
@@ -42,8 +41,13 @@
       </div>
       <div class="submit-button">
         <p *ngIf="onError" class="error">{{ ERROR_MESSAGES.AUTH.REGISTER_ERROR }}</p>
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading">S'inscrire</button>
+        <app-btn
+          text="S'inscrire"
+          type="cta"
+          [disabled]="form.invalid || isLoading"
+          (btnClick)="submit()">
+        </app-btn>
       </div>
     </form>
   </div>
-</div>
+</app-auth>

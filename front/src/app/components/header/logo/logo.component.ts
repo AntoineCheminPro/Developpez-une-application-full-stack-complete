@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <a routerLink="/home" class="logo">
-      <img src="assets/logo_p6.png" alt="Logo MDD" class="logo__image">
+      <img src="assets/logo.svg" alt="Logo MDD" class="logo__image">
     </a>
   `,
   styleUrls: ['./logo.component.scss']

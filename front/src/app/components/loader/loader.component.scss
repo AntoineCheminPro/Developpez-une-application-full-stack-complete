@@ -92,7 +92,7 @@ $loader-border-width-mobile: 12px;
 }
 
 // Responsive
-@media (max-width: $mobile-breakpoint) {
+@media (max-width: $tablet) {
   .loader {
     width: $loader-size-mobile;
     height: $loader-size-mobile;

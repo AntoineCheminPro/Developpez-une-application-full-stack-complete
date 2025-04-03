@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -14,14 +15,21 @@ import { sessionProvider } from '@core/providers/session.provider';
 import { storageProvider } from '@core/providers/storage.provider';
 import { AuthStorageService } from '@core/services/auth.storage.service';
 import { ERROR_MESSAGES } from '@core/constants/error-messages';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AuthComponent } from '../auth.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     HeaderComponent,
     ReactiveFormsModule,
-    BtnComponent
+    BtnComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    AuthComponent
   ],
   providers: [
     authProvider,
@@ -33,6 +41,8 @@ import { ERROR_MESSAGES } from '@core/constants/error-messages';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnDestroy {
+  public readonly ERROR_MESSAGES = ERROR_MESSAGES;
+  
   private readonly VALIDATION_PATTERNS = {
     EMAIL: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/
   } as const;

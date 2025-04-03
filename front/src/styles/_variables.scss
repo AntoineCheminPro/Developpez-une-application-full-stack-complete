@@ -1,5 +1,5 @@
 // Couleurs principales
-$primary: #7763C5;
+$primary: #673AB7;
 $primary-light: lighten($primary, 20%);
 $primary-dark: darken($primary, 10%);
 
@@ -11,17 +11,15 @@ $text-light: #FFFFFF;
 // Couleurs de fond
 $background-light: #FFFFFF;
 $background-grey: #F5F5F5;
-$background-white: #FFFFFF;
 
 // Couleurs d'état
 $error: #d32f2f;
-$success: #2e7d32;
+$success: #66BB6A;
 $warning: #ed6c02;
-$info: #0288d1;
+$info: #2196F3;
 
 // Bordures et ombres
 $border-color: #DDDDDD;
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 $shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
 $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 6px 8px rgba(0, 0, 0, 0.1);
@@ -29,7 +27,6 @@ $shadow-lg: 0 6px 8px rgba(0, 0, 0, 0.1);
 // Breakpoints
 $mobile: 480px;
 $tablet: 768px;
-$desktop: 1024px;
 
 // Espacements
 $spacing-xs: 0.25rem;
@@ -54,6 +51,3 @@ $line-height-normal: 1.5;
 $border-radius-sm: 4px;
 $border-radius-md: 8px;
 $border-radius-lg: 12px; 
-
-// Mobile breakpoint
-$mobile-breakpoint: 768px;
