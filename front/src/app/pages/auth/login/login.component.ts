@@ -1,30 +1,43 @@
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Component, OnDestroy} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {LoginRequest} from "@core/payloads/auth/loginRequest.interface";
-import {SessionInformation} from "@core/models/auth/sessionInformation.interface";
-import {SessionService} from "@core/services/auth/auth.session.service";
-import {HeaderComponent} from "../../../components/header/header.component";
-import {Subscription} from "rxjs";
-import {LoggingService} from "@core/services/logging/logging.service";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+// Components
 import { BtnComponent } from '@app/components/btn/btn.component';
+import { AuthComponent } from '../auth.component';
+
+// Material
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+// Services
 import { AuthService } from '@core/services/auth/auth.service';
+import { SessionService } from '@core/services/auth/auth.session.service';
+import { LoggingService } from '@core/services/logging/logging.service';
+import { AuthStorageService } from '@core/services/auth.storage.service';
+
+// Models & Interfaces
+import { LoginRequest } from '@core/payloads/auth/loginRequest.interface';
+import { SessionInformation } from '@core/models/auth/sessionInformation.interface';
+
+// Constants
+import { ERROR_MESSAGES } from '@core/constants/error-messages';
+import { VALIDATION_PATTERNS } from '@core/constants/validation-patterns';
+
+// Providers
 import { authProvider } from '@core/providers/auth.provider';
 import { sessionProvider } from '@core/providers/session.provider';
 import { storageProvider } from '@core/providers/storage.provider';
-import { AuthStorageService } from '@core/services/auth.storage.service';
-import { ERROR_MESSAGES } from '@core/constants/error-messages';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { AuthComponent } from '../auth.component';
+
+// RxJS
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
     ReactiveFormsModule,
     BtnComponent,
     MatFormFieldModule,
@@ -37,21 +50,17 @@ import { AuthComponent } from '../auth.component';
     storageProvider,
     AuthStorageService
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnDestroy {
   public readonly ERROR_MESSAGES = ERROR_MESSAGES;
-  
-  private readonly VALIDATION_PATTERNS = {
-    EMAIL: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/
-  } as const;
+  public readonly VALIDATION_PATTERNS = VALIDATION_PATTERNS;
 
   private loginSubscription$: Subscription | undefined;
   
   public onError = false;
   public isLoading = false;
-  public loginForm!: FormGroup<{
+  public form!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
   }>;
@@ -67,7 +76,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   private initForm(): void {
-    this.loginForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.pattern(this.VALIDATION_PATTERNS.EMAIL)
@@ -79,14 +88,14 @@ export class LoginComponent implements OnDestroy {
   }
 
   public submit(): void {
-    if (this.loginForm.invalid || this.isLoading) {
+    if (this.form.invalid || this.isLoading) {
       return;
     }
 
     this.isLoading = true;
     this.onError = false;
 
-    const loginRequest = this.loginForm.value as LoginRequest;
+    const loginRequest = this.form.value as LoginRequest;
     this.loginSubscription$ = this.authService.authenticate(loginRequest).subscribe({
       next: (response: SessionInformation): void => {
         this.sessionService.authenticate(response);

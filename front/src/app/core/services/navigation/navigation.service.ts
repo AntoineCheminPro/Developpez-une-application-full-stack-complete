@@ -25,14 +25,16 @@ export class NavigationService {
     '/home'
   ];
 
-  private readonly MOBILE_ROUTES_WITHOUT_HEADER = [
+  private readonly MOBILE_ROUTES_WITHOUT_LOGO = [
     ...this.AUTH_ROUTES
   ];
 
   private showBacklink$ = new BehaviorSubject<boolean>(false);
   private showNavbar$ = new BehaviorSubject<boolean>(true);
   private showHeader$ = new BehaviorSubject<boolean>(true);
+  private showLogo$ = new BehaviorSubject<boolean>(true);
   private isMobile = false;
+  private currentRoute = '';
 
   constructor(
     private router: Router,
@@ -41,7 +43,10 @@ export class NavigationService {
     this.initializeBacklink();
     this.initializeNavbar();
     this.initializeHeader();
+    this.initializeLogo();
     this.observeBreakpoints();
+    this.initializeRouteListener();
+    this.initializeMobileListener();
   }
 
   private observeBreakpoints(): void {
@@ -51,12 +56,19 @@ export class NavigationService {
     ]).subscribe(result => {
       this.isMobile = result.matches;
       this.updateHeader();
+      this.updateLogo();
     });
   }
 
   private updateHeader(): void {
     if (this.router.url) {
       this.showHeader$.next(!this.shouldHideHeader(this.router.url));
+    }
+  }
+
+  private updateLogo(): void {
+    if (this.router.url) {
+      this.showLogo$.next(!this.shouldHideLogo(this.router.url));
     }
   }
 
@@ -93,6 +105,34 @@ export class NavigationService {
     });
   }
 
+  private initializeLogo(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showLogo$.next(!this.shouldHideLogo(event.url));
+      }
+    });
+  }
+
+  private initializeRouteListener(): void {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.currentRoute = event.urlAfterRedirects;
+      this.showHeader$.next(!this.shouldHideHeader(this.currentRoute));
+      this.showNavbar$.next(!this.shouldHideNavbar(this.currentRoute));
+      this.showLogo$.next(!this.shouldHideLogo(this.currentRoute));
+    });
+  }
+
+  private initializeMobileListener(): void {
+    this.breakpointObserver.observe(['(max-width: 480px)']).subscribe(result => {
+      this.isMobile = result.matches;
+      this.updateLogo();
+    });
+  }
+
   private shouldShowBacklink(url: string): boolean {
     console.log('🚀 Routes avec backlink:', this.ROUTES_WITH_BACKLINK);
     const result = this.ROUTES_WITH_BACKLINK.some(route => 
@@ -108,8 +148,12 @@ export class NavigationService {
 
   private shouldHideHeader(url: string): boolean {
     const isRouteWithoutHeader = this.ROUTES_WITHOUT_HEADER.some(route => url === route);
-    const isMobileRouteWithoutHeader = this.isMobile && this.MOBILE_ROUTES_WITHOUT_HEADER.some(route => url === route);
+    const isMobileRouteWithoutHeader = this.isMobile && this.MOBILE_ROUTES_WITHOUT_LOGO.some(route => url === route);
     return isRouteWithoutHeader || isMobileRouteWithoutHeader;
+  }
+
+  private shouldHideLogo(url: string): boolean {
+    return this.isMobile && this.MOBILE_ROUTES_WITHOUT_LOGO.some(route => url === route);
   }
 
   getShowBacklink(): Observable<boolean> {
@@ -122,5 +166,9 @@ export class NavigationService {
 
   getShowHeader(): Observable<boolean> {
     return this.showHeader$.asObservable();
+  }
+
+  getShowLogo(): Observable<boolean> {
+    return this.showLogo$.asObservable();
   }
 } 

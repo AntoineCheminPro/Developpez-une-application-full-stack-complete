@@ -1,42 +1,60 @@
-@import '../../../styles/variables';
+@import '../../../styles/_variables';
 
 .page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: $spacing-lg;
-
   &__main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    padding: $spacing-xl;
-    background-color: $background-light;
-    border-radius: $border-radius-lg;
-  }
-}
+    &.auth {
+      // max-width: 400px;
+      margin: 0 auto;
+      padding: $spacing-md;
+      text-align: center;
 
-.logo {
-  display: none;
+      :host ::ng-deep {
+        h1 {
+          margin-bottom: $spacing-lg;
+        }
+
+        .auth__form {
+          display: flex;
+          flex-direction: column;
+          gap: $spacing-md;
+        }
+
+        .auth__input-group {
+          display: flex;
+          flex-direction: column;
+          gap: $spacing-sm;
+        }
+
+        .auth__submit {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: $spacing-sm;
+          margin-top: $spacing-md;
+        }
+
+        .auth__error {
+          color: $error;
+          text-align: center;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: $mobile) {
   .page-container {
-    padding: $spacing-md;
-
     &__main {
-      padding: $spacing-lg;
+      &.auth {
+        margin: 0;
+        padding: 0;
+        
+        :host ::ng-deep {
+          .auth__form {
+            gap: 0;
+          }
+        }
+      }
     }
-  }
-
-  .logo {
-    display: block;
-    width: 60%;
-    max-width: 500px;
-    height: auto;
   }
 } 

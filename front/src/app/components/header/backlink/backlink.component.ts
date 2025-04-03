@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
       aria-label="Retour à la page précédente"
     >
       <img 
-        src="/assets/Arrow 20.svg" 
+        src="/assets/Arrow.svg" 
         alt=""
         class="backlink__icon"
         aria-hidden="true"

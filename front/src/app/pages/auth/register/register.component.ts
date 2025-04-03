@@ -5,7 +5,6 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {Router} from "@angular/router";
 import {RegisterRequest} from "../../../core/payloads/auth/registerRequest.interface";
 import {AuthService} from "../../../core/services/auth/auth.service";
-import {HeaderComponent} from "../../../components/header/header.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Subscription} from "rxjs";
 import { authProvider } from '@core/providers/auth.provider';
@@ -24,7 +23,6 @@ import { AuthComponent } from '../auth.component';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -38,8 +36,7 @@ import { AuthComponent } from '../auth.component';
     storageProvider,
     AuthStorageService
   ],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnDestroy {
   public readonly ERROR_MESSAGES = ERROR_MESSAGES;
