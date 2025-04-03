@@ -17,6 +17,8 @@ import { sessionProvider } from '@core/providers/session.provider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TopicsComponent } from '@app/pages/topics/topics.component';
+import { finalize, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -28,7 +30,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     TopicCardComponent,
-    LoaderComponent
+    LoaderComponent,
+    TopicsComponent
   ],
   providers: [
     userProvider, 
@@ -47,8 +50,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
   public currentUser?: User;
   public subscribedTopics: Topic[] = [];
-  public isLoading = false;
-  public hasError = false;
+  public isProfileLoading = false;
+  public isTopicsLoading = false;
   public onErrorFetchingSubscriptions = false;
   public userSubscribedTopicsArray: Topic[] = [];
   public hasSubscriptions = false;
@@ -82,9 +85,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private fetchUserData(): void {
-    this.isLoading = true;
-    this.hasError = false;
-
+    this.isProfileLoading = true;
     this.userSubscription$ = this.userService.getUser().subscribe({
       next: (user: User) => {
         this.currentUser = user;
@@ -95,25 +96,31 @@ export class UserComponent implements OnInit, OnDestroy {
         this.fetchSubscribedTopics();
       },
       error: () => {
-        this.hasError = true;
-        this.isLoading = false;
+        this.isProfileLoading = false;
       }
     });
   }
 
   private fetchSubscribedTopics(): void {
-    this.topicsSubscription$ = this.topicsService.getSubscribedTopics().subscribe({
-      next: (topics: Topic[]) => {
-        this.subscribedTopics = topics;
-        this.userSubscribedTopicsArray = topics;
-        this.hasSubscriptions = topics.length > 0;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.onErrorFetchingSubscriptions = true;
-        this.isLoading = false;
-      }
-    });
+    this.isTopicsLoading = true;
+    this.topicsSubscription$ = this.topicsService.getSubscribedTopics()
+      .pipe(
+        finalize(() => this.isTopicsLoading = false),
+        catchError((error: Error) => {
+          this.onErrorFetchingSubscriptions = true;
+          return of([]);
+        })
+      )
+      .subscribe({
+        next: (topics: Topic[]) => {
+          this.subscribedTopics = topics;
+          this.userSubscribedTopicsArray = topics;
+          this.hasSubscriptions = topics.length > 0;
+        },
+        error: () => {
+          this.onErrorFetchingSubscriptions = true;
+        }
+      });
   }
 
   public onSubmit(): void {
@@ -121,6 +128,7 @@ export class UserComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.isProfileLoading = true;
     const updatedUser: Partial<User> = {
       name: this.form.value.name!,
       email: this.form.value.email!
@@ -131,7 +139,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.currentUser = user;
       },
       error: () => {
-        this.hasError = true;
+        this.isProfileLoading = false;
       }
     });
   }
@@ -144,7 +152,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.hasSubscriptions = this.userSubscribedTopicsArray.length > 0;
       },
       error: () => {
-        this.hasError = true;
+        this.isProfileLoading = false;
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import {
   catchError,
   forkJoin,
@@ -40,12 +40,36 @@ export class TopicsComponent implements OnInit, OnDestroy {
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroy$ = new Subject<void>();
 
+  private _externalTopics?: Topic[];
+  @Input() set externalTopics(value: Topic[] | undefined) {
+    if (value) {
+      this._externalTopics = value;
+      this.topics = value;
+      this.hasData = value.length > 0;
+      this.cdr.markForCheck();
+    }
+  }
+  get externalTopics(): Topic[] | undefined {
+    return this._externalTopics;
+  }
+
+  @Input() externalIsLoading?: boolean;
+  @Input() externalHasError?: boolean;
+
   public topics: Topic[] = [];
   public hasData = false;
   public hasError = false;
   public isLoading = false;
 
   ngOnInit(): void {
+    if (this.externalTopics) {
+      this.topics = this.externalTopics;
+      this.hasData = this.topics.length > 0;
+      this.isLoading = this.externalIsLoading ?? false;
+      this.hasError = this.externalHasError ?? false;
+      return;
+    }
+
     this.topicsService.getIsFetching()
       .pipe(takeUntil(this.destroy$))
       .subscribe(isFetching => {

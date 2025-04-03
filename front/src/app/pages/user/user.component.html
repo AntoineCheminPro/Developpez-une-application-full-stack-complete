@@ -27,7 +27,7 @@
             mat-flat-button 
             color="primary" 
             type="submit" 
-            [disabled]="form.invalid || isLoading"
+            [disabled]="form.invalid || isProfileLoading"
             class="user__button">
             Sauvegarder
           </button>
@@ -39,39 +39,12 @@
     <hr class="user__divider">
 
     <div class="topics page-container__main">
-
-    <h1 class="user__subtitle">Abonnements</h1>
-
-    @if (isLoading) {
-      <div class="user__loading">
-        <app-loader></app-loader>
-      </div>
-    }
-
-    @if (onErrorFetchingSubscriptions) {
-      <p class="user__error">
-        Une erreur est survenue lors de la récupération des abonnements...
-      </p>
-    } @else if (!hasSubscriptions) {
-      <p class="user__empty">
-        Aucun abonnement...
-      </p>
-    } @else {
-      <div class="user__grid">
-        @for (topic of userSubscribedTopicsArray; track topic.id) {
-          <div class="user__item">
-            <app-topic-card 
-              [id]="topic.id"
-              [title]="topic.title"
-              [description]="topic.description"
-              [isSubscribed]="topic.isSubscribed"
-              [isSubscribeCase]="false"
-              [disableButton]="false"
-              (onSubscribe)="unsubscribeFromTopic(topic.id)">
-            </app-topic-card>
-          </div>
-        }
-      </div>
-    }
-  </div>
+      <h1 class="user__subtitle">Abonnements</h1>
+      <app-topics 
+        [externalTopics]="userSubscribedTopicsArray"
+        [externalIsLoading]="isTopicsLoading"
+        [externalHasError]="onErrorFetchingSubscriptions"
+        class="user__topics">
+      </app-topics>
+    </div>
 </div>
