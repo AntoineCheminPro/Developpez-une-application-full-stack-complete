@@ -1,5 +1,9 @@
 @import '../../../../styles/variables';
 
+// Variables locales
+$navbar-width: 250px;
+$navbar-transition: transform 0.3s ease;
+
 .navbar {
   background-color: $background-light;
   padding: $spacing-md;
@@ -105,26 +109,6 @@
       box-shadow: 0 0 0 2px rgba($error, 0.2);
     }
   }
-
-  @media screen and (max-width: $mobile) {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 250px;
-    padding: $spacing-lg;
-    box-shadow: $shadow-lg;
-
-    .menu-container {
-      justify-content: flex-end;
-    }
-
-    .menu {
-      flex-direction: column;
-      align-items: flex-end;
-      gap: $spacing-md;
-    }
-  }
 }
 
 .toggle-icon {
@@ -137,12 +121,12 @@
     top: 0;
     right: 0;
     height: 100vh;
-    width: 80%;
-    max-width: 300px;
-    padding-top: $spacing-xl;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    width: $navbar-width;
+    padding: $spacing-lg;
+    transform: translateX(100%);
+    transition: $navbar-transition;
     background-color: $background-light;
+    box-shadow: $shadow-lg;
     z-index: 1000;
 
     &.show {
@@ -152,34 +136,36 @@
     .menu-container {
       flex-direction: column;
       gap: $spacing-lg;
-      text-align: center;
-      align-items: flex-end;
-      justify-content: space-between;
       height: 100%;
       padding-top: $spacing-xl;
+      justify-content: space-between;
     }
 
     .menu {
       flex-direction: column;
+      align-items: flex-end;
+      gap: $spacing-md;
       width: 100%;
-      
+
       a {
         width: 100%;
         padding: $spacing-sm;
         text-align: right;
+        font-size: $font-size-h3;
       }
     }
 
     .user-actions {
       flex-direction: column;
       width: 100%;
-      align-items: center;
+      align-items: flex-end;
       gap: $spacing-md;
       margin: $spacing-md 0;
     }
 
     .user-profile {
       margin: $spacing-xs 0;
+      align-self: flex-end;
     }
   }
 

@@ -1,30 +1,21 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TitleService } from '@core/services/title/title.service';
 
 @Component({
   selector: 'app-backlink',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <button 
-      class="backlink" 
-      (click)="goBack()"
-      aria-label="Retour à la page précédente"
-    >
-      <img 
-        src="/assets/Arrow.svg" 
-        alt=""
-        class="backlink__icon"
-        aria-hidden="true"
-      >
-    </button>
-  `,
+  templateUrl: './backlink.component.html',
   styleUrls: ['./backlink.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BacklinkComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
+  private titleService = inject(TitleService);
+  
+  protected title$ = this.titleService.getTitle();
 
   goBack(): void {
     window.history.back();

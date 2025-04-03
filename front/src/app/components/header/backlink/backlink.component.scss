@@ -1,22 +1,21 @@
 @import '../../../../styles/variables';
 
+.backlink-container {
+  display: flex;
+  align-items: flex-start;
+  @media screen and (max-width: $tablet) {
+    margin-left: 1rem;
+  }
+}
+
 .backlink {
-  position: fixed;
-  top: 15%;
-  left: 2%;
   z-index: 1000;
   background: none;
   border: none;
-  cursor: pointer;
   padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: $primary;
-  font-family: $font-family;
-  font-size: 16px;
-  font-weight: $font-weight-semibold;
   transition: transform 0.2s ease;
+  cursor: pointer;
+  margin-top: 0.5rem;
 
   &:hover {
     transform: translateX(-4px);
@@ -26,10 +25,20 @@
     width: 24px;
     height: 24px;
   }
+
+  img {
+    transform: translateX(1rem);
+  }
+
 }
 
-@media screen and (max-width: $mobile) {
-  .backlink {
-    top: 5%;
-  }
-} 
+.backlink__title {
+  margin-left: calc((100vw - 1400px) / 2 - 41px);
+  font-size: $font-size-h1;
+  color: $text-primary;
+  text-align: center;
+}
+
+
+
+

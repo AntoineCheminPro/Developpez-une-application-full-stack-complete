@@ -13,7 +13,8 @@ export class NavigationService {
   ];
 
   private readonly ROUTES_WITH_BACKLINK = [
-    '/posts',
+    '/posts/post-create',
+    '/posts/post-detail',
     ...this.AUTH_ROUTES
   ];
 

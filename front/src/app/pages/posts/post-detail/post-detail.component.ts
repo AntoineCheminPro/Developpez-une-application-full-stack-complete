@@ -13,6 +13,7 @@ import { LOGGING_SERVICE } from "@core/services/logging/logging.service";
 import { postsProvider } from '@core/providers/posts.provider';
 import { loggingProvider } from '@core/providers/logging.provider';
 import { DateTimeFormatter } from '@core/utils/date.formatter';
+import { TitleService } from '@core/services/title/title.service';
 
 const ERROR_MESSAGES = {
   SAVE_COMMENT: 'Impossible de sauvegarder le commentaire',
@@ -44,6 +45,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   private readonly snackBar = inject(MatSnackBar);
   private readonly loggingService = inject(LOGGING_SERVICE);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly titleService = inject(TitleService);
 
   public comments: Comment[] = [];
   public postData: Post | undefined;
@@ -63,6 +65,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     }
 
     this.loadComments();
+    if (this.postData?.title) {
+      this.titleService.setTitle(this.postData.title);
+    }
   }
 
   ngOnDestroy(): void {

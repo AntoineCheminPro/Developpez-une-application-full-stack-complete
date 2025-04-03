@@ -7,5 +7,6 @@
       <app-navbar *ngIf="navigationService.getShowNavbar() | async" class="header__navigation"></app-navbar>
     </div>
   </div>
+  <app-backlink *ngIf="navigationService.getShowBacklink() | async"></app-backlink>
 </header>
 
