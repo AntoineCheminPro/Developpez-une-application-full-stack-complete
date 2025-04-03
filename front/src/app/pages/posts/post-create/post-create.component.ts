@@ -7,13 +7,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { TopicsService } from "@core/services/topics/topics.service";
-import { PostsService } from "@core/services/posts/posts.service";
+import { TopicsService, TOPICS_SERVICE } from "@core/services/topics/topics.service";
+import { PostsService, POSTS_SERVICE } from "@core/services/posts/posts.service";
 import { IPostRequest } from '@core/payloads/posts/post.request.interface';
 import { LoggingService, LOGGING_SERVICE } from '@core/services/logging/logging.service';
 import { Topic } from "@core/models/topics/topic.interface";
 import { catchError, finalize, map, of } from 'rxjs';
 import { loggingProvider } from '@core/providers/logging.provider';
+import { environment } from '../../../../environments/environment.development';
+import { TopicsFakerService } from '@core/services/faker/topics.faker.service';
+import { PostsFakerService } from '@core/services/faker/posts.faker.service';
 
 @Component({
   selector: 'app-post-create',
@@ -27,7 +30,17 @@ import { loggingProvider } from '@core/providers/logging.provider';
     MatFormFieldModule,
     RouterLink
   ],
-  providers: [loggingProvider],
+  providers: [
+    loggingProvider,
+    {
+      provide: TOPICS_SERVICE,
+      useClass: environment.useFaker ? TopicsFakerService : TopicsService
+    },
+    {
+      provide: POSTS_SERVICE,
+      useClass: environment.useFaker ? PostsFakerService : PostsService
+    }
+  ],
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -43,8 +56,8 @@ export class PostCreateComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private readonly topicService: TopicsService,
-    private readonly postsService: PostsService,
+    @Inject(TOPICS_SERVICE) private readonly topicService: TopicsService,
+    @Inject(POSTS_SERVICE) private readonly postsService: PostsService,
     @Inject(LOGGING_SERVICE) private readonly loggingService: LoggingService
   ) {
     this.postForm = this.fb.group({

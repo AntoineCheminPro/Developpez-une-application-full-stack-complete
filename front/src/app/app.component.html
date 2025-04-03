@@ -1,2 +1,3 @@
 <app-header *ngIf="navigationService.getShowHeader() | async"></app-header>
+<app-backlink *ngIf="navigationService.getShowBacklink() | async"></app-backlink>
 <router-outlet></router-outlet>

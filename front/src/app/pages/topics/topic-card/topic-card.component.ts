@@ -1,11 +1,13 @@
+import { MatButtonModule } from "@angular/material/button";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatButton } from "@angular/material/button";
 import { TopicEvent } from "../../../core/EventEmitters/topic-event.interface";
 
 @Component({
   selector: 'app-topic-card',
   standalone: true,
-  imports: [MatButton],
+  imports: [
+    MatButtonModule
+  ],
   templateUrl: './topic-card.component.html',
   styleUrl: './topic-card.component.scss'
 })

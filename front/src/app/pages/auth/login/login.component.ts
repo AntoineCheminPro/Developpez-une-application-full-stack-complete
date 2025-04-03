@@ -13,6 +13,7 @@ import { authProvider } from '@core/providers/auth.provider';
 import { sessionProvider } from '@core/providers/session.provider';
 import { storageProvider } from '@core/providers/storage.provider';
 import { AuthStorageService } from '@core/services/auth.storage.service';
+import { ERROR_MESSAGES } from '@core/constants/error-messages';
 
 @Component({
   selector: 'app-login',
@@ -32,33 +33,46 @@ import { AuthStorageService } from '@core/services/auth.storage.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnDestroy {
-  public loginSubscription$: Subscription | undefined;
+  private readonly VALIDATION_PATTERNS = {
+    EMAIL: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/
+  } as const;
+
+  private loginSubscription$: Subscription | undefined;
+  
   public onError = false;
   public isLoading = false;
-  public loginForm: FormGroup<{ email: FormControl<string | null>; password: FormControl<string | null>; }>
+  public loginForm!: FormGroup<{
+    email: FormControl<string | null>;
+    password: FormControl<string | null>;
+  }>;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private sessionService: SessionService,
-    private loggingService: LoggingService
+    private readonly formBuilder: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly sessionService: SessionService,
+    private readonly loggingService: LoggingService
   ) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    });
+    this.initForm();
   }
 
-  ngOnDestroy(): void {
-    this.loginSubscription$?.unsubscribe();
+  private initForm(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [
+        Validators.required,
+        Validators.pattern(this.VALIDATION_PATTERNS.EMAIL)
+      ]],
+      password: ['', [
+        Validators.required
+      ]]
+    });
   }
 
   public submit(): void {
     if (this.loginForm.invalid || this.isLoading) {
       return;
     }
-    
+
     this.isLoading = true;
     this.onError = false;
 
@@ -70,11 +84,15 @@ export class LoginComponent implements OnDestroy {
       },
       error: (error: Error) => {
         this.onError = true;
-        this.loggingService.logError('Erreur de connexion', error);
+        this.loggingService.logError(ERROR_MESSAGES.AUTH.LOGIN_ERROR, error);
       },
       complete: () => {
         this.isLoading = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.loginSubscription$?.unsubscribe();
   }
 }

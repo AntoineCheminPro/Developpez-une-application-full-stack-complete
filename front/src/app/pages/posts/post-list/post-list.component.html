@@ -22,13 +22,12 @@
     }
 
     <div class="post-list__header">
-      <button 
-        mat-flat-button 
-        color="primary" 
+      <app-btn
+        text="Créer un article"
+        type="cta"
         class="post-list__create-button"
-        (click)="navigateToCreate()">
-        Créer un article
-      </button>
+        (btnClick)="onCreatePost()"
+      ></app-btn>
 
       @if (currentState === state.SUCCESS) {
         <button 
@@ -36,7 +35,8 @@
           [class.post-list__sort-button--asc]="isAscending"
           [class.post-list__sort-button--desc]="!isAscending"
           (click)="sortPosts()">
-          {{ isAscending ? messages.SORT.ASC : messages.SORT.DESC }}
+          {{ messages.SORT }}
+          <mat-icon>{{ isAscending ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
         </button>
       }
     </div>

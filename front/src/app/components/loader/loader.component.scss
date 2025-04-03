@@ -1,3 +1,5 @@
+@import "../../../styles/variables";
+
 /* https://www.w3schools.com/howto/howto_css_loader.asp */
 
 // Variables
@@ -10,8 +12,6 @@ $loader-text-color: #666;
 $loader-text-size: 1rem;
 $loader-spacing: 1rem;
 
-// Mobile breakpoint
-$mobile-breakpoint: 800px;
 
 // Mobile variables
 $loader-size-mobile: 75px;

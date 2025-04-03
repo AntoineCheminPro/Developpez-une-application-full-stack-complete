@@ -11,6 +11,9 @@ import { PostCardComponent } from '../post-card/post-card.component';
 import { postsProvider } from '@core/providers/posts.provider';
 import { LOGGING_SERVICE } from '@core/services/logging/logging.service';
 import { loggingProvider } from '@core/providers/logging.provider';
+import { CommonModule } from '@angular/common';
+import { BtnComponent } from '@app/components/btn/btn.component';
+import { MatIconModule } from '@angular/material/icon';
 
 enum PostListState {
   IDLE = 'IDLE',
@@ -25,10 +28,7 @@ const MESSAGES = {
   },
   LOADING: 'Chargement des articles...',
   EMPTY: 'Aucun article disponible...',
-  SORT: {
-    ASC: 'Trier par date ▲',
-    DESC: 'Trier par date ▼'
-  }
+  SORT: 'Trier par'
 } as const;
 
 @Component({
@@ -37,7 +37,10 @@ const MESSAGES = {
   imports: [
     MatButtonModule,
     LoaderComponent,
-    PostCardComponent
+    PostCardComponent,
+    CommonModule,
+    BtnComponent,
+    MatIconModule
   ],
   providers: [postsProvider, loggingProvider],
   templateUrl: './post-list.component.html',
@@ -96,8 +99,8 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  public navigateToCreate(): void {
-    this.router.navigate(['posts/post-create']);
+  public onCreatePost(): void {
+    this.router.navigate(['/posts/post-create']);
   }
 
   public navigateToDetail(post: Post): void {

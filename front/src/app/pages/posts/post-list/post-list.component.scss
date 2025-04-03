@@ -1,3 +1,5 @@
+@import "../../../../styles/variables";
+
 // Variables
 $post-list-spacing: 1rem;
 $post-list-border-radius: 8px;
@@ -51,21 +53,18 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
 
   &__header {
     width: 100%;
-    max-width: 1070px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: $post-list-spacing;
-    gap: $post-list-spacing;
   }
 
   &__create-button {
     transition: $post-list-transition;
-    
+    justify-content: left;
     &:hover {
       transform: translateY(-1px);
-      box-shadow: $post-list-hover-shadow;
     }
   }
 
@@ -78,8 +77,10 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
     transition: $post-list-transition;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: space-between;
+    gap: $post-list-spacing;
     color: #666;
+    white-space: nowrap;
 
     &:hover {
       background-color: $post-list-button-hover;
@@ -91,6 +92,10 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
 
     &--desc {
       color: #2196f3;
+    }
+
+    @media (max-width: $mobile-breakpoint) {
+      justify-content: center;
     }
   }
 
@@ -109,14 +114,17 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: $post-list-hover-shadow;
     }
   }
 }
 
 // Responsive
-@media (max-width: 768px) {
+@media (max-width: $mobile-breakpoint) {
   .post-list {
+    &__create-button {
+      justify-content: center;
+    }
+
     &__header {
       flex-direction: column;
       align-items: stretch;

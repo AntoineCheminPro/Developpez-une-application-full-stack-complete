@@ -1,6 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {MatButton} from "@angular/material/button";
-import {NgIf} from "@angular/common";
+import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {RegisterRequest} from "../../../core/payloads/auth/registerRequest.interface";
@@ -12,15 +11,16 @@ import { authProvider } from '@core/providers/auth.provider';
 import { sessionProvider } from '@core/providers/session.provider';
 import { storageProvider } from '@core/providers/storage.provider';
 import { AuthStorageService } from '@core/services/auth.storage.service';
+import { ERROR_MESSAGES } from '@core/constants/error-messages';
+import { VALIDATION_PATTERNS } from '@core/constants/validation-patterns';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    MatButton,
-    NgIf,
+    HeaderComponent,
     ReactiveFormsModule,
-    HeaderComponent
+    MatButtonModule
   ],
   providers: [
     authProvider,
@@ -32,35 +32,42 @@ import { AuthStorageService } from '@core/services/auth.storage.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnDestroy {
+  public readonly ERROR_MESSAGES = ERROR_MESSAGES;
+  public readonly VALIDATION_PATTERNS = VALIDATION_PATTERNS;
+
   private registerSubscription$ : Subscription | undefined
   public onError = false;
-  public isSigningUp = false;
-  public form: FormGroup<{ name: FormControl<string | null>; email: FormControl<string | null>; password: FormControl<string | null>; }>
+  public isLoading = false;
+  public form!: FormGroup<{ name: FormControl<string | null>; email: FormControl<string | null>; password: FormControl<string | null>; }>
 
   constructor(private router: Router,
               private authService: AuthService,
               private fb: FormBuilder,
               private snackBar: MatSnackBar) {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.form = this.fb.group({
       name: [
         '',
         [
           Validators.required,
-          Validators.maxLength(255)
+          Validators.pattern(this.VALIDATION_PATTERNS.NAME)
         ]
       ],
       email: [
         '',
         [
           Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}')
+          Validators.pattern(this.VALIDATION_PATTERNS.EMAIL)
         ]
       ],
       password: [
         '',
         [
           Validators.required,
-          Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}$')
+          Validators.pattern(this.VALIDATION_PATTERNS.PASSWORD)
         ]
       ]
     });
@@ -71,26 +78,32 @@ export class RegisterComponent implements OnDestroy {
   }
 
   public submit(): void {
-    if(this.isSigningUp) {
+    if (this.form.invalid || this.isLoading) {
       return;
     }
 
-    this.isSigningUp = true;
+    this.isLoading = true;
+    this.onError = false;
 
     const registerRequest = this.form.value as RegisterRequest;
     this.registerSubscription$ = this.authService.createUser(registerRequest).subscribe({
-      next: (_: void): void => {
-        this.snackBar.open("Account successfully created, you will be redirected to the login page.", "Close", { duration: 2000 });
-        setTimeout((): void => {
-          this.router.navigate(['/login']).then(() => {
-            this.isSigningUp = false;
-          });
+      next: (): void => {
+        this.snackBar.open(
+          "Compte créé avec succès, vous allez être redirigé vers la page de connexion.",
+          "Fermer",
+          { duration: 2000 }
+        );
+        setTimeout(() => {
+          this.router.navigate(['/login']);
         }, 2000);
       },
-      error: _ => {
+      error: (error: Error) => {
         this.onError = true;
-        this.isSigningUp = false;
+        this.snackBar.open(ERROR_MESSAGES.AUTH.REGISTER_ERROR, "Fermer", { duration: 3000 });
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    })
+    });
   }
 }

@@ -7,23 +7,38 @@
     font-weight: $font-weight-semibold !important;
     margin-bottom: $spacing-lg !important;
   }
+}
 
-  h2, .mat-h2, .mat-headline-2 {
-    font-size: $font-size-h2 !important;
-    font-weight: $font-weight-regular !important;
-    margin-bottom: $spacing-md !important;
-  }
+// Règle très spécifique pour h2 qui surcharge Material
+h2,
+.h2,
+.mat-typography h2,
+.mat-typography .mat-h2,
+.mat-typography .mat-headline-2,
+.mat-h2,
+.mat-headline-6,
+.mat-typography .mat-h2,
+.mat-typography .mat-headline-6,
+.mat-typography h2 {
+  font-family: $font-family !important;
+  font-size: $font-size-h2 !important;
+  font-weight: $font-weight-regular !important;
+  margin: 0 0 $spacing-md !important;
+  line-height: 1.4 !important;
+  letter-spacing: normal !important;
+}
 
-  h3,
-  .mat-h3,
-  .mat-subtitle-1 {
-    font-family: $font-family;
-    font-size: $font-size-h3;
-    font-weight: $font-weight-semibold;
-    line-height: $line-height-normal;
-    letter-spacing: normal;
-    margin: 0;
-  }
+h3,
+.h3,
+.mat-typography h3,
+.mat-typography .mat-h3,
+.mat-typography .mat-subtitle-1 {
+  font-family: $font-family !important;
+  font-size: $font-size-h3 !important;
+  font-weight: $font-weight-semibold !important;
+  line-height: $line-height-normal !important;
+  letter-spacing: normal !important;
+  margin: 0 0 $spacing-sm !important;
 }
 
 // S'assurer que la police est appliquée partout dans Material

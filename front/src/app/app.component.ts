@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { NavigationService } from './core/services/navigation/navigation.service';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { BacklinkComponent } from './components/backlink/backlink.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AsyncPipe, NgIf],
+  imports: [RouterOutlet, HeaderComponent, AsyncPipe, NgIf, BacklinkComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

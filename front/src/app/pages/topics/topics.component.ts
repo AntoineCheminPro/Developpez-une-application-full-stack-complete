@@ -10,7 +10,6 @@ import {
 } from "rxjs";
 import { TopicsService } from "../../core/services/topics/topics.service";
 import { CollectionSort } from "../../core/utils/collection.sort";
-import { MatButton } from "@angular/material/button";
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { TopicCardComponent } from './topic-card/topic-card.component';
 import { Topic } from '../../core/models/topics/topic.interface';
@@ -26,7 +25,6 @@ const ERROR_MESSAGES = {
   selector: 'app-topics',
   standalone: true,
   imports: [
-    MatButton,
     TopicCardComponent,
     LoaderComponent
   ],

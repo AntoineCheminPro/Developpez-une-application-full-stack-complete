@@ -1,41 +1,32 @@
-
 <div class="page-container">
-<div class="post-create page-container__main">
-  <h2>Créer un article</h2>
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-create__form">
-    <div class="post-create__field">
-      <label for="title">Titre</label>
-      <input matInput formControlName="title" id="title">
-      <p *ngIf="postForm.get('title')?.hasError('minlength') && postForm.get('title')?.touched" 
-         class="post-create__error">
-        Le titre doit contenir au moins 3 caractères
-      </p>
-    </div>
-
-    <div class="post-create__field">
-      <label for="content">Contenu</label>
-      <textarea matInput formControlName="content" id="content"></textarea>
-      <p *ngIf="postForm.get('content')?.hasError('minlength') && postForm.get('content')?.touched" 
-         class="post-create__error">
-        Le contenu doit contenir au moins 10 caractères
-      </p>
-    </div>
-
-    <div class="post-create__field">
-      <label for="topic">Topic</label>
-      <mat-form-field>
-        <mat-select formControlName="topicId" id="topic">
+  <div class="post-create page-container__main">
+    <h1>Créer un nouvel article</h1>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-create__form">
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="topicId" placeholder="Sélectionner un thème">
           <mat-option *ngFor="let topic of topics" [value]="topic.id">
             {{topic.title}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <div class="post-create__submit">
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="title" placeholder="Titre de l'article">
+        <mat-error *ngIf="postForm.get('title')?.hasError('minlength')">
+          Le titre doit contenir au moins 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="content" placeholder="Contenu de l'article" rows="5"></textarea>
+        <mat-error *ngIf="postForm.get('content')?.hasError('minlength')">
+          Le contenu doit contenir au moins 10 caractères
+        </mat-error>
+      </mat-form-field>
+
       <button mat-flat-button color="primary" type="submit" [disabled]="postForm.invalid">
-        Créer l'article
+        Créer
       </button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

@@ -7,8 +7,7 @@ import { BehaviorSubject, Observable, filter } from 'rxjs';
 })
 export class NavigationService {
   private readonly ROUTES_WITH_BACKLINK = [
-    '/posts/',  // Pour les détails d'un post
-    '/topics/', // Pour les détails d'un topic
+    '/posts',  // Pour les détails d'un post
     '/login',   // Pour la page de connexion
     '/register' // Pour la page d'inscription
   ];
@@ -38,7 +37,10 @@ export class NavigationService {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showBacklink$.next(this.shouldShowBacklink(event.url));
+        console.log('🚀 URL actuelle:', event.url);
+        const shouldShow = this.shouldShowBacklink(event.url);
+        console.log('🚀 Devrait montrer le backlink ?', shouldShow);
+        this.showBacklink$.next(shouldShow);
       }
     });
   }
@@ -64,7 +66,12 @@ export class NavigationService {
   }
 
   private shouldShowBacklink(url: string): boolean {
-    return this.ROUTES_WITH_BACKLINK.some(route => url.startsWith(route));
+    console.log('🚀 Routes avec backlink:', this.ROUTES_WITH_BACKLINK);
+    const result = this.ROUTES_WITH_BACKLINK.some(route => 
+      url === route || url.startsWith(`${route}/`)
+    );
+    console.log('🚀 URL commence par une route avec backlink ?', result);
+    return result;
   }
 
   private shouldHideNavbar(url: string): boolean {
