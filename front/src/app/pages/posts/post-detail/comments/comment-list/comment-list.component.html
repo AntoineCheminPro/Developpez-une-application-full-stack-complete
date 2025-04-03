@@ -3,13 +3,6 @@
     <p>
       <span class="comment-list__title">Commentaires</span>
     </p>
-    <app-btn 
-      text="Nouveau commentaire"
-      type="cta"
-      verticalPosition="center"
-      horizontalPosition="right"
-      (btnClick)="onNewComment()">
-    </app-btn>
   </div>
 
   @if (comments.length === 0) {
@@ -17,12 +10,7 @@
   } @else {
     <div class="comment-list__container">
       @for (comment of comments; track comment.id) {
-        <div class="comment-list__item">
-          <label class="comment-list__username">{{comment.username}}</label>
-          <div class="comment-list__content">
-            <p>{{comment.text}}</p>
-          </div>
-        </div>
+        <comment-card [comment]="comment"></comment-card>
       }
     </div>
   }

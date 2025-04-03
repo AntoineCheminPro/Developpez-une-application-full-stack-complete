@@ -16,11 +16,11 @@ export class NavigationService {
   private readonly ROUTES_WITHOUT_NAVBAR = [
     '/login',
     '/register',
-    '/'  // Page d'accueil
+    '/home'  // Page d'accueil
   ];
 
   private readonly ROUTES_WITHOUT_HEADER = [
-    '/'
+    '/home'  // Page d'accueil
   ];
 
   private showBacklink$ = new BehaviorSubject<boolean>(false);
@@ -72,7 +72,8 @@ export class NavigationService {
   }
 
   private shouldHideHeader(url: string): boolean {
-    return this.ROUTES_WITHOUT_HEADER.some(route => url === route);
+    const shouldHide = this.ROUTES_WITHOUT_HEADER.some(route => url === route);
+    return shouldHide;
   }
 
   getShowBacklink(): Observable<boolean> {

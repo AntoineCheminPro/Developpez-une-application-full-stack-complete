@@ -7,6 +7,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 1px solid #000;
+  }
+
+  &__nav-container {
+    margin: auto 0;
   }
 
   // Style pour la page d'accueil
@@ -62,9 +67,6 @@
 // Desktop styles
 @media screen and (min-width: $tablet) {
   .header {
-    &__container {
-      border-bottom: 1px solid #000;
-    }
     &__logo-container {
       justify-content: flex-start;
     }

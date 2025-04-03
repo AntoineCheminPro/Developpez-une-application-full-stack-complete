@@ -56,16 +56,11 @@
 
 @media screen and (max-width: 768px) {
   .post-detail {
-    padding: 1rem;
+    padding: 0;
 
     &__back-link {
       left: 1rem;
       top: 1rem;
-    }
-
-    &__content,
-    &__comments {
-      padding: 1.5rem;
     }
 
     &__title {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -7,8 +7,8 @@ import { POSTS_SERVICE } from "@core/services/posts/posts.service";
 import { Post } from "@core/models/posts/post.interface";
 import { Comment } from "@core/models/posts/comment.interface";
 import { CommentEvent } from "@core/EventEmitters/comment-event.interface";
-import { CommentListComponent } from "@app/pages/posts/comments/comment-list/comment-list.component";
-import { CommentFormComponent } from "@app/pages/posts/comments/comment-form/comment-form.component";
+import { CommentListComponent } from "@app/pages/posts/post-detail/comments/comment-list/comment-list.component";
+import { CommentFormComponent } from "@app/pages/posts/post-detail/comments/comment-form/comment-form.component";
 import { LOGGING_SERVICE } from "@core/services/logging/logging.service";
 import { postsProvider } from '@core/providers/posts.provider';
 import { loggingProvider } from '@core/providers/logging.provider';
@@ -43,6 +43,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly loggingService = inject(LOGGING_SERVICE);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public comments: Comment[] = [];
   public postData: Post | undefined;
@@ -135,12 +136,14 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .getComments(this.postData.id)
       .subscribe({
         next: (comments: Comment[]) => {
-          this.comments = comments;
+          this.comments = [...comments];
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error: Error) => {
           this.loggingService.logError(ERROR_MESSAGES.LOAD_COMMENTS, error);
           this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }

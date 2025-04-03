@@ -3,6 +3,7 @@
 // Variables locales
 $btn-height: 40px;
 $btn-width: 140px;
+$btn-padding: $spacing-md;
 $btn-icon-size: 24px;
 $btn-icon-only-size: 40px;
 $btn-border-radius: 6px;
@@ -17,33 +18,47 @@ $btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
 .btn {
   // Structure de base
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: $btn-width;
-  height: $btn-height;
-  padding: 0;
-  gap: 0.5rem;
-  position: relative;
-
-  // Apparence
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
+  gap: $spacing-sm;
+  padding: $btn-padding;
+  border: none;
   border-radius: $btn-border-radius;
-  box-shadow: none;
-  transition: $btn-transition;
+  background-color: $primary;
+  color: $text-light;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+
+  &:disabled {
+    background-color: $text-secondary;
+    cursor: not-allowed;
+  }
+
+  &__text {
+    margin: 0;
+    font-weight: $font-weight-medium;
+  }
+
+  &__icon {
+    width: $btn-icon-size;
+    height: $btn-icon-size;
+    filter: brightness(0) invert(1);
+  }
 
   // Quand il n'y a que l'icône (pas de texte)
   &:not(:has(.btn__text)) {
-    width: $btn-icon-only-size;
-    height: $btn-icon-only-size;
+    width: $btn-icon-only-size !important;
+    height: $btn-icon-only-size !important;
     padding: 0;
     
     .btn__icon {
-      width: $btn-icon-size;
-      height: $btn-icon-size;
+      width: 100%;
+      height: auto;
       margin: 0;
     }
   }
@@ -61,6 +76,12 @@ $btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
     .btn__icon {
       filter: brightness(0) invert(0.5) sepia(1) saturate(5) hue-rotate(220deg); 
+    }
+
+    // S'assurer que même en submit, le bouton garde sa taille quand il n'a qu'une icône
+    &:not(:has(.btn__text)) {
+      width: $btn-icon-only-size;
+      height: $btn-icon-only-size;
     }
   }
 

@@ -1,12 +1,12 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment } from '@core/models/posts/comment.interface';
-import { BtnComponent } from '@app/components/btn/btn.component';
+import { CommentCardComponent } from '../comment-card/comment-card.component';
 
 @Component({
   selector: 'post-comment-list',
   standalone: true,
-  imports: [CommonModule, BtnComponent],
+  imports: [CommonModule, CommentCardComponent],
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

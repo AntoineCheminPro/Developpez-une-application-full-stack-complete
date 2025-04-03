@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable, InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Post } from "@core/models/posts/post.interface";
 import { Comment } from "@core/models/posts/comment.interface";
 import { IPostRequest } from "@core/payloads/posts/post.request.interface";

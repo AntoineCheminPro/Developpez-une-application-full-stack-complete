@@ -1,0 +1,32 @@
+@import '../../../../../../styles/variables';
+@import '../../../../../../styles/mixins';
+
+.comment-card {
+  display: flex;
+  gap: $spacing-lg;
+  padding: $spacing-md; 
+  background-color: $background-white;
+  justify-content: space-between;
+
+  &__username, &__date {
+    margin-right: 0;
+    min-width: 100px;
+    text-align: right;
+    padding: $spacing-md;
+    width: 100%;
+  }
+
+  &__date {
+    display: block;
+  }
+
+  &__text_container {
+    margin: 0;
+    background-color: $background-grey;
+    @include text-container;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+} 
