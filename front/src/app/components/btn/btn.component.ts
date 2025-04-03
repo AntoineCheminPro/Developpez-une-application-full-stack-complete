@@ -34,9 +34,7 @@ export class BtnComponent {
     const classes = ['btn'];
     
     // Type
-    if (this.type !== 'none') {
-      classes.push(`btn--${this.type}`);
-    }
+    classes.push(`btn--${this.type}`);
     
     // États
     if (this.disabled) {

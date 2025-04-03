@@ -1,10 +1,10 @@
 <button
-  class="btn"
-  [ngClass]="btnClasses()"
+  [class]="btnClasses()"
   [disabled]="disabled || loading"
   [attr.aria-label]="ariaLabel || text"
   [attr.aria-disabled]="disabled || loading"
   (click)="onClick($event)"
+  class="text-semi-bold-16"
 >
   @if (text) {
     <span class="btn__text">{{ text }}</span>
