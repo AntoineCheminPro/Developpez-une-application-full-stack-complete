@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import { CommentEvent } from "../../../../core/EventEmitters/comment-event.interface";
-import { BtnComponent } from '../../../btn/btn.component';
+import { BtnComponent } from '../../../../components/btn/btn.component';
 
 @Component({
   selector: 'post-comment-form',

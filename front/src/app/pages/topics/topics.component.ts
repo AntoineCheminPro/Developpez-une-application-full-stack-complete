@@ -12,7 +12,7 @@ import { TopicsService } from "../../core/services/topics/topics.service";
 import { CollectionSort } from "../../core/utils/collection.sort";
 import { MatButton } from "@angular/material/button";
 import { LoaderComponent } from '../../components/loader/loader.component';
-import { TopicCardComponent } from '../../components/topics/topic-card/topic-card.component';
+import { TopicCardComponent } from './topic-card/topic-card.component';
 import { Topic } from '../../core/models/topics/topic.interface';
 import { TopicEvent } from "../../core/EventEmitters/topic-event.interface";
 import { topicsProvider } from '@core/providers/topics.provider';

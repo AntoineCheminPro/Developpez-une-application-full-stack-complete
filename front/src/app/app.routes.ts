@@ -4,8 +4,8 @@ import { AuthGuard } from "./core/guards/auth.guard";
 import { UnauthGuard } from "./core/guards/unauth.guard";
 import { TopicsComponent } from "./pages/topics/topics.component";
 import { UserComponent } from "./pages/user/user.component";
-import { LoginComponent } from "./components/auth/login/login.component";
-import { RegisterComponent } from "./components/auth/register/register.component";
+import { LoginComponent } from "./pages/auth/login/login.component";
+import { RegisterComponent } from "./pages/auth/register/register.component";
 
 export const routes: Routes = [
   {
@@ -25,7 +25,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [UnauthGuard],
-    path: 'signup',
+    path: 'register',
     title: 'Inscription',
     component: RegisterComponent,
   },

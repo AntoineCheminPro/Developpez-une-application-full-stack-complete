@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {LoginRequest} from "@core/payloads/auth/loginRequest.interface";
 import {SessionInformation} from "@core/models/auth/sessionInformation.interface";
 import {SessionService} from "@core/services/auth/auth.session.service";
-import {HeaderComponent} from "../../header/header.component";
+import {HeaderComponent} from "../../../components/header/header.component";
 import {Subscription} from "rxjs";
 import {LoggingService} from "@core/services/logging/logging.service";
 import { BtnComponent } from '@app/components/btn/btn.component';

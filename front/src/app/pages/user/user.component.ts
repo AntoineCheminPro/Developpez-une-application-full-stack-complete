@@ -5,7 +5,7 @@ import { TopicsService } from "../../core/services/topics/topics.service";
 import { Topic } from "../../core/models/topics/topic.interface";
 import { User } from "../../core/models/user/user.interface";
 import { Subscription } from "rxjs";
-import { TopicCardComponent } from "../../components/topics/topic-card/topic-card.component";
+import { TopicCardComponent } from "../topics/topic-card/topic-card.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { NgIf } from "@angular/common";
 import { userProvider } from '@core/providers/user.provider';

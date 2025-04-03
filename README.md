@@ -2,28 +2,91 @@
 
 ## Front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
 
-Don't forget to install your node_modules before starting (`npm install`).
+### Prérequis
 
-### Development server
+- Node.js (version 18 ou supérieure)
+- npm (version 9 ou supérieure)
+- Angular CLI (version 18 ou supérieure)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Installation
+
+N'oubliez pas d'installer les dépendances avant de démarrer (`npm install`).
+
+### Serveur de développement
+
+#### Mode standard
+```bash
+ng serve
+```
+
+#### Mode développement avec Faker
+```bash
+ng serve --configuration=development
+```
+
+#### Mode production
+```bash
+ng serve --configuration=production
+```
+
+Naviguez vers `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez les fichiers sources.
 
 ### Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ng build
+```
+Les artefacts de build seront stockés dans le répertoire `dist/`.
 
-### Where to start
+### Configuration des environnements
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+- `environment.ts` : Configuration par défaut (sans Faker)
+- `environment.development.ts` : Configuration avec Faker activé
+- `environment.prod.ts` : Configuration pour la production
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+### Structure du projet
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
+- `src/app/components` : Composants réutilisables
+- `src/app/pages` : Pages de l'application
+- `src/app/core` : Services et fonctionnalités principales
+- `src/app/shared` : Utilitaires et interfaces partagées
 
-Good luck!
+### Routes principales
 
-generer la doc avec Javdoc
+- `/home` : Page d'accueil (sans header)
+- `/login` : Page de connexion
+- `/register` : Page d'inscription
+- `/posts` : Liste des articles
+- `/posts/:id` : Détail d'un article
+- `/topics` : Liste des thèmes
+- `/topics/:id` : Détail d'un thème
+- `/user` : Profil utilisateur
+
+### Navigation
+
+- Le header est masqué sur la page d'accueil (`/home`)
+- La navbar est masquée sur les pages d'authentification (`/login`, `/register`) et la page d'accueil
+- Le backlink est affiché sur les pages de détails (`/posts/:id`, `/topics/:id`) et les pages d'authentification
+
+### UI Library
+
+Le projet utilise `@angular/material`, une des bibliothèques UI les plus populaires de l'écosystème Angular. Vous pouvez consulter la documentation ici : https://material.angular.io/
+
+Note : L'utilisation de Material est recommandée mais n'est pas obligatoire. Vous pouvez l'enlever si vous préférez.
+
+### Documentation
+
+#### Frontend
+```bash
+# Générer la documentation
+ng build --prod
+```
+
+#### Backend
+```bash
+# Générer la documentation JavaDoc
 mvn javadoc:javadoc
-accessible ici : /Developpez-une-application-full-stack-complete/back/target/site/apidocs/index.html
+```
+La documentation est accessible ici : `/Developpez-une-application-full-stack-complete/back/target/site/apidocs/index.html`

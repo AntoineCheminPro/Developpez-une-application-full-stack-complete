@@ -7,7 +7,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { DateTimeFormatter } from "@core/utils/date.formatter";
 import { CollectionSort } from "@core/utils/collection.sort";
 import { LoaderComponent } from '../../../components/loader/loader.component';
-import { PostCardComponent } from '../../../components/posts/post-card/post-card.component';
+import { PostCardComponent } from '../post-card/post-card.component';
 import { postsProvider } from '@core/providers/posts.provider';
 import { LOGGING_SERVICE } from '@core/services/logging/logging.service';
 import { loggingProvider } from '@core/providers/logging.provider';
