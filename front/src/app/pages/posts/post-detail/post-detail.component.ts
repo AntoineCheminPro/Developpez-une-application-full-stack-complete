@@ -154,8 +154,13 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   }
 
   public get formattedDate(): string {
-    return this.postData?.createdAt 
-      ? DateTimeFormatter.formatLong(new Date(this.postData.createdAt))
-      : '';
+    if (!this.postData?.createdAt) return '';
+    
+    const date = new Date(this.postData.createdAt);
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    
+    return mobileQuery.matches 
+      ? DateTimeFormatter.formatShort(date)
+      : DateTimeFormatter.formatLong(date);
   }
 }

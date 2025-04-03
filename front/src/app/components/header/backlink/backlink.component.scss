@@ -1,11 +1,9 @@
 @import '../../../../styles/variables';
 
 .backlink-container {
+  margin-top: 2rem;
   display: flex;
   align-items: flex-start;
-  @media screen and (max-width: $tablet) {
-    margin-left: 1rem;
-  }
 }
 
 .backlink {
@@ -39,6 +37,25 @@
   text-align: center;
 }
 
+@media screen and (max-width: $tablet) {
+  .backlink__title {
+    margin-left: 1rem;
+    text-align: left;
+
+  }
+
+  .backlink {
+
+  img {
+    transform: translateX(0);
+  }
+  }
+
+
+  .backlink-container {
+    margin-left: 1rem;
+  }
+}
 
 
 

@@ -19,6 +19,7 @@ import { TopicsFakerService } from '@core/services/faker/topics.faker.service';
 import { PostsFakerService } from '@core/services/faker/posts.faker.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ERROR_MESSAGES } from '@core/constants/error-messages';
+import { TitleService } from '@core/services/title/title.service';
 
 @Component({
   selector: 'app-post-create',
@@ -61,7 +62,8 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     @Inject(TOPICS_SERVICE) private readonly topicService: TopicsService,
     @Inject(POSTS_SERVICE) private readonly postsService: PostsService,
     @Inject(LOGGING_SERVICE) private readonly loggingService: LoggingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private readonly titleService: TitleService
   ) {
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -72,6 +74,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadTopics();
+    this.titleService.setTitle('Créer un nouvel article');
   }
 
   private loadTopics(): void {

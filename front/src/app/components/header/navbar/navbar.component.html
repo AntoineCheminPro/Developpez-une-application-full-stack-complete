@@ -2,7 +2,7 @@
     <div class="menu-container">
       <ul class="menu">
         <li><a href="#" class="logout-link" (click)="logout(); $event.preventDefault()">Se déconnecter</a></li>
-        <li><a [routerLink]="['/posts/list']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Articles</a></li>
+        <li><a [routerLink]="['/posts']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Articles</a></li>
         <li><a [routerLink]="['/topics']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Thèmes</a></li>
     </ul>
       <a [routerLink]="['/user']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="user-profile">
