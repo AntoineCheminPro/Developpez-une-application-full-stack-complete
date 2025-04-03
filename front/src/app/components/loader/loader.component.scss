@@ -5,12 +5,12 @@
 // Variables
 $loader-size: 120px;
 $loader-border-width: 16px;
-$loader-border-color: #f3f3f3;
-$loader-border-color-active: #3498db;
+$loader-border-color: rgba($text-secondary, 0.1);
+$loader-border-color-active: $primary;
 $loader-animation-duration: 2s;
-$loader-text-color: #666;
-$loader-text-size: 1rem;
-$loader-spacing: 1rem;
+$loader-text-color: $text-secondary;
+$loader-text-size: $font-size-base;
+$loader-spacing: $spacing-md;
 
 
 // Mobile variables
@@ -31,7 +31,7 @@ $loader-border-width-mobile: 12px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba($background-light, 0.9);
     z-index: 1000;
     backdrop-filter: blur(2px);
   }
@@ -65,13 +65,13 @@ $loader-border-width-mobile: 12px;
 
   // Variantes de couleur
   &--secondary {
-    border-color: #e0e0e0;
-    border-top-color: #2196f3;
+    border-color: rgba($text-secondary, 0.1);
+    border-top-color: $info;
   }
 
   &--accent {
-    border-color: #f5f5f5;
-    border-top-color: #ff4081;
+    border-color: rgba($text-secondary, 0.1);
+    border-top-color: $error;
   }
 }
 

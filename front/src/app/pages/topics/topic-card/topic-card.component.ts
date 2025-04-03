@@ -18,6 +18,7 @@ export class TopicCardComponent {
   @Input() public description!: string;
   @Input() public isSubscribed!: boolean;
   @Input() public isSubscribeCase: boolean = false;
+  @Input() public disableButton: boolean = true;
 
   // Outputs
   @Output() public onSubscribe: EventEmitter<TopicEvent> = new EventEmitter<TopicEvent>();

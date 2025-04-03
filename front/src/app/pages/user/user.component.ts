@@ -7,22 +7,28 @@ import { User } from "../../core/models/user/user.interface";
 import { Subscription } from "rxjs";
 import { TopicCardComponent } from "../topics/topic-card/topic-card.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
-import { NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { userProvider } from '@core/providers/user.provider';
 import { topicsProvider } from '@core/providers/topics.provider';
 import { SessionService } from "@core/services/auth/auth.session.service";
 import { storageProvider } from '@core/providers/storage.provider';
 import { AuthStorageService } from '@core/services/auth.storage.service';
 import { sessionProvider } from '@core/providers/session.provider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
     TopicCardComponent,
-    LoaderComponent,
-    NgIf
+    LoaderComponent
   ],
   providers: [
     userProvider, 
@@ -32,7 +38,7 @@ import { sessionProvider } from '@core/providers/session.provider';
     AuthStorageService
   ],
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit, OnDestroy {
   private userSubscription$?: Subscription;

@@ -10,8 +10,8 @@
       mat-flat-button 
       color="primary" 
       type="submit" 
-      [class.topic-card__button--disabled]="isSubscribed"
-      [disabled]="isSubscribed"
+      [class.topic-card__button--disabled]="isSubscribed && disableButton"
+      [disabled]="isSubscribed && disableButton"
       (click)="fn()"
       class="topic-card__button">
       @if (isSubscribeCase) {

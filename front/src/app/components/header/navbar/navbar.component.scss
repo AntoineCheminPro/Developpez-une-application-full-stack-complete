@@ -24,24 +24,25 @@
     align-items: center;
 
     a {
-      color: #666666;
+      color: $text-secondary;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: $font-size-h2;
+      font-weight: $font-weight-medium;
       transition: all 0.2s ease;
       text-align: center;
 
       &:hover {
-        color: #7763C5;
+        color: $primary;
       }
 
       &.active {
-        color: #7763C5;
-        font-weight: 600;
+        color: $primary;
+        font-weight: $font-weight-semibold;
       }
 
       &.logout-link {
         color: $error;
+        font-size: $font-size-base;
         
         &:hover {
           color: darken($error, 10%);
@@ -63,10 +64,10 @@
     padding: $spacing-sm;
     border-radius: 50%;
     transition: all 0.2s ease;
-    background-color: rgba(#666666, 0.1);
+    background-color: rgba($text-secondary, 0.1);
     width: 40px;
     height: 40px;
-    color: #666666;
+    color: $text-secondary;
 
     .profile-icon {
       width: 20px;
@@ -74,9 +75,9 @@
     }
 
     &.active {
-      background-color: rgba(#7763C5, 0.1);
-      border: 2px solid #7763C5;
-      color: #7763C5;
+      background-color: rgba($primary, 0.1);
+      border: 2px solid $primary;
+      color: $primary;
     }
   }
 
