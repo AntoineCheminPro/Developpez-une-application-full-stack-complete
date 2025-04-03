@@ -1,6 +1,11 @@
-<div class="header">
-  <app-backlink></app-backlink>
-  <app-logo></app-logo>
-  <app-navbar></app-navbar>
-</div>
+<header *ngIf="navigationService.getShowHeader() | async" class="header" [ngClass]="{'header--auth': isAuthPage, 'header--home': isHomePage}">
+  <div class="header__container">
+    <div class="header__logo-container">
+      <app-logo class="header__logo"></app-logo>
+    </div>
+    <div class="header__nav-container">
+      <app-navbar *ngIf="navigationService.getShowNavbar() | async" class="header__navigation"></app-navbar>
+    </div>
+  </div>
+</header>
 

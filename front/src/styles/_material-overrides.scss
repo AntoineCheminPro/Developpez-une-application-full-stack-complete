@@ -1,0 +1,63 @@
+@import './variables';
+
+// Écraser les styles de typographie d'Angular Material
+.mat-typography {
+  h1, .mat-h1, .mat-headline-1 {
+    font-size: $font-size-h1 !important;
+    font-weight: $font-weight-semibold !important;
+    margin-bottom: $spacing-lg !important;
+  }
+
+  h2, .mat-h2, .mat-headline-2 {
+    font-size: $font-size-h2 !important;
+    font-weight: $font-weight-regular !important;
+    margin-bottom: $spacing-md !important;
+  }
+
+  h3, .mat-h3, .mat-headline-3 {
+    font-size: $font-size-h3 !important;
+    font-weight: $font-weight-semibold !important;
+    margin-bottom: $spacing-sm !important;
+  }
+}
+
+// S'assurer que la police est appliquée partout dans Material
+.mat-typography,
+.mat-h1, .mat-headline-1,
+.mat-h2, .mat-headline-2,
+.mat-h3, .mat-headline-3,
+.mat-h4, .mat-headline-4,
+.mat-h5, .mat-headline-5,
+.mat-h6, .mat-headline-6,
+.mat-subtitle-1,
+.mat-subtitle-2,
+.mat-body, .mat-body-1,
+.mat-body-2,
+.mat-caption,
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button,
+.mat-button-toggle,
+.mat-card,
+.mat-chip,
+.mat-tab-group,
+.mat-paginator,
+.mat-select {
+  font-family: $font-family !important;
+}
+
+// Styles des composants Material
+.mat-button,
+.mat-raised-button,
+.mat-stroked-button,
+.mat-flat-button {
+  font-weight: $font-weight-medium !important;
+  font-size: $font-size-base !important;
+}
+
+.mat-card {
+  border-radius: $border-radius-md !important;
+  box-shadow: $shadow-sm !important;
+}
+
+.mat-form-field {
+  font-size: $font-size-base !important;
+} 

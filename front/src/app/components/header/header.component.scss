@@ -5,24 +5,9 @@
   &__container {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
   }
-
-  &__logo-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-
-  &__nav-container {
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    order: 2;
-  }
-
-
 
   // Style pour la page d'accueil
   &--home {
@@ -34,11 +19,6 @@
         width: 50%;
       }
     }
-
-    .header__navigation,
-    .header__backlink {
-      display: none;
-    }
   }
 
   // Style pour les pages d'authentification
@@ -46,21 +26,10 @@
     @media screen and (min-width: $tablet) {
       padding: 0;
 
-      .header__container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       .header__logo {
         height: 100%;
         width: auto;
         margin: 0;
-        padding: 0 20px;
-      }
-
-      .header__backlink {
-        position: static;
-        transform: none;
         padding: 0 20px;
       }
     }
@@ -87,18 +56,16 @@
       width: 75%;
       height: auto;
     }
-
-    &__title {
-      display: none;
-    }
   }
 }
 
 // Desktop styles
 @media screen and (min-width: $tablet) {
   .header {
-    &__logo-container {
+    &__container {
       border-bottom: 1px solid #000;
+    }
+    &__logo-container {
       justify-content: flex-start;
     }
   }
@@ -110,25 +77,5 @@
     width: 100%;
     height: auto;
   }
-
-  &__back-link {
-    font-size: 2rem;
-    text-decoration: none;
-    color: #333;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.1);
-      color: #1976d2;
-    }
-  }
 }
 
-@media screen and (max-width: 768px) {
-  .header {
-    &__back-link {
-      font-size: 1.75rem;
-    }
-  }
-}
-  

@@ -10,8 +10,11 @@
       </textarea>
       <div class="comment-form__char-count">{{remainingCharacters}} caractères restants</div>
     </div>
-    <button class="comment-form__submit-button" aria-label="Envoyer le commentaire" (click)="onSubmit($event)">
-      <img src="/assets/paper-plane.png" alt="Envoyer">
-    </button>
+    <app-btn
+      type="submit"
+      [disabled]="false"
+      (btnClick)="onSubmit()"
+      ariaLabel="Envoyer le commentaire"
+    ></app-btn>
   </div>
   

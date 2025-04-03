@@ -46,7 +46,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[0].id,
         topicName: topics[0].name,
         title: 'Les dernières avancées en IA',
-        description: 'Découvrez comment l\'intelligence artificielle transforme notre quotidien',
+        description: 'Découvrez comment l\'intelligence artificielle transforme notre quotidien. Les systèmes d\'IA sont maintenant capables de générer des images, d\'écrire des textes et même de composer de la musique. Cette révolution technologique soulève de nombreuses questions éthiques et pratiques sur l\'avenir de nos sociétés. Les experts s\'accordent à dire que nous ne sommes qu\'au début de cette transformation majeure.',
         author: authors[0],
         createdAt: dates[0].toISOString()
       },
@@ -55,7 +55,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[1].id,
         topicName: topics[1].name,
         title: 'Exploration spatiale en 2024',
-        description: 'Les missions spatiales qui vont marquer cette année',
+        description: 'Les missions spatiales qui vont marquer cette année sont nombreuses et ambitieuses. De SpaceX à la NASA, en passant par l\'ESA et l\'agence spatiale chinoise, les projets d\'exploration de Mars, de la Lune et des astéroïdes se multiplient. Les nouvelles technologies de propulsion et les avancées en matière d\'habitats spatiaux ouvrent des perspectives fascinantes pour l\'humanité.',
         author: authors[1],
         createdAt: dates[1].toISOString()
       },
@@ -64,7 +64,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[2].id,
         topicName: topics[2].name,
         title: 'Cuisine végétarienne moderne',
-        description: 'Nouvelles tendances dans la cuisine végétarienne',
+        description: 'Les nouvelles tendances dans la cuisine végétarienne révolutionnent notre façon de manger. Des substituts de viande aux techniques de fermentation innovantes, en passant par la redécouverte de légumes anciens, les chefs du monde entier repoussent les limites de la créativité culinaire. L\'impact environnemental réduit et les bienfaits pour la santé sont également des facteurs clés de cette évolution.',
         author: authors[2],
         createdAt: dates[2].toISOString()
       },
@@ -73,7 +73,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[0].id,
         topicName: topics[0].name,
         title: 'Le futur de la réalité virtuelle',
-        description: 'Comment la VR va révolutionner notre façon de travailler',
+        description: 'La réalité virtuelle va révolutionner notre façon de travailler, d\'apprendre et de nous divertir. Les nouveaux casques VR offrent une immersion sans précédent, avec des résolutions 4K par œil et un champ de vision élargi. Les applications professionnelles se multiplient, de la formation médicale à la conception architecturale, en passant par les réunions virtuelles. Le métavers promet de créer un nouvel espace social et économique.',
         author: authors[3],
         createdAt: dates[3].toISOString()
       },
@@ -82,7 +82,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[1].id,
         topicName: topics[1].name,
         title: 'Découvertes en biologie marine',
-        description: 'Les nouvelles espèces découvertes dans les abysses',
+        description: 'Les nouvelles espèces découvertes dans les abysses continuent de nous surprendre. Les explorations des fosses océaniques à plus de 10 000 mètres de profondeur révèlent des créatures aux adaptations extraordinaires. Les chercheurs étudient notamment leur résistance aux conditions extrêmes de pression et d\'obscurité, qui pourrait avoir des applications en biotechnologie et en médecine.',
         author: authors[0],
         createdAt: dates[4].toISOString()
       },
@@ -91,7 +91,7 @@ export class PostsFakerService extends FetchService {
         topicId: topics[2].id,
         topicName: topics[2].name,
         title: 'Cuisine fusion asiatique',
-        description: 'Mélanger les saveurs d\'Asie dans vos plats',
+        description: 'Le mélange des saveurs d\'Asie dans la cuisine moderne crée des expériences gustatives uniques. Des techniques traditionnelles japonaises combinées aux épices thaïlandaises, en passant par les influences coréennes et vietnamiennes, cette fusion culinaire reflète la mondialisation de notre culture gastronomique. Les chefs innovent en respectant l\'authenticité des ingrédients tout en créant des plats résolument contemporains.',
         author: authors[1],
         createdAt: dates[5].toISOString()
       }

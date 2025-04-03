@@ -15,7 +15,7 @@ type BtnHorizontalPosition = 'left' | 'center' | 'right';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BtnComponent {
-  @Input({ required: true }) public text!: string;
+  @Input({ required: false }) public text?: string;
   @Input() public type: BtnType = 'none';
   @Input() public verticalPosition: BtnVerticalPosition = 'center';
   @Input() public horizontalPosition: BtnHorizontalPosition = 'center';

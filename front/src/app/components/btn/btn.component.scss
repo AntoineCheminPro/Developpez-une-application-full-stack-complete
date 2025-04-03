@@ -3,6 +3,8 @@
 // Variables locales
 $btn-height: 40px;
 $btn-width: 140px;
+$btn-icon-size: 24px;
+$btn-icon-only-size: 40px;
 $btn-border-radius: 6px;
 $btn-transition: all 0.3s ease;
 $btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -29,24 +31,42 @@ $btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 1rem;
   font-weight: 500;
   border-radius: $btn-border-radius;
-  box-shadow: $btn-box-shadow;
+  box-shadow: none;
   transition: $btn-transition;
   cursor: pointer;
 
-  // Types
-  &--cta {
-    background-color: $primary;
-    color: white;
-    border: none;
-
-    &:hover:not(:disabled) {
-      background-color: darken($primary, 10%);
+  // Quand il n'y a que l'icône (pas de texte)
+  &:not(:has(.btn__text)) {
+    width: $btn-icon-only-size;
+    height: $btn-icon-only-size;
+    padding: 0;
+    
+    .btn__icon {
+      width: $btn-icon-size;
+      height: $btn-icon-size;
+      margin: 0;
     }
   }
 
+  // Types
   &--submit {
+    background-color: transparent;
+    color: $text-light;
+    border: none;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: transparent;
+    }
+
+    .btn__icon {
+      filter: brightness(0) invert(0.5) sepia(1) saturate(5) hue-rotate(220deg); 
+    }
+  }
+
+  &--cta {
     background-color: $primary;
-    color: white;
+    color: $text-light;
     border: none;
 
     &:hover:not(:disabled) {
@@ -64,5 +84,35 @@ $btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
   }
 
-  // ... rest of the code ...
+  // États
+  &--disabled,
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--loading {
+    cursor: wait;
+    pointer-events: none;
+  }
+
+  // Positions
+  &--vertical {
+    &-top {
+      align-self: flex-start;
+    }
+    &-bottom {
+      align-self: flex-end;
+    }
+  }
+
+  &--horizontal {
+    &-left {
+      margin-right: auto;
+    }
+    &-right {
+      margin-left: auto;
+    }
+  }
 } 

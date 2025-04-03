@@ -6,11 +6,13 @@
   [attr.aria-disabled]="disabled || loading"
   (click)="onClick($event)"
 >
-  <span class="btn__text">{{ text }}</span>
+  @if (text) {
+    <span class="btn__text">{{ text }}</span>
+  }
   @if ((type === 'submit' && !showIcon) || (showIcon && iconSrc)) {
     <img 
       class="btn__icon" 
-      [src]="type === 'submit' ? 'assets/paper-plane.png' : iconSrc!" 
+      [src]="type === 'submit' ? '/assets/icon _send.svg' : iconSrc!" 
       alt=""
       aria-hidden="true"
     >

@@ -25,22 +25,8 @@
     text-align: right;
   }
 
-  &__submit-button {
+  app-btn {
     align-self: flex-end;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-
-    img {
-      width: 24px;
-      height: 24px;
-    }
   }
 }
   

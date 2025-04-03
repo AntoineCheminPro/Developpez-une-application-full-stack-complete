@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subscription } from "rxjs";
-import { PostsService, POSTS_SERVICE } from "@core/services/posts/posts.service";
+import { POSTS_SERVICE } from "@core/services/posts/posts.service";
 import { Post } from "@core/models/posts/post.interface";
 import { Comment } from "@core/models/posts/comment.interface";
 import { CommentEvent } from "@core/EventEmitters/comment-event.interface";
@@ -30,7 +30,6 @@ const SUCCESS_MESSAGES = {
   standalone: true,
   imports: [
     FormsModule,
-    RouterLink,
     CommentListComponent,
     CommentFormComponent
   ],

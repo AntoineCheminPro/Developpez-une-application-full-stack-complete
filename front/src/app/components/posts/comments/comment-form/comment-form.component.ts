@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import { CommentEvent } from "../../../../core/EventEmitters/comment-event.interface";
+import { BtnComponent } from '../../../btn/btn.component';
 
 @Component({
   selector: 'post-comment-form',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    BtnComponent
   ],
   templateUrl: './comment-form.component.html',
   styleUrls: ['./comment-form.component.scss']
@@ -28,9 +30,8 @@ export class CommentFormComponent {
     }
   }
 
-  onSubmit(event: Event): void {
+  onSubmit(): void {
     if (!this.commentText.trim()) {
-      event.stopPropagation();
       return;
     }
     this.addCommentEvent.emit({

@@ -1,5 +1,4 @@
 <div class="navbar" [@slideInOut]="isMobile ? (isShow ? 'in' : 'out') : 'in'">
-    <img class="logo" src="assets/logo_p6.png" alt="Banner Image">
     <div class="menu-container">
       <ul class="menu">
         <li><a [routerLink]="['/posts']" (click)="showNavbar()" routerLinkActive="active" ariaCurrentWhenActive="page">Articles</a></li>

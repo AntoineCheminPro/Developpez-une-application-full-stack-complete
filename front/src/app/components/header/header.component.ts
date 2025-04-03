@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
-import { BacklinkComponent } from './backlink/backlink.component';
+import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 import { LogoComponent } from './logo/logo.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { BacklinkComponent } from '../backlink/backlink.component';
+import { NavigationService } from '../../core/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-header',
@@ -10,28 +11,18 @@ import { NavbarComponent } from './navbar/navbar.component';
   imports: [
     NgClass,
     NgIf,
+    AsyncPipe,
     BacklinkComponent,
     LogoComponent,
     NavbarComponent
   ],
-  template: `
-    <header class="header" [ngClass]="{'header--auth': isAuthPage, 'header--home': isHomePage}">
-      <div class="header__container">
-        <div class="header__logo-container">
-          <app-logo class="header__logo"></app-logo>
-        </div>
-        <div class="header__nav-container">
-          <app-backlink *ngIf="showBacklink" class="header__backlink"></app-backlink>
-          <app-navbar *ngIf="showNavbar" class="header__navigation"></app-navbar>
-        </div>
-      </div>
-    </header>
-  `,
+  templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  @Input() isHomePage = false;
   @Input() isAuthPage = false;
-  @Input() showNavbar = false;
-  @Input() showBacklink = false;
+  @Input() isHomePage = false;
+  @Input() showNavbar = true;
+
+  constructor(public navigationService: NavigationService) {}
 }
