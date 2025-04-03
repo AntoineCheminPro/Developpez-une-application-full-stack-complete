@@ -64,6 +64,12 @@ h3, .h3 {
     margin: 0 auto;
     align-items: center;
     justify-content: center;
+
+    .logo {
+      width: 100%;
+      max-width: 200px;
+      display: none;
+    }
   }
 
   @media screen and (max-width: $tablet) {
@@ -103,7 +109,7 @@ form {
   flex-direction: column;
   gap: $spacing-md;
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: $spacing-md;
 

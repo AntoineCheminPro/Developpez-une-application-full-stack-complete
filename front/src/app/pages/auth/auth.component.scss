@@ -1,42 +1,52 @@
 @import '../../../styles/_variables';
 
+:host ::ng-deep {
+
 .page-container {
   &__main {
-    &.auth {
-      // max-width: 400px;
-      margin: 0 auto;
-      padding: $spacing-md;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $spacing-md;
+
+    .logo {
+      margin-bottom: $spacing-lg;
+    }
+
+    h1.auth__title {
       text-align: center;
+    }
+  
 
-      :host ::ng-deep {
-        h1 {
-          margin-bottom: $spacing-lg;
-        }
+    .auth {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
 
-        .auth__form {
-          display: flex;
-          flex-direction: column;
-          gap: $spacing-md;
-        }
+      &__form {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-md;
+        width: 100%;
+      }
 
-        .auth__input-group {
-          display: flex;
-          flex-direction: column;
-          gap: $spacing-sm;
-        }
+      &__input-group {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+      }
 
-        .auth__submit {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: $spacing-sm;
-          margin-top: $spacing-md;
-        }
+      &__submit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $spacing-sm;
+        margin-top: $spacing-md;
+      }
 
-        .auth__error {
-          color: $error;
-          text-align: center;
-        }
+      &__error {
+        color: $error;
+        text-align: center;
       }
     }
   }
@@ -45,16 +55,26 @@
 @media screen and (max-width: $mobile) {
   .page-container {
     &__main {
-      &.auth {
-        margin: 0;
-        padding: 0;
-        
-        :host ::ng-deep {
-          .auth__form {
-            gap: 0;
-          }
+      padding: 0;
+      
+      .auth {
+        &__form {
+          gap: 0;
         }
       }
     }
   }
 } 
+
+}
+
+.logo {
+  display: none;
+}
+
+@media screen and (max-width: $mobile) {
+.logo {
+display: flex;
+} 
+} 
+

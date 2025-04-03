@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStorageService } from '@core/services/auth.storage.service';
 import { CommonModule } from '@angular/common';
 import { navbarAnimations } from './navbar.animations';
+import { SessionService } from '@core/services/auth/auth.session.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,8 @@ export class NavbarComponent {
 
   constructor(
     private router: Router,
-    private authStorageService: AuthStorageService
+    private authStorageService: AuthStorageService,
+    private sessionService: SessionService
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -31,7 +33,6 @@ export class NavbarComponent {
   }
 
   public logout(): void {
-    this.authStorageService.removeToken();
-    this.router.navigate(['/auth/login']);
+    this.sessionService.logout();
   }
 }
