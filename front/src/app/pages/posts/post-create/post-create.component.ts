@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,11 +12,13 @@ import { PostsService, POSTS_SERVICE } from "@core/services/posts/posts.service"
 import { IPostRequest } from '@core/payloads/posts/post.request.interface';
 import { LoggingService, LOGGING_SERVICE } from '@core/services/logging/logging.service';
 import { Topic } from "@core/models/topics/topic.interface";
-import { catchError, finalize, map, of } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 import { loggingProvider } from '@core/providers/logging.provider';
 import { environment } from '../../../../environments/environment.development';
 import { TopicsFakerService } from '@core/services/faker/topics.faker.service';
 import { PostsFakerService } from '@core/services/faker/posts.faker.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ERROR_MESSAGES } from '@core/constants/error-messages';
 
 @Component({
   selector: 'app-post-create',
@@ -27,8 +29,7 @@ import { PostsFakerService } from '@core/services/faker/posts.faker.service';
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
-    MatFormFieldModule,
-    RouterLink
+    MatFormFieldModule
   ],
   providers: [
     loggingProvider,
@@ -52,13 +53,15 @@ export class PostCreateComponent implements OnInit, OnDestroy {
   private createPostSubscription$?: Subscription;
   public isLoading = false;
   public onError = false;
+  public readonly ERROR_MESSAGES = ERROR_MESSAGES;
 
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
     @Inject(TOPICS_SERVICE) private readonly topicService: TopicsService,
     @Inject(POSTS_SERVICE) private readonly postsService: PostsService,
-    @Inject(LOGGING_SERVICE) private readonly loggingService: LoggingService
+    @Inject(LOGGING_SERVICE) private readonly loggingService: LoggingService,
+    private snackBar: MatSnackBar
   ) {
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -105,6 +108,9 @@ export class PostCreateComponent implements OnInit, OnDestroy {
         this.onError = true;
         return of(null);
       })
-    ).subscribe(() => this.router.navigate(['/posts']));
+    ).subscribe(() => {
+      this.snackBar.open('Post créé avec succès', 'Fermer', { duration: 2000 });
+      this.router.navigate(['/posts']);
+    });
   }
 }

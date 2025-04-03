@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 import { LogoComponent } from './logo/logo.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { BacklinkComponent } from '../backlink/backlink.component';
 import { NavigationService } from '../../core/services/navigation/navigation.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { NavigationService } from '../../core/services/navigation/navigation.ser
     NgClass,
     NgIf,
     AsyncPipe,
-    BacklinkComponent,
     LogoComponent,
     NavbarComponent
   ],

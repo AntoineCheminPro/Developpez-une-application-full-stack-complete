@@ -13,6 +13,8 @@ import { storageProvider } from '@core/providers/storage.provider';
 import { AuthStorageService } from '@core/services/auth.storage.service';
 import { ERROR_MESSAGES } from '@core/constants/error-messages';
 import { VALIDATION_PATTERNS } from '@core/constants/validation-patterns';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,9 @@ import { VALIDATION_PATTERNS } from '@core/constants/validation-patterns';
   imports: [
     HeaderComponent,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     authProvider,

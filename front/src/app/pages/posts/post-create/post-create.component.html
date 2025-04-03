@@ -1,4 +1,3 @@
-<div class="page-container">
   <div class="post-create page-container__main">
     <h1>Créer un nouvel article</h1>
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-create__form">
@@ -24,9 +23,11 @@
         </mat-error>
       </mat-form-field>
 
-      <button mat-flat-button color="primary" type="submit" [disabled]="postForm.invalid">
-        Créer
-      </button>
+      <div class="post-create__submit">
+        <button mat-flat-button color="primary" type="submit" [disabled]="postForm.invalid || isLoading">
+          {{ isLoading ? 'Création en cours...' : 'Créer' }}
+        </button>
+        <div *ngIf="onError" class="post-create__error">{{ ERROR_MESSAGES.POSTS.CREATE_ERROR }}</div>
+      </div>
     </form>
   </div>
-</div>

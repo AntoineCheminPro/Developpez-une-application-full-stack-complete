@@ -5,37 +5,40 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="input-group">
         <div class="input-group">
-          <label for="userName">Nom d'utilisateur</label>
-          <input formControlName="name"
-                 id="userName"
-                 [class.error]="form.controls.name.invalid && form.controls.name.touched">
-          <p *ngIf="form.controls.name.errors?.['required'] && form.controls.name.touched" class="error-message">
-            {{ ERROR_MESSAGES.AUTH.NAME_REQUIRED }}
-          </p>
+          <mat-form-field appearance="outline">
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input matInput formControlName="name"
+                   [class.error]="form.controls.name.invalid && form.controls.name.touched">
+            <mat-error *ngIf="form.controls.name.errors?.['required'] && form.controls.name.touched">
+              {{ ERROR_MESSAGES.AUTH.NAME_REQUIRED }}
+            </mat-error>
+          </mat-form-field>
         </div>
-        <label for="useremail">Adresse e-mail</label>
-        <input formControlName="email"
-               id="useremail"
-               [class.error]="form.controls.email.invalid && form.controls.email.touched">
-        <p *ngIf="form.controls.email.errors?.['required'] && form.controls.email.touched" class="error-message">
-          {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
-        </p>
-        <p *ngIf="form.controls.email.errors?.['email'] && form.controls.email.touched" class="error-message">
-          {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
-        </p>
+        <mat-form-field appearance="outline">
+          <mat-label>Adresse e-mail</mat-label>
+          <input matInput formControlName="email"
+                 [class.error]="form.controls.email.invalid && form.controls.email.touched">
+          <mat-error *ngIf="form.controls.email.errors?.['required'] && form.controls.email.touched">
+            {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
+          </mat-error>
+          <mat-error *ngIf="form.controls.email.errors?.['email'] && form.controls.email.touched">
+            {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="input-group">
-        <label for="userpassword">Mot de passe</label>
-        <input type="password"
-               formControlName="password"
-               id="userpassword"
-               [class.error]="form.controls.password.invalid && form.controls.password.touched">
-        <p *ngIf="form.controls.password.errors?.['required'] && form.controls.password.touched" class="error-message">
-          {{ ERROR_MESSAGES.AUTH.PASSWORD_REQUIRED }}
-        </p>
-        <p *ngIf="form.controls.password.errors?.['pattern'] && form.controls.password.touched" class="error-message">
-          {{ ERROR_MESSAGES.AUTH.PASSWORD_INVALID }}
-        </p>
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password"
+                 formControlName="password"
+                 [class.error]="form.controls.password.invalid && form.controls.password.touched">
+          <mat-error *ngIf="form.controls.password.errors?.['required'] && form.controls.password.touched">
+            {{ ERROR_MESSAGES.AUTH.PASSWORD_REQUIRED }}
+          </mat-error>
+          <mat-error *ngIf="form.controls.password.errors?.['pattern'] && form.controls.password.touched">
+            {{ ERROR_MESSAGES.AUTH.PASSWORD_INVALID }}
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="submit-button">
         <p *ngIf="onError" class="error">{{ ERROR_MESSAGES.AUTH.REGISTER_ERROR }}</p>
