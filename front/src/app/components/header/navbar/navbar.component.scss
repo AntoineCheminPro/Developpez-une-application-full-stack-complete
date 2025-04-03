@@ -105,6 +105,26 @@
       box-shadow: 0 0 0 2px rgba($error, 0.2);
     }
   }
+
+  @media screen and (max-width: $mobile) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    padding: $spacing-lg;
+    box-shadow: $shadow-lg;
+
+    .menu-container {
+      justify-content: flex-end;
+    }
+
+    .menu {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: $spacing-md;
+    }
+  }
 }
 
 .toggle-icon {
@@ -115,7 +135,7 @@
   .navbar {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     height: 100vh;
     width: 80%;
     max-width: 300px;
@@ -131,20 +151,22 @@
 
     .menu-container {
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       gap: $spacing-lg;
       text-align: center;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 100%;
+      padding-top: $spacing-xl;
     }
 
     .menu {
       flex-direction: column;
       width: 100%;
-      text-align: center;
       
       a {
         width: 100%;
         padding: $spacing-sm;
+        text-align: right;
       }
     }
 
