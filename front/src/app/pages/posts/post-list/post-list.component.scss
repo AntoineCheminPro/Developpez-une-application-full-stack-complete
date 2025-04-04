@@ -1,0 +1,138 @@
+@import "../../../../styles/variables";
+
+// Variables
+$post-list-spacing: 1rem;
+$post-list-border-radius: 8px;
+$post-list-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$post-list-transition: all 0.3s ease;
+$post-list-hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+// Couleurs
+$post-list-error-color: #f44336;
+$post-list-empty-color: #666;
+$post-list-button-hover: rgba(0, 0, 0, 0.05);
+
+.post-list {
+  padding: $post-list-spacing;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  &__error {
+    padding: $post-list-spacing;
+    text-align: center;
+    background-color: rgba($post-list-error-color, 0.1);
+    border-radius: $post-list-border-radius;
+    margin: $post-list-spacing 0;
+  }
+
+  &__error-message {
+    color: $post-list-error-color;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  &__empty {
+    padding: $post-list-spacing;
+    text-align: center;
+    color: $post-list-empty-color;
+    margin: $post-list-spacing 0;
+  }
+
+  &__empty-message {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  &__header {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $post-list-spacing;
+  }
+
+  &__create-button {
+    transition: $post-list-transition;
+    justify-content: left;
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  &__sort-button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: $post-list-border-radius;
+    transition: $post-list-transition;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $post-list-spacing;
+    color: #666;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: $post-list-button-hover;
+    }
+
+    &--asc {
+      color: #2196f3;
+    }
+
+    &--desc {
+      color: #2196f3;
+    }
+
+    @media (max-width: $tablet) {
+      justify-content: center;
+    }
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $post-list-spacing;
+    margin-top: $post-list-spacing;
+  }
+
+  &__item {
+    cursor: pointer;
+    transition: $post-list-transition;
+    border-radius: $post-list-border-radius;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: $tablet) {
+  .post-list {
+    &__create-button {
+      justify-content: center;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__container {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+  

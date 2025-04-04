@@ -1,0 +1,184 @@
+@import '../../../../styles/variables';
+
+// Variables locales
+$navbar-width: 250px;
+$navbar-transition: transform 0.3s ease;
+
+.navbar {
+  background-color: $background-light;
+  padding: $spacing-md;
+  width: 100%;
+
+  .menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-xl;
+  }
+
+  .menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: $spacing-lg;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      color: $text-secondary;
+      text-decoration: none;
+      font-size: $font-size-h2;
+      font-weight: $font-weight-medium;
+      transition: all 0.2s ease;
+      text-align: center;
+
+      &:hover {
+        color: $primary;
+      }
+
+      &.active {
+        color: $primary;
+        font-weight: $font-weight-semibold;
+      }
+
+      &.logout-link {
+        color: $error;
+        font-size: $font-size-base;
+        
+        &:hover {
+          color: darken($error, 10%);
+        }
+      }
+    }
+  }
+
+  .user-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    background-color: rgba($text-secondary, 0.1);
+    width: 40px;
+    height: 40px;
+    color: $text-secondary;
+
+    .profile-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    &.active {
+      background-color: rgba($primary, 0.1);
+      border: 2px solid $primary;
+      color: $primary;
+    }
+  }
+
+  .logout-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-xs $spacing-sm;
+    border: none;
+    border-radius: $border-radius-sm;
+    background: none;
+    color: $text-secondary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $error;
+      background: none;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($error, 0.2);
+    }
+  }
+}
+
+.toggle-icon {
+  display: none;
+}
+
+@media screen and (max-width: $tablet) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: $navbar-width;
+    padding: $spacing-lg;
+    transform: translateX(100%);
+    transition: $navbar-transition;
+    background-color: $background-light;
+    box-shadow: $shadow-lg;
+    z-index: 1000;
+
+    &.show {
+      transform: translateX(0);
+    }
+
+    .menu-container {
+      flex-direction: column;
+      gap: $spacing-lg;
+      height: 100%;
+      padding-top: $spacing-xl;
+      justify-content: space-between;
+    }
+
+    .menu {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: $spacing-md;
+      width: 100%;
+
+      a {
+        width: 100%;
+        padding: $spacing-sm;
+        text-align: right;
+        font-size: $font-size-h3;
+      }
+    }
+
+    .user-actions {
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-end;
+      gap: $spacing-md;
+      margin: $spacing-md 0;
+    }
+
+    .user-profile {
+      margin: $spacing-xs 0;
+      align-self: flex-end;
+    }
+  }
+
+  .toggle-icon {
+    display: block;
+    cursor: pointer;
+    font-size: $font-size-h2;
+    position: fixed;
+    top: $spacing-md;
+    right: $spacing-md;
+    z-index: 1001;
+  }
+}
+  
+  
+  

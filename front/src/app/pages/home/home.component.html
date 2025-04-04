@@ -1,5 +1,19 @@
-<div class="center">
-  <img src="/assets/logo_p6.png" alt="logo" />
-  <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
+<div class="container">
+  <img src="/assets/logo.svg" alt="logo" class="image">
+  <div class="button-container">
+    <app-btn
+      text="Se connecter"
+      type="none"
+      routerLink="/login"
+      verticalPosition="center"
+      horizontalPosition="center">
+    </app-btn>
+    <app-btn
+      text="S'inscrire"
+      type="none"
+      routerLink="/register"
+      verticalPosition="center"
+      horizontalPosition="center">
+    </app-btn>
+  </div>
 </div>

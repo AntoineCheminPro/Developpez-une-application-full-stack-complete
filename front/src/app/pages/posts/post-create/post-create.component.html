@@ -1,1 +1,33 @@
-<p>post-create works!</p>
+  <div class="post-create page-container__main">
+    <h1>Créer un nouvel article</h1>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-create__form">
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="topicId" placeholder="Sélectionner un thème">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">
+            {{topic.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="title" placeholder="Titre de l'article">
+        <mat-error *ngIf="postForm.get('title')?.hasError('minlength')">
+          Le titre doit contenir au moins 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="content" placeholder="Contenu de l'article" rows="5"></textarea>
+        <mat-error *ngIf="postForm.get('content')?.hasError('minlength')">
+          Le contenu doit contenir au moins 10 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <div class="post-create__submit">
+        <button mat-flat-button color="primary" type="submit" [disabled]="postForm.invalid || isLoading">
+          {{ isLoading ? 'Création en cours...' : 'Créer' }}
+        </button>
+        <div *ngIf="onError" class="post-create__error">{{ ERROR_MESSAGES.POSTS.CREATE_ERROR }}</div>
+      </div>
+    </form>
+  </div>

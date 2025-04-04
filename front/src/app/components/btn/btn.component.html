@@ -1,0 +1,23 @@
+<button
+  [class]="btnClasses()"
+  [disabled]="disabled || loading"
+  [attr.aria-label]="ariaLabel || text"
+  [attr.aria-disabled]="disabled || loading"
+  (click)="onClick($event)"
+  class="text-semi-bold-16"
+>
+  @if (text) {
+    <span class="btn__text">{{ text }}</span>
+  }
+  @if ((type === 'submit' && !showIcon) || (showIcon && iconSrc)) {
+    <img 
+      class="btn__icon" 
+      [src]="type === 'submit' ? '/assets/icon _send.svg' : iconSrc!" 
+      alt=""
+      aria-hidden="true"
+    >
+  }
+  @if (loading) {
+    <span class="btn__loader" aria-hidden="true"></span>
+  }
+</button> 

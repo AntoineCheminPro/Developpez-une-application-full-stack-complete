@@ -1,0 +1,53 @@
+// Couleurs principales
+$primary: #673AB7;
+$primary-light: lighten($primary, 20%);
+$primary-dark: darken($primary, 10%);
+
+// Couleurs de texte
+$text-primary: #333333;
+$text-secondary: #666666;
+$text-light: #FFFFFF;
+
+// Couleurs de fond
+$background-light: #FFFFFF;
+$background-grey: #F5F5F5;
+
+// Couleurs d'état
+$error: #d32f2f;
+$success: #66BB6A;
+$warning: #ed6c02;
+$info: #2196F3;
+
+// Bordures et ombres
+$border-color: #DDDDDD;
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 6px 8px rgba(0, 0, 0, 0.1);
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+
+// Espacements
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.75rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Typographie
+$font-family: 'Inter', sans-serif;
+$font-size-base: 14px;
+$font-size-h1: 24px;
+$font-size-h2: 20px;
+$font-size-h3: 16px;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$line-height-normal: 1.5;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px; 

@@ -1,0 +1,88 @@
+@import '../../../../styles/variables';
+
+.post-detail {
+  background-color: $background-light;
+  border-radius: $border-radius-md;
+  padding: $spacing-lg;
+  margin: $spacing-md 0;
+
+  &__header {
+    margin-bottom: $spacing-lg;
+  }
+
+
+  &__meta {
+    color: $text-secondary;
+    font-size: $font-size-base;
+    display: flex;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+
+  &__info {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+
+  &__content {
+    color: $text-primary;
+    line-height: 1.6;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__comments {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-lg;
+    border-top: 1px solid $border-color;
+  }
+
+  &__comment-form {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__error {
+    color: $error;
+    padding: $spacing-md;
+    text-align: center;
+    margin: $spacing-md 0;
+  }
+
+  &__title {
+    display: flex;
+    width: 66%;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: $spacing-xl;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .post-detail {
+    padding: 0;
+
+    &__back-link {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    &__info {
+      width: 100%;
+    }
+
+    &__title {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    &__info {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}
+  
+  
+  

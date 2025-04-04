@@ -1,0 +1,142 @@
+@import '../../../styles/variables';
+
+// Variables locales
+$btn-height: 40px;
+$btn-width: 140px;
+$btn-padding: $spacing-md;
+$btn-icon-size: 24px;
+$btn-icon-only-size: 40px;
+$btn-border-radius: $border-radius-md;
+$btn-transition: all 0.3s ease;
+$btn-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  // Structure de base
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $btn-padding;
+  border: none;
+  border-radius: $btn-border-radius;
+  background-color: $primary;
+  color: $text-light;
+  cursor: pointer;
+  transition: $btn-transition;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+
+  &:disabled {
+    background-color: $text-secondary;
+    cursor: not-allowed;
+  }
+
+  &__text {
+    margin: 0;
+  }
+
+  &__icon {
+    width: $btn-icon-size;
+    height: $btn-icon-size;
+    filter: brightness(0) invert(1);
+  }
+
+  // Quand il n'y a que l'icône (pas de texte)
+  &:not(:has(.btn__text)) {
+    width: $btn-icon-only-size !important;
+    height: $btn-icon-only-size !important;
+    padding: 0;
+    
+    .btn__icon {
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+  }
+
+  // Types
+  &--submit {
+    background-color: transparent;
+    color: $text-light;
+    border: none;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: transparent;
+    }
+
+    .btn__icon {
+      filter: brightness(0) invert(0.5) sepia(1) saturate(5) hue-rotate(220deg); 
+    }
+
+    // S'assurer que même en submit, le bouton garde sa taille quand il n'a qu'une icône
+    &:not(:has(.btn__text)) {
+      width: $btn-icon-only-size;
+      height: $btn-icon-only-size;
+    }
+  }
+
+  &--cta {
+    background-color: $primary;
+    color: $text-light;
+    border: none;
+
+    &:hover:not(:disabled) {
+      background-color: darken($primary, 10%);
+    }
+  }
+
+  &--none {
+    width: 160px;
+    height: 48px;
+    background-color: transparent;
+    color: $text-primary;
+    border: 1px solid $text-primary;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 0;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($text-primary, 0.1);
+    }
+  }
+
+  // États
+  &--disabled,
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--loading {
+    cursor: wait;
+    pointer-events: none;
+  }
+
+  // Positions
+  &--vertical {
+    &-top {
+      align-self: flex-start;
+    }
+    &-bottom {
+      align-self: flex-end;
+    }
+  }
+
+  &--horizontal {
+    &-left {
+      margin-right: auto;
+    }
+    &-right {
+      margin-left: auto;
+    }
+  }
+} 

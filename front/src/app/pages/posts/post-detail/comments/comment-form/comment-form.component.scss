@@ -1,0 +1,32 @@
+@import '../../../../../../styles/variables';
+@import '../../../../../../styles/mixins';
+
+.comment-form {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-md;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  &__textarea {
+    width: 70vw;
+    resize: none;
+    @include text-container;
+    border-radius: $border-radius-md;
+    border: 1px solid $border-color;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $primary;
+    }
+  }
+
+  &__char-count {
+    bottom: $spacing-sm;
+    right: $spacing-sm;
+    color: $text-secondary;
+    text-align: right;
+  }
+}
+  

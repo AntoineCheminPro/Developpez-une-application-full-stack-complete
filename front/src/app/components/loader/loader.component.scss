@@ -1,0 +1,113 @@
+@import "../../../styles/variables";
+
+/* https://www.w3schools.com/howto/howto_css_loader.asp */
+
+// Variables
+$loader-size: 120px;
+$loader-border-width: 16px;
+$loader-border-color: rgba($text-secondary, 0.1);
+$loader-border-color-active: $primary;
+$loader-animation-duration: 2s;
+$loader-text-color: $text-secondary;
+$loader-text-size: $font-size-base;
+$loader-spacing: $spacing-md;
+
+
+// Mobile variables
+$loader-size-mobile: 75px;
+$loader-border-width-mobile: 12px;
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $loader-spacing;
+  padding: $loader-spacing;
+
+  &--fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($background-light, 0.9);
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+  }
+}
+
+.loader {
+  // Structure
+  width: $loader-size;
+  height: $loader-size;
+  border-radius: 50%;
+
+  // Apparence
+  border: $loader-border-width solid $loader-border-color;
+  border-top: $loader-border-width solid $loader-border-color-active;
+
+  // Animation
+  animation: loader-spin $loader-animation-duration linear infinite;
+
+  // Variantes de taille
+  &--small {
+    width: $loader-size * 0.5;
+    height: $loader-size * 0.5;
+    border-width: $loader-border-width * 0.5;
+  }
+
+  &--large {
+    width: $loader-size * 1.5;
+    height: $loader-size * 1.5;
+    border-width: $loader-border-width * 1.5;
+  }
+
+  // Variantes de couleur
+  &--secondary {
+    border-color: rgba($text-secondary, 0.1);
+    border-top-color: $info;
+  }
+
+  &--accent {
+    border-color: rgba($text-secondary, 0.1);
+    border-top-color: $error;
+  }
+}
+
+.loader__text {
+  color: $loader-text-color;
+  font-size: $loader-text-size;
+  margin: 0;
+  text-align: center;
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+@media (max-width: $tablet) {
+  .loader {
+    width: $loader-size-mobile;
+    height: $loader-size-mobile;
+    border-width: $loader-border-width-mobile;
+
+    &--small {
+      width: $loader-size-mobile * 0.5;
+      height: $loader-size-mobile * 0.5;
+      border-width: $loader-border-width-mobile * 0.5;
+    }
+
+    &--large {
+      width: $loader-size-mobile * 1.5;
+      height: $loader-size-mobile * 1.5;
+      border-width: $loader-border-width-mobile * 1.5;
+    }
+  }
+}

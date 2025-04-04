@@ -1,1 +1,36 @@
-<p>topics works!</p>
+<div class="page-container">
+  <div class="topics page-container__main">
+    @if (isLoading) {
+      <div class="topics__loading">
+        <p>Chargement des sujets...</p>
+        <app-loader></app-loader>
+      </div>
+    }
+
+  @if (hasError) {
+    <p class="topics__error">
+      Une erreur est survenue lors de la récupération des sujets...
+    </p>
+  } @else if (!hasData) {
+    <p class="topics__empty">
+      Aucun sujet disponible...
+    </p>
+  } @else {
+    <div class="topics__grid">
+      @for (topic of topics; track topic.id) {
+        <div class="topics__item">
+          <app-topic-card 
+            [id]="topic.id"
+            [title]="topic.title"
+            [description]="topic.description"
+            [isSubscribed]="topic.isSubscribed"
+            [isSubscribeCase]="true"
+            (onSubscribe)="subscribeTopic($event)">
+          </app-topic-card>
+        </div>
+      }
+    </div>
+    }
+  </div>
+</div>
+  

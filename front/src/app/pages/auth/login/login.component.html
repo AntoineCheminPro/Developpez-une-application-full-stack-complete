@@ -1,1 +1,43 @@
-<p>login works!</p>
+<app-auth>
+  <div class="auth">
+    <h1 class="auth__title">Se connecter</h1>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="auth__form">
+      <div class="auth__input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Adresse e-mail</mat-label>
+          <input matInput formControlName="email"
+                 [class.error]="form.controls.email.invalid && form.controls.email.touched">
+          <mat-error *ngIf="form.controls.email.errors?.['required'] && form.controls.email.touched">
+            {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
+          </mat-error>
+          <mat-error *ngIf="form.controls.email.errors?.['email'] && form.controls.email.touched">
+            {{ ERROR_MESSAGES.AUTH.EMAIL_INVALID }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="auth__input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password"
+                 formControlName="password"
+                 [class.error]="form.controls.password.invalid && form.controls.password.touched">
+          <mat-error *ngIf="form.controls.password.errors?.['required'] && form.controls.password.touched">
+            {{ ERROR_MESSAGES.AUTH.PASSWORD_REQUIRED }}
+          </mat-error>
+          <mat-error *ngIf="form.controls.password.errors?.['pattern'] && form.controls.password.touched">
+            {{ ERROR_MESSAGES.AUTH.PASSWORD_INVALID }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="auth__submit">
+        <p *ngIf="onError" class="auth__error">{{ ERROR_MESSAGES.AUTH.LOGIN_ERROR }}</p>
+        <app-btn
+          text="Se connecter"
+          type="cta"
+          [disabled]="form.invalid || isLoading"
+          (btnClick)="submit()">
+        </app-btn>
+      </div>
+    </form>
+  </div>
+</app-auth>
