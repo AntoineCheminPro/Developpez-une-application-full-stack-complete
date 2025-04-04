@@ -18,41 +18,49 @@
     @if (currentState === state.IDLE) {
       <div class="post-list__empty">
         <p class="post-list__empty-message">{{ messages.EMPTY }}</p>
+        <div class="post-list__header post-list__header--centered">
+          <app-btn
+            text="Créer un article"
+            type="cta"
+            class="post-list__create-button"
+            (btnClick)="onCreatePost()"
+          ></app-btn>
+        </div>
+      </div>
+    } @else {
+      <div class="post-list__header">
+        <app-btn
+          text="Créer un article"
+          type="cta"
+          class="post-list__create-button"
+          (btnClick)="onCreatePost()"
+        ></app-btn>
+
+        @if (currentState === state.SUCCESS) {
+          <button 
+            class="post-list__sort-button"
+            [class.post-list__sort-button--asc]="isAscending"
+            [class.post-list__sort-button--desc]="!isAscending"
+            (click)="sortPosts()">
+            {{ messages.SORT }}
+            <mat-icon>{{ isAscending ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+          </button>
+        }
+      </div>
+
+      <div class="post-list__container">
+        @for (post of posts; track post.id) {
+          <div class="post-list__item" (click)="navigateToDetail(post)">
+            <app-post-card 
+              [id]="post.id"
+              [title]="post.title"
+              [description]="post.description"
+              [author]="post.author"
+              [date]="post.createdAt">
+            </app-post-card>
+          </div>
+        }
       </div>
     }
-
-    <div class="post-list__header">
-      <app-btn
-        text="Créer un article"
-        type="cta"
-        class="post-list__create-button"
-        (btnClick)="onCreatePost()"
-      ></app-btn>
-
-      @if (currentState === state.SUCCESS) {
-        <button 
-          class="post-list__sort-button"
-          [class.post-list__sort-button--asc]="isAscending"
-          [class.post-list__sort-button--desc]="!isAscending"
-          (click)="sortPosts()">
-          {{ messages.SORT }}
-          <mat-icon>{{ isAscending ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-        </button>
-      }
-    </div>
-
-    <div class="post-list__container">
-      @for (post of posts; track post.id) {
-        <div class="post-list__item" (click)="navigateToDetail(post)">
-          <app-post-card 
-            [id]="post.id"
-            [title]="post.title"
-            [description]="post.description"
-            [author]="post.author"
-            [date]="post.createdAt">
-          </app-post-card>
-        </div>
-      }
-    </div>
   }
 </div>

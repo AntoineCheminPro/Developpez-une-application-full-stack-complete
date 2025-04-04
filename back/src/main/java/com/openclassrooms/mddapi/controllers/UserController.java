@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * Expose les endpoints pour la gestion des profils utilisateurs.
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private static final String BEARER_TOKEN_STRING = "Bearer ";
@@ -57,7 +57,7 @@ public class UserController {
      * @param authorizationHeader Le token d'authentification
      * @return Un message de confirmation
      */
-    @PutMapping("")
+    @PatchMapping("")
     public ResponseEntity<SimpleOutputMessageResponse> updateDetails(
             @Valid @RequestBody UpdateUserDetailsRequest userDetailsRequest,
             @RequestHeader("Authorization") String authorizationHeader) {

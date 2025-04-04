@@ -3,8 +3,8 @@
   [disabled]="disabled || loading"
   [attr.aria-label]="ariaLabel || text"
   [attr.aria-disabled]="disabled || loading"
+  [type]="type === 'submit' || type === 'submit-cta' ? 'submit' : 'button'"
   (click)="onClick($event)"
-  class="text-semi-bold-16"
 >
   @if (text) {
     <span class="btn__text">{{ text }}</span>

@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TopicsComponent } from '@app/pages/topics/topics.component';
 import { finalize, catchError, of } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -58,24 +59,31 @@ export class UserComponent implements OnInit, OnDestroy {
   public form: FormGroup<{
     name: FormControl<string | null>;
     email: FormControl<string | null>;
+    password: FormControl<string | null>;
   }>;
   public nameValidationMessage = '';
   public emailValidationMessage = '';
+  public isFormValid = false;
+  public error: any;
 
   constructor(
     private userService: UserService,
     private topicsService: TopicsService,
     private formBuilder: FormBuilder,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['']
     });
   }
 
   ngOnInit(): void {
-    this.fetchUserData();
+    this.initForm();
+    this.isFormValid = this.form.valid;
+    this.loadProfile();
   }
 
   ngOnDestroy(): void {
@@ -84,19 +92,37 @@ export class UserComponent implements OnInit, OnDestroy {
     this.updateSubscription$?.unsubscribe();
   }
 
-  private fetchUserData(): void {
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['']
+    });
+
+    // S'abonner aux changements de statut
+    this.form.statusChanges.subscribe(() => {
+      this.isFormValid = this.form.valid;
+    });
+  }
+
+  private loadProfile(): void {
     this.isProfileLoading = true;
-    this.userSubscription$ = this.userService.getUser().subscribe({
-      next: (user: User) => {
-        this.currentUser = user;
+    this.userService.getUser().pipe(
+      finalize(() => {
+        this.isProfileLoading = false;
+        this.cdr.markForCheck();
+      })
+    ).subscribe({
+      next: (profile: User) => {
+        this.currentUser = profile;
         this.form.patchValue({
-          name: user.name,
-          email: user.email
+          name: profile.name,
+          email: profile.email
         });
         this.fetchSubscribedTopics();
       },
-      error: () => {
-        this.isProfileLoading = false;
+      error: (error: Error) => {
+        this.error = error;
       }
     });
   }
@@ -129,14 +155,19 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     this.isProfileLoading = true;
-    const updatedUser: Partial<User> = {
+    const updatedUser: Partial<User> & { password?: string } = {
       name: this.form.value.name!,
       email: this.form.value.email!
     };
 
+    if (this.form.value.password) {
+      updatedUser.password = this.form.value.password;
+    }
+
     this.updateSubscription$ = this.userService.update(updatedUser).subscribe({
       next: (user: User) => {
         this.currentUser = user;
+        this.form.patchValue({ password: '' }); // Réinitialiser le mot de passe
       },
       error: () => {
         this.isProfileLoading = false;

@@ -6,6 +6,7 @@ import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payloads.requests.UpdateUserDetailsRequest;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -19,9 +20,11 @@ import java.text.MessageFormat;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -73,6 +76,12 @@ public class UserService {
         }
 
         user.setName(userDetailsRequest.getName());
+
+        // Mise à jour du mot de passe si fourni
+        if (userDetailsRequest.getPassword() != null && !userDetailsRequest.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDetailsRequest.getPassword()));
+        }
+
         userRepository.save(user);
     }
 }

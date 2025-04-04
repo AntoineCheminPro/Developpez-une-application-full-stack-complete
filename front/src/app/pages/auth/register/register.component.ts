@@ -85,6 +85,7 @@ export class RegisterComponent implements OnDestroy {
   }
 
   public submit(): void {
+    
     if (this.form.invalid || this.isLoading) {
       return;
     }
@@ -93,6 +94,7 @@ export class RegisterComponent implements OnDestroy {
     this.onError = false;
 
     const registerRequest = this.form.value as RegisterRequest;
+    
     this.registerSubscription$ = this.authService.createUser(registerRequest).subscribe({
       next: (): void => {
         this.snackBar.open(

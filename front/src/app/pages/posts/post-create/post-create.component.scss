@@ -2,37 +2,6 @@
 
 // Le composant utilise les styles globaux définis dans styles.scss
 
-// Styles spécifiques pour les champs Material Design
-.mat-mdc-form-field.mat-form-field-appearance-outline {
-  .mdc-notched-outline {
-    .mdc-notched-outline__leading,
-    .mdc-notched-outline__notch,
-    .mdc-notched-outline__trailing {
-      border-color: $primary !important;
-    }
-  }
-
-  &.mat-focused {
-    .mdc-notched-outline {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing {
-        border-color: $primary !important;
-        border-width: 2px;
-      }
-    }
-  }
-
-  &.mat-form-field-invalid {
-    .mdc-notched-outline {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing {
-        border-color: $error !important;
-      }
-    }
-  }
-}
 
 .error-message {
   color: $error;
@@ -151,6 +120,27 @@
 
   .mat-mdc-form-field-error {
     color: $error;
+  }
+
+  h1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+  }
+
+  .backlink-container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  
+  h1 {
+    position: relative;
+    width: 100%;
+    margin: 0;
   }
 }
 

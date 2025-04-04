@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, computed } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, computed, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
-type BtnType = 'submit' | 'cta' | 'none';
+type BtnType = 'submit' | 'submit-cta' | 'cta' | 'none';
 type BtnVerticalPosition = 'top' | 'center' | 'bottom';
 type BtnHorizontalPosition = 'left' | 'center' | 'right';
 
@@ -14,7 +14,7 @@ type BtnHorizontalPosition = 'left' | 'center' | 'right';
   styleUrls: ['./btn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BtnComponent {
+export class BtnComponent implements OnInit, OnChanges {
   @Input({ required: false }) public text?: string;
   @Input() public type: BtnType = 'none';
   @Input() public verticalPosition: BtnVerticalPosition = 'center';
@@ -28,20 +28,50 @@ export class BtnComponent {
 
   @Output() public btnClick = new EventEmitter<void>();
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
-  protected readonly btnClasses = computed(() => {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['disabled'] || changes['loading']) {
+      this.changeDetectorRef.markForCheck();
+      
+      const buttonElement = document.querySelector('app-btn button') as HTMLButtonElement;
+      if (buttonElement) {
+        // Gérer l'état disabled
+        if (changes['disabled']) {
+          if (!this.disabled) {
+            buttonElement.classList.remove('btn--disabled');
+          }
+        }
+        
+        // Gérer l'état loading
+        if (changes['loading']) {
+          if (!this.loading) {
+            buttonElement.classList.remove('btn--disabled');
+          }
+        }
+      }
+    }
+  }
+
+  ngOnInit(): void {
+    // Forcer la détection des changements au démarrage
+    this.changeDetectorRef.markForCheck();
+  }
+
+  protected readonly btnClasses = (): string => {
     const classes = ['btn'];
     
     // Type
-    classes.push(`btn--${this.type}`);
+    if (this.type !== 'none') {
+      classes.push(`btn--${this.type}`);
+    }
     
     // États
-    if (this.disabled) {
+    if (this.disabled || this.loading) {
       classes.push('btn--disabled');
-    }
-    if (this.loading) {
-      classes.push('btn--loading');
     }
     
     // Positions
@@ -52,8 +82,8 @@ export class BtnComponent {
       classes.push(`btn--horizontal-${this.horizontalPosition}`);
     }
     
-    return classes;
-  });
+    return classes.join(' ');
+  };
 
   protected onClick(event: Event): void {
     if (this.disabled || this.loading) {

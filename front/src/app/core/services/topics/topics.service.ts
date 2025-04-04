@@ -40,10 +40,10 @@ export class TopicsService extends FetchService {
   }
 
   public subscribe(topicId: string): Observable<void> {
-    return this.http.post<void>(API_PATHS.SUBSCRIBE(topicId), {});
+    return this.http.post<void>(API_PATHS.SUBSCRIBE(String(parseInt(topicId, 10))), {});
   }
 
   public unsubscribe(topicId: string): Observable<void> {
-    return this.http.delete<void>(API_PATHS.UNSUBSCRIBE(topicId));
+    return this.http.delete<void>(API_PATHS.UNSUBSCRIBE(String(parseInt(topicId, 10))));
   }
 }

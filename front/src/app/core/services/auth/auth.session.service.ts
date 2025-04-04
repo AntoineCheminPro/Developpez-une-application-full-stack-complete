@@ -22,21 +22,17 @@ export class SessionService implements OnDestroy {
     private readonly authStorageService: AuthStorageService,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar
-  ) {
-    this.session$.subscribe((sessionInfo: SessionInformation) => {
-      if (sessionInfo.isAuthenticated) {
-        this.authStorageService.setToken(sessionInfo.token!);
-      }
-    });
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.sessionSubject.next(defaultAuthenticationState);
     this.sessionSubject.complete();
-    this.authStorageService.removeToken();
   }
 
   public authenticate(userSession: SessionInformation): void {
+    if (userSession.token) {
+      this.authStorageService.setToken(userSession.token);
+    }
     this.sessionSubject.next(userSession);
   }
 

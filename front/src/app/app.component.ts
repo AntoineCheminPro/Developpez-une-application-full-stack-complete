@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { NavigationService } from './core/services/navigation/navigation.service';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { BacklinkComponent } from './components/header/backlink/backlink.component';
 import { storageProvider } from './core/providers/storage.provider';
 import { AuthStorageService } from './core/services/auth.storage.service';
 import { sessionProvider } from './core/providers/session.provider';
@@ -11,7 +10,7 @@ import { sessionProvider } from './core/providers/session.provider';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AsyncPipe, NgIf, BacklinkComponent],
+  imports: [RouterOutlet, HeaderComponent, AsyncPipe, NgIf],
   providers: [
     storageProvider,
     sessionProvider,

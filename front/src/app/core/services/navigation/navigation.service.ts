@@ -78,9 +78,7 @@ export class NavigationService {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log('🚀 URL actuelle:', event.url);
         const shouldShow = this.shouldShowBacklink(event.url);
-        console.log('🚀 Devrait montrer le backlink ?', shouldShow);
         this.showBacklink$.next(shouldShow);
       }
     });
@@ -135,11 +133,9 @@ export class NavigationService {
   }
 
   private shouldShowBacklink(url: string): boolean {
-    console.log('🚀 Routes avec backlink:', this.ROUTES_WITH_BACKLINK);
     const result = this.ROUTES_WITH_BACKLINK.some(route => 
       url === route || url.startsWith(`${route}/`)
     );
-    console.log('🚀 URL commence par une route avec backlink ?', result);
     return result;
   }
 

@@ -31,11 +31,14 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
     background-color: rgba($post-list-error-color, 0.1);
     border-radius: $post-list-border-radius;
     margin: $post-list-spacing 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__error-message {
     color: $post-list-error-color;
-    margin: 0;
+    margin: 0 0 $post-list-spacing 0;
     font-weight: 500;
   }
 
@@ -44,10 +47,13 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
     text-align: center;
     color: $post-list-empty-color;
     margin: $post-list-spacing 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__empty-message {
-    margin: 0;
+    margin: 0 0 $post-list-spacing 0;
     font-size: 1.1rem;
   }
 
@@ -58,6 +64,16 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
     justify-content: space-between;
     align-items: center;
     margin-bottom: $post-list-spacing;
+
+    &--error {
+      justify-content: center;
+      margin-bottom: 0;
+    }
+
+    &--centered {
+      justify-content: center;
+      margin-bottom: 0;
+    }
   }
 
   &__create-button {
@@ -65,6 +81,14 @@ $post-list-button-hover: rgba(0, 0, 0, 0.05);
     justify-content: left;
     &:hover {
       transform: translateY(-1px);
+    }
+
+    .post-list__header--error & {
+      justify-content: center;
+    }
+
+    .post-list__header--centered & {
+      justify-content: center;
     }
   }
 

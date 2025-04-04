@@ -106,5 +106,12 @@
     }
   }
   
+  ::ng-deep {
+    .topics {
+      .page-container {
+        justify-content: flex-start;
+      }
+    }
+  }
   
   

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   useFaker: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'http://localhost:8080/api'
 };
 
 /*

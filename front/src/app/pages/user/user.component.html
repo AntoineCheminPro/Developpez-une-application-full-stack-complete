@@ -19,7 +19,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="user__form-field">
-          <input matInput type="password" placeholder="Mot de passe">
+          <input matInput type="password" formControlName="password" placeholder="Mot de passe">
         </mat-form-field>
 
         <div class="user__form-submit">
@@ -44,6 +44,7 @@
         [externalTopics]="userSubscribedTopicsArray"
         [externalIsLoading]="isTopicsLoading"
         [externalHasError]="onErrorFetchingSubscriptions"
+        [isSubscribeMode]="false"
         class="user__topics">
       </app-topics>
     </div>

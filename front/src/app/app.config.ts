@@ -8,7 +8,10 @@ import {JwtInterceptor} from "./core/interceptors/jwt.interceptor";
 import {UnauthorizedInterceptor} from "./core/interceptors/unauthorized.interceptor";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
+  providers: [
+    provideRouter(routes),
     provideHttpClient(withInterceptors([JwtInterceptor, UnauthorizedInterceptor])),
-    provideAnimations()]
+    provideAnimations(),
+    { provide: Storage, useValue: window.sessionStorage }
+  ]
 };

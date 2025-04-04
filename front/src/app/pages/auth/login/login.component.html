@@ -32,11 +32,11 @@
       <div class="auth__submit">
         <p *ngIf="onError" class="auth__error">{{ ERROR_MESSAGES.AUTH.LOGIN_ERROR }}</p>
         <app-btn
+          type="submit-cta"
           text="Se connecter"
-          type="cta"
-          [disabled]="form.invalid || isLoading"
-          (btnClick)="submit()">
-        </app-btn>
+          [disabled]="!isFormValid || isLoading"
+          [loading]="isLoading"
+        ></app-btn>
       </div>
     </form>
   </div>

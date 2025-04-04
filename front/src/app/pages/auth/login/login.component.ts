@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -60,6 +60,7 @@ export class LoginComponent implements OnDestroy {
   
   public onError = false;
   public isLoading = false;
+  public isFormValid = false;
   public form!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
@@ -70,21 +71,32 @@ export class LoginComponent implements OnDestroy {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly sessionService: SessionService,
-    private readonly loggingService: LoggingService
+    private readonly loggingService: LoggingService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.initForm();
   }
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      email: ['', [
-        Validators.required,
-        Validators.pattern(this.VALIDATION_PATTERNS.EMAIL)
-      ]],
-      password: ['', [
-        Validators.required
-      ]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
+
+    // S'abonner aux changements de valeur
+    this.form.valueChanges.subscribe(() => {
+      this.isFormValid = this.form.valid;
+    });
+
+    // S'abonner aux changements de statut
+    this.form.statusChanges.subscribe(() => {
+      this.isFormValid = this.form.valid;
+    });
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+    this.isFormValid = this.form.valid;
   }
 
   public submit(): void {
@@ -110,6 +122,7 @@ export class LoginComponent implements OnDestroy {
       }
     });
   }
+
 
   ngOnDestroy(): void {
     this.loginSubscription$?.unsubscribe();
