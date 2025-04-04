@@ -1,5 +1,12 @@
 # P6-Full-Stack-reseau-dev
 
+## Architecture globale
+
+Le projet suit une architecture en trois couches :
+- **Frontend** : Application Angular 18.0.0
+- **Backend** : API REST Spring Boot 3.2.3
+- **Base de données** : MySQL 8.0
+
 ## Front
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.0.
@@ -18,27 +25,57 @@ N'oubliez pas d'installer les dépendances avant de démarrer (`npm install`).
 
 #### Mode standard
 ```bash
-ng serve
+npm start
 ```
 
-#### Mode développement avec Faker
+#### Mode développement avec données simulées
 ```bash
-ng dev
+npm run dev
+```
+Le mode développement utilise un service personnalisé de données simulées. Cela permet de :
+- Développer l'interface sans backend
+- Tester différents scénarios d'affichage
+- Prototyper rapidement les fonctionnalités
+
+Les données simulées sont configurées dans `environment.development.ts` et respectent la structure de l'API. Le service est implémenté dans `core/services/faker.service.ts`.
+
+#### Mode avec données simulées avancées
+```bash
+npm run faker
 ```
 
 #### Mode production
 ```bash
-ng serve --configuration=production
+npm run build
 ```
 
 Naviguez vers `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez les fichiers sources.
 
+### Tests
+
+```bash
+# Exécuter les tests unitaires
+npm test
+```
+
+Les tests utilisent Jest et suivent les bonnes pratiques :
+- Tests unitaires pour les composants
+- Tests d'intégration pour les services
+- Mocks pour les appels API
+- Tests avec et sans données simulées
+
 ### Build
 
 ```bash
-ng build
+npm run build
 ```
 Les artefacts de build seront stockés dans le répertoire `dist/`.
+
+### Watch mode (développement)
+```bash
+npm run watch
+```
+Cette commande permet de construire l'application en mode watch, ce qui est utile pour le développement.
 
 ### Configuration des environnements
 
@@ -49,9 +86,26 @@ Les artefacts de build seront stockés dans le répertoire `dist/`.
 ### Structure du projet
 
 - `src/app/components` : Composants réutilisables
+  - `header` : En-tête de l'application
+  - `footer` : Pied de page
+  - `navbar` : Barre de navigation
+  - `backlink` : Lien de retour
+  - `post-card` : Carte d'article
+  - `topic-card` : Carte de thème
+  - `comment` : Composant de commentaire
+  - `post-form` : Formulaire d'article
+  - `topic-form` : Formulaire de thème
+  - `comment-form` : Formulaire de commentaire
 - `src/app/pages` : Pages de l'application
 - `src/app/core` : Services et fonctionnalités principales
 - `src/app/shared` : Utilitaires et interfaces partagées
+
+### Conventions de nommage
+
+- **CSS** : Méthodologie BEM (Block Element Modifier)
+- **Composants** : Nommage descriptif avec suffixe du type
+- **Services** : Suffixe 'Service'
+- **Interfaces** : Préfixe 'I' ou suffixe 'Interface'
 
 ### Routes principales
 
@@ -74,7 +128,14 @@ Les artefacts de build seront stockés dans le répertoire `dist/`.
 
 Le projet utilise `@angular/material`, une des bibliothèques UI les plus populaires de l'écosystème Angular. Vous pouvez consulter la documentation ici : https://material.angular.io/
 
-Note : L'utilisation de Material est recommandée mais n'est pas obligatoire. Vous pouvez l'enlever si vous préférez.
+### Gestion de version
+
+Le projet utilise GitFlow pour la gestion des branches :
+- `master` : Code en production
+- `develop` : Branche principale de développement
+- `feature/*` : Nouvelles fonctionnalités
+- `back-develop-*` : Développement backend
+- `front-develop-*` : Développement frontend
 
 ## Back
 
@@ -149,8 +210,7 @@ back/
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       └── data.sql
-│   └── test/
-└── pom.xml
+│   └── pom.xml
 ```
 
 ### Technologies utilisées
@@ -175,3 +235,44 @@ ng build --prod
 mvn javadoc:javadoc
 ```
 La documentation est accessible ici : `/Developpez-une-application-full-stack-complete/back/target/site/apidocs/index.html`
+
+## Base de données
+
+### MySQL
+
+Le projet utilise MySQL comme système de gestion de base de données relationnelle.
+
+#### Configuration
+- **Version** : MySQL 8.0 ou supérieure
+- **Port par défaut** : 3306
+- **Nom de la base** : `mdd_db` (créée automatiquement au démarrage)
+- **Utilisateur** : `root` (configurable dans `secrets.properties`)
+- **Mot de passe** : Défini dans `secrets.properties` (propriété `mysql-root-pass`)
+
+#### Structure de la base de données
+
+La base de données est initialisée automatiquement au démarrage de l'application avec le script `data.sql` qui :
+- Crée les tables nécessaires
+- Insère des données de test
+- Configure les relations entre les tables
+
+#### Tables principales
+- `users` : Utilisateurs de l'application
+- `topics` : Thèmes de discussion
+- `posts` : Articles publiés
+- `comments` : Commentaires sur les articles
+- `user_topics` : Abonnements des utilisateurs aux thèmes
+
+#### Sécurité
+- Les mots de passe sont hashés avec BCrypt
+- Les tokens JWT sont utilisés pour l'authentification
+- Les requêtes SQL sont protégées contre les injections via JPA
+
+#### Sauvegarde et restauration
+```bash
+# Sauvegarder la base de données
+mysqldump -u root -p mdd_db > backup.sql
+
+# Restaurer la base de données
+mysql -u root -p mdd_db < backup.sql
+```
