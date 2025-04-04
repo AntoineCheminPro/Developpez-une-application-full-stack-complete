@@ -9,13 +9,7 @@ export class SessionService {
   private isLoggedIn$ = new BehaviorSubject<boolean>(false);
   private user$ = new BehaviorSubject<any>(null);
 
-  constructor() {
-    console.log('Environment config:', {
-      useFaker: environment.useFaker,
-      apiUrl: environment.apiUrl,
-      production: environment.production
-    });
-  }
+  constructor() {}
 
   public isLogged(): Observable<boolean> {
     return this.isLoggedIn$.asObservable();

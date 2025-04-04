@@ -6,7 +6,8 @@ import {
   of,
   Subject,
   takeUntil,
-  finalize
+  finalize,
+  tap
 } from "rxjs";
 import { TopicsService } from "../../core/services/topics/topics.service";
 import { CollectionSort } from "../../core/utils/collection.sort";
@@ -60,6 +61,9 @@ export class TopicsComponent implements OnInit, OnDestroy {
   public hasData = false;
   public hasError = false;
   public isLoading = false;
+  public error: string | null = null;
+
+  constructor() {}
 
   ngOnInit(): void {
     if (this.externalTopics) {
@@ -94,7 +98,6 @@ export class TopicsComponent implements OnInit, OnDestroy {
       }),
       catchError((error: Error) => {
         this.hasError = true;
-        console.error(ERROR_MESSAGES.FETCH, error);
         return of([]);
       }),
       takeUntil(this.destroy$)
@@ -107,10 +110,6 @@ export class TopicsComponent implements OnInit, OnDestroy {
 
   public subscribeTopic(event: TopicEvent): void {
     this.topicsService.subscribe(event.id).pipe(
-      catchError((error: Error) => {
-        console.error(ERROR_MESSAGES.SUBSCRIBE, error);
-        return of(null);
-      }),
       takeUntil(this.destroy$)
     ).subscribe(() => this.getTopics());
   }
@@ -118,5 +117,31 @@ export class TopicsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onSubscribe(event: { id: string }): void {
+    this.topicsService.subscribe(event.id).subscribe({
+      next: () => {
+        this.topics = this.topics.map(topic => 
+          topic.id === event.id ? { ...topic, subscribed: true } : topic
+        );
+      },
+      error: (error) => {
+        this.error = error;
+      }
+    });
+  }
+
+  onUnsubscribe(event: { id: string }): void {
+    this.topicsService.unsubscribe(event.id).subscribe({
+      next: () => {
+        this.topics = this.topics.map(topic => 
+          topic.id === event.id ? { ...topic, subscribed: false } : topic
+        );
+      },
+      error: (error) => {
+        this.error = error;
+      }
+    });
   }
 }

@@ -1,10 +1,13 @@
 <button
   [class]="btnClasses()"
-  [disabled]="disabled || loading"
+  [disabled]="!!(disabled || loading)"
   [attr.aria-label]="ariaLabel || text"
-  [attr.aria-disabled]="disabled || loading"
+  [attr.aria-disabled]="!!(disabled || loading)"
+  [type]="type === 'submit' || type === 'submit-cta' ? 'submit' : 'button'"
   (click)="onClick($event)"
-  class="text-semi-bold-16"
+  [style.pointer-events]="(disabled || loading) ? 'none' : 'auto'"
+  [style.opacity]="(disabled || loading) ? '0.6' : '1'"
+  [style.cursor]="(disabled || loading) ? 'not-allowed' : 'pointer'"
 >
   @if (text) {
     <span class="btn__text">{{ text }}</span>

@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 
-const STORAGE_KEYS = {
-  TOKEN: 'token'
-} as const;
-
 /**
  * Service gérant le stockage des informations d'authentification.
  * Permet de stocker, récupérer et supprimer le token d'authentification.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthStorageService {
-  constructor(private readonly storage: Storage = sessionStorage) {
-    console.log('🔑 AuthStorageService initialized');
+  private readonly TOKEN_KEY = 'auth_token';
+  private readonly storage: Storage;
+
+  constructor() {
+    this.storage = window.sessionStorage;
   }
 
-  public getToken(): string | null {
-    return this.storage.getItem(STORAGE_KEYS.TOKEN);
+  getToken(): string | null {
+    return this.storage.getItem(this.TOKEN_KEY);
   }
 
-  public setToken(token: string): void {
-    this.storage.setItem(STORAGE_KEYS.TOKEN, token);
+  setToken(token: string): void {
+    this.storage.setItem(this.TOKEN_KEY, token);
   }
 
-  public removeToken(): void {
-    this.storage.removeItem(STORAGE_KEYS.TOKEN);
+  removeToken(): void {
+    this.storage.removeItem(this.TOKEN_KEY);
   }
 }

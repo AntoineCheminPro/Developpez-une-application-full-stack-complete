@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.openclassrooms.mddapi.configuration.CorsConfiguration;
 
 /**
  * Point d'entrée principal de l'application MDD API.

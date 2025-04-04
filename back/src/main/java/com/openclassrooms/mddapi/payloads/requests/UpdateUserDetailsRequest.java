@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.payloads.requests;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,4 +29,12 @@ public class UpdateUserDetailsRequest {
      */
     @NotBlank(message = "L'adresse email est requise")
     private String email;
+
+    /**
+     * Nouveau mot de passe de l'utilisateur.
+     * Optionnel. Si fourni, doit respecter les critères de sécurité.
+     */
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}$", 
+            message = "Le mot de passe doit contenir au moins 8 caractères, un chiffre, une minuscule, une majuscule et un caractère spécial")
+    private String password;
 }

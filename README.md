@@ -157,13 +157,11 @@ jwt-secret-pass=votre_secret_jwt
 
 #### Windows PowerShell
 ```powershell
-cd Developpez-une-application-full-stack-complete/back
 mvn spring-boot:run
 ```
 
 #### Linux/MacOS
 ```bash
-cd Developpez-une-application-full-stack-complete/back
 mvn spring-boot:run
 ```
 

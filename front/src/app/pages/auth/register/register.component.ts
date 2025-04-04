@@ -85,18 +85,8 @@ export class RegisterComponent implements OnDestroy {
   }
 
   public submit(): void {
-    console.log('🔍 Form submission attempt');
-    console.log('Form values:', this.form.value);
-    console.log('Form valid?', this.form.valid);
-    console.log('Form errors:', this.form.errors);
     
     if (this.form.invalid || this.isLoading) {
-      console.log('❌ Form is invalid or loading');
-      console.log('Form controls errors:', {
-        name: this.form.get('name')?.errors,
-        email: this.form.get('email')?.errors,
-        password: this.form.get('password')?.errors
-      });
       return;
     }
 
@@ -104,11 +94,9 @@ export class RegisterComponent implements OnDestroy {
     this.onError = false;
 
     const registerRequest = this.form.value as RegisterRequest;
-    console.log('📤 Sending register request:', registerRequest);
     
     this.registerSubscription$ = this.authService.createUser(registerRequest).subscribe({
       next: (): void => {
-        console.log('✅ Registration successful');
         this.snackBar.open(
           "Compte créé avec succès, vous allez être redirigé vers la page de connexion.",
           "Fermer",
@@ -119,12 +107,10 @@ export class RegisterComponent implements OnDestroy {
         }, 2000);
       },
       error: (error: Error) => {
-        console.log('❌ Registration error:', error);
         this.onError = true;
         this.snackBar.open(ERROR_MESSAGES.AUTH.REGISTER_ERROR, "Fermer", { duration: 3000 });
       },
       complete: () => {
-        console.log('🏁 Registration request completed');
         this.isLoading = false;
       }
     });

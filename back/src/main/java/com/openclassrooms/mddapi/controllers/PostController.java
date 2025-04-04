@@ -24,7 +24,7 @@ import java.util.List;
  * Expose les endpoints pour la création, la récupération et la gestion des posts.
  */
 @RestController
-@RequestMapping("posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
     private static final String BEARER_TOKEN_STRING = "Bearer ";

@@ -19,7 +19,7 @@ import java.util.List;
  * Expose les endpoints pour la gestion des topics et des abonnements.
  */
 @RestController
-@RequestMapping("topics")
+@RequestMapping("/api/topics")
 public class TopicController {
 
     private static final String BEARER_TOKEN_STRING = "Bearer ";
@@ -76,29 +76,49 @@ public class TopicController {
     }
 
     /**
-     * Gère l'abonnement ou le désabonnement d'un utilisateur à un topic.
+     * Abonne un utilisateur à un topic.
      *
      * @param topicId L'ID du topic
-     * @param subscribe true pour s'abonner, false pour se désabonner
      * @param authorizationHeader Le token d'authentification
      * @return Un message de confirmation
      */
-    @PostMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimpleOutputMessageResponse> subscribeOrUnsubscribeTopicForUser(
-            @RequestParam final Integer topicId,
-            @RequestParam final Boolean subscribe,
+    @PostMapping(value = "/{topicId}/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleOutputMessageResponse> subscribe(
+            @PathVariable final Integer topicId,
             @RequestHeader("Authorization") String authorizationHeader) {
 
         var jwtToken = authorizationHeader.substring(BEARER_TOKEN_STRING.length());
         var userFromToken = jwtService.extractUserName(jwtToken);
 
-        topicsSubscriptionService.manageSubscription(subscribe, userFromToken, topicId);
-
-        var message = subscribe
-                ? new SimpleOutputMessageResponse("Abonnement au topic effectué avec succès.")
-                : new SimpleOutputMessageResponse("Désabonnement du topic effectué avec succès.");
+        topicsSubscriptionService.manageSubscription(true, userFromToken, topicId);
         
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        return new ResponseEntity<>(
+            new SimpleOutputMessageResponse("Abonnement au topic effectué avec succès."),
+            HttpStatus.OK
+        );
+    }
+
+    /**
+     * Désabonne un utilisateur d'un topic.
+     *
+     * @param topicId L'ID du topic
+     * @param authorizationHeader Le token d'authentification
+     * @return Un message de confirmation
+     */
+    @DeleteMapping(value = "/{topicId}/unsubscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleOutputMessageResponse> unsubscribe(
+            @PathVariable final Integer topicId,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        var jwtToken = authorizationHeader.substring(BEARER_TOKEN_STRING.length());
+        var userFromToken = jwtService.extractUserName(jwtToken);
+
+        topicsSubscriptionService.manageSubscription(false, userFromToken, topicId);
+        
+        return new ResponseEntity<>(
+            new SimpleOutputMessageResponse("Désabonnement du topic effectué avec succès."),
+            HttpStatus.OK
+        );
     }
 
     /**

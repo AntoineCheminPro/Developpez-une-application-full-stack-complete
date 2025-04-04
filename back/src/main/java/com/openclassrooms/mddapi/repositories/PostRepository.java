@@ -20,16 +20,16 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
      * 
      * Requête SQL équivalente :
      * SELECT posts.* FROM posts
-     * INNER JOIN topics t ON t.id = posts.topic_id
-     * INNER JOIN subscriptions s ON s.topic_id = t.id
+     * LEFT JOIN topics t ON t.id = posts.topic_id
+     * LEFT JOIN subscriptions s ON s.topic_id = t.id
      * WHERE s.user_id = :userId
      *
      * @param userId L'identifiant de l'utilisateur
      * @return La liste des posts des topics auxquels l'utilisateur est abonné
      */
     @Query("SELECT p FROM Post p " +
-           "INNER JOIN p.topic t " +
-           "INNER JOIN Subscription s ON s.topic = t " +
+           "LEFT JOIN p.topic t " +
+           "LEFT JOIN Subscription s ON s.topic = t " +
            "WHERE s.user.id = :userId")
     List<Post> findPostsBySubscriptionUserId(@Param("userId") Integer userId);
 }
