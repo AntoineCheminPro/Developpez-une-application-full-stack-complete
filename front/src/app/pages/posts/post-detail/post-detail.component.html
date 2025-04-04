@@ -1,0 +1,33 @@
+<div class="page-container">
+  <div class="post-detail page-container__main">
+    <div class="post-detail__wrapper">
+    @if(hasError) {
+      <h2 class="post-detail__error">Une erreur s'est produite lors du chargement de l'article !</h2>
+    }
+    @else {
+      <div class="post-detail__content">
+        <div class="post-detail__info">
+          <div class="post-detail__title">
+            <h2>{{formattedDate}}</h2>
+            <h2>{{postData?.author}}</h2>
+          </div>
+            <h2>{{postData?.topicName}}</h2>
+        </div>
+        <div class="post-detail__description">
+          <p>{{postData?.description}}</p>
+        </div>
+      </div>
+
+      <div class="post-detail__divider"></div>
+
+      <div class="post-detail__comments">
+        <post-comment-list [comments]="comments"></post-comment-list>
+      </div>
+
+      <div class="post-detail__comment-form">
+        <post-comment-form (addCommentEvent)="saveComment($event)"></post-comment-form>
+      </div>
+    }
+  </div>
+</div>
+

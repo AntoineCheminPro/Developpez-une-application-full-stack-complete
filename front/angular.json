@@ -58,7 +58,27 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "faker": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.faker.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -71,6 +91,9 @@
             },
             "development": {
               "browserTarget": "front:build:development"
+            },
+            "faker": {
+              "browserTarget": "front:build:faker"
             }
           },
           "defaultConfiguration": "development"
@@ -99,5 +122,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

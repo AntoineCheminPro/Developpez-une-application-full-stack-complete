@@ -1,0 +1,17 @@
+<div class="topic-card">
+  <h3 class="topic-card__title">{{ title }}</h3>
+  
+  <div class="topic-card__content">
+    <p>{{ description }}</p>
+  </div>
+  
+  <div class="topic-card__footer">
+    <app-btn
+      [text]="isSubscribeCase ? (isSubscribed ? 'Abonné' : 'S\'abonner') : 'Se désabonner'"
+      [disabled]="isSubscribeCase && isSubscribed"
+      [type]="'cta'"
+      (btnClick)="fn()"
+      >
+    </app-btn>
+  </div>
+</div>

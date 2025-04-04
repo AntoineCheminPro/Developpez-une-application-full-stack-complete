@@ -1,0 +1,37 @@
+@import '../../../../../../styles/variables';
+
+.comment-list {
+  width: 100%;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+
+  &__header {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__title {
+    font-size: 1.5em;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__empty {
+    display: block;
+    text-align: center;
+    color: $text-secondary;
+    font-style: italic;
+    margin: $spacing-lg 0;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $border-radius-sm;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+} 

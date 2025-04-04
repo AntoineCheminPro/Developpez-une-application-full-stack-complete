@@ -1,0 +1,15 @@
+<div class="backlink-container">
+  <button 
+    class="backlink" 
+    (click)="goBack()"
+    aria-label="Retour à la page précédente"
+  >
+    <img 
+      src="/assets/Arrow.svg" 
+      alt=""
+      class="backlink__icon"
+      aria-hidden="true"
+    >
+  </button>
+  <h1 class="backlink__title">{{ title$ | async }}</h1>
+</div> 

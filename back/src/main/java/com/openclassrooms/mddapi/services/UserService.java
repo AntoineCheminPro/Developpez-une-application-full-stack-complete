@@ -1,83 +1,87 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.exceptions.UserAlreadyExistException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payloads.requests.UpdateUserDetailsRequest;
-import com.openclassrooms.mddapi.payloads.responses.UserResponse;
 import com.openclassrooms.mddapi.repositories.UserRepository;
-import org.springframework.security.core.Authentication;
+import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.text.MessageFormat;
 
 /**
  * Service gérant les opérations liées aux utilisateurs.
- * Implémente la logique métier pour la gestion des profils utilisateurs.
+ * Permet la gestion des utilisateurs, leur authentification et la mise à jour de leurs informations.
  */
+@Data
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
-     * Récupère le profil de l'utilisateur connecté.
+     * Récupère un utilisateur par son ID.
      *
-     * @param authentication L'authentification de l'utilisateur connecté
-     * @return Les informations du profil utilisateur
+     * @param id L'ID de l'utilisateur
+     * @return L'utilisateur trouvé
      * @throws UserNotFoundException Si l'utilisateur n'est pas trouvé
      */
-    @Transactional(readOnly = true)
-    public UserResponse getCurrentUserProfile(Authentication authentication) {
-        User user = getUserFromAuthentication(authentication);
-        return UserResponse.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .build();
+    public User getById(final Integer id) {
+        var user = userRepository.findById(id);
+        return user.orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé."));
     }
 
     /**
-     * Met à jour le profil de l'utilisateur connecté.
+     * Récupère un utilisateur par son email.
      *
-     * @param updateUserDetailsRequest Les nouvelles informations du profil
-     * @param authentication L'authentification de l'utilisateur connecté
-     * @return Les informations mises à jour du profil utilisateur
+     * @param email L'email de l'utilisateur
+     * @return L'utilisateur trouvé
      * @throws UserNotFoundException Si l'utilisateur n'est pas trouvé
      */
-    @Transactional
-    public UserResponse updateUserProfile(UpdateUserDetailsRequest updateUserDetailsRequest, Authentication authentication) {
-        User user = getUserFromAuthentication(authentication);
+    public User getByEmail(final String email) {
+        var user = userRepository.findByEmail(email);
+        return user.orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé."));
+    }
+
+    /**
+     * Met à jour les informations d'un utilisateur.
+     *
+     * @param user L'utilisateur à mettre à jour
+     * @param updateEmail Indique si l'email doit être mis à jour
+     * @param userDetailsRequest Les nouvelles informations de l'utilisateur
+     * @throws UserAlreadyExistException Si l'email est déjà utilisé par un autre utilisateur
+     */
+    public void updateFromRequest(
+            final User user,
+            final boolean updateEmail,
+            final UpdateUserDetailsRequest userDetailsRequest) {
         
-        // Vérifier si l'email est déjà utilisé par un autre utilisateur
-        if (!user.getEmail().equals(updateUserDetailsRequest.getEmail())) {
-            userRepository.findByEmail(updateUserDetailsRequest.getEmail())
-                    .ifPresent(existingUser -> {
-                        throw new IllegalArgumentException("L'adresse email est déjà utilisée");
-                    });
+        if (updateEmail) {
+            // Vérifie si un utilisateur avec cet email existe déjà
+            var userInDBfromEmail = userRepository.findByEmail(userDetailsRequest.getEmail());
+            if (userInDBfromEmail.isPresent()) {
+                throw new UserAlreadyExistException(
+                    MessageFormat.format("Un compte existe déjà avec l''adresse email {0}.", userDetailsRequest.getEmail())
+                );
+            }
+            user.setEmail(userDetailsRequest.getEmail());
         }
 
-        user.setName(updateUserDetailsRequest.getName());
-        user.setEmail(updateUserDetailsRequest.getEmail());
-        
-        User updatedUser = userRepository.save(user);
-        return UserResponse.builder()
-                .name(updatedUser.getName())
-                .email(updatedUser.getEmail())
-                .build();
-    }
+        user.setName(userDetailsRequest.getName());
 
-    /**
-     * Récupère l'utilisateur à partir de l'authentification.
-     *
-     * @param authentication L'authentification de l'utilisateur
-     * @return L'utilisateur correspondant
-     * @throws UserNotFoundException Si l'utilisateur n'est pas trouvé
-     */
-    private User getUserFromAuthentication(Authentication authentication) {
-        String email = authentication.getName();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé avec l'email : " + email));
+        // Mise à jour du mot de passe si fourni
+        if (userDetailsRequest.getPassword() != null && !userDetailsRequest.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDetailsRequest.getPassword()));
+        }
+
+        userRepository.save(user);
     }
-} 
+}

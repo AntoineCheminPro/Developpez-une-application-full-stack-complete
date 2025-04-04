@@ -21,7 +21,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "topics")
+@Table(name = "topics", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "title")
+})
 @EntityListeners(AuditingEntityListener.class)
 public class Topic {
 
@@ -35,8 +37,9 @@ public class Topic {
     /**
      * Titre du topic.
      * Limité à 255 caractères et obligatoire.
+     * Doit être unique.
      */
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255, unique = true)
     private String title;
 
     /**

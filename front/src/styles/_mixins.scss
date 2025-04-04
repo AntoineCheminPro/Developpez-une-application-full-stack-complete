@@ -1,0 +1,8 @@
+@import 'variables';
+
+@mixin text-container {
+  min-width: 30vw;
+  min-height: 15vh;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+} 

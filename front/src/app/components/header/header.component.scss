@@ -1,0 +1,82 @@
+@import '../../../styles/variables';
+
+.header {
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+  }
+
+  &__nav-container {
+    margin: auto 0;
+  }
+
+  // Style pour la page d'accueil
+  &--home {
+    .header__logo {
+      width: 75%;
+      margin: 0 auto;
+
+      @media screen and (min-width: $tablet) {
+        width: 50%;
+      }
+    }
+  }
+
+  // Style pour les pages d'authentification
+  &--auth {
+    @media screen and (min-width: $tablet) {
+      padding: 0;
+
+      .header__logo {
+        height: 100%;
+        width: auto;
+        margin: 0;
+        padding: 0 20px;
+      }
+    }
+  }
+}
+
+// Mobile styles
+@media screen and (max-width: $tablet) {
+  .header {
+    &__container {
+      flex-direction: column;
+    }
+
+    &__nav-container {
+      order: 1;
+    }
+
+    &__logo-container {
+      order: 2;
+      justify-content: center;
+    }
+
+    &__logo {
+      width: 75%;
+      height: auto;
+    }
+  }
+}
+
+// Desktop styles
+@media screen and (min-width: $tablet) {
+  .header {
+    &__logo-container {
+      justify-content: flex-start;
+    }
+  }
+}
+
+.header {
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+

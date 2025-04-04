@@ -1,0 +1,51 @@
+<div class="page-container">
+  <div class="user page-container__main">
+    <h1 class="user__title">Profil utilisateur</h1>
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user__form">
+      <div class="user__form-fields">
+        <mat-form-field appearance="outline" class="user__form-field">
+          <input matInput formControlName="name" placeholder="Username">
+          <mat-error *ngIf="nameValidationMessage">
+            {{ nameValidationMessage }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="user__form-field">
+          <input matInput formControlName="email" placeholder="email@email.fr" type="email">
+          <mat-error *ngIf="emailValidationMessage">
+            {{ emailValidationMessage }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="user__form-field">
+          <input matInput type="password" formControlName="password" placeholder="Mot de passe">
+        </mat-form-field>
+
+        <div class="user__form-submit">
+          <button 
+            mat-flat-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="form.invalid || isProfileLoading"
+            class="user__button">
+            Sauvegarder
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+    <hr class="user__divider">
+
+    <div class="topics page-container__main">
+      <h1 class="user__subtitle">Abonnements</h1>
+      <app-topics 
+        [externalTopics]="userSubscribedTopicsArray"
+        [externalIsLoading]="isTopicsLoading"
+        [externalHasError]="onErrorFetchingSubscriptions"
+        [isSubscribeMode]="false"
+        class="user__topics">
+      </app-topics>
+    </div>
+</div>

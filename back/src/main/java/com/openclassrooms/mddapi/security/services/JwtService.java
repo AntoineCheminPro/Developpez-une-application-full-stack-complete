@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,20 @@ import java.util.function.Function;
  * des tokens JWT utilisés pour l'authentification.
  */
 @Service
+@ConfigurationProperties(prefix = "application.security.jwt")
 public class JwtService {
 
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpirationDuration;
+    private long expiration;
 
-    @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+
+    public void setExpiration(long expiration) {
+        this.expiration = expiration;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
 
     /**
      * Génère un token JWT avec les claims et les détails de l'utilisateur.
@@ -37,7 +44,7 @@ public class JwtService {
      * @return Le token JWT généré
      */
     public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
-        return buildToken(claims, userDetails, jwtExpirationDuration);
+        return buildToken(claims, userDetails, expiration);
     }
 
     /**
@@ -45,13 +52,13 @@ public class JwtService {
      *
      * @param claims Les claims à inclure
      * @param userDetails Les détails de l'utilisateur
-     * @param jwtExpirationDuration La durée de validité du token
+     * @param expiration La durée de validité du token
      * @return Le token JWT construit
      */
     private String buildToken(
             Map<String, Object> claims,
             UserDetails userDetails,
-            long jwtExpirationDuration) {
+            long expiration) {
         var authorities = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -62,7 +69,7 @@ public class JwtService {
                 .claim("authorities", authorities)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtExpirationDuration))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -72,7 +79,7 @@ public class JwtService {
      *
      * @return La clé de signature
      */
-    public SecretKey getSignInKey() {
+    private SecretKey getSignInKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 

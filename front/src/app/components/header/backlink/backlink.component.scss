@@ -1,0 +1,63 @@
+@import '../../../../styles/variables';
+
+.backlink-container {
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.backlink {
+  z-index: 1000;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  margin-top: 0.5rem;
+
+  &:hover {
+    transform: translateX(-4px);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  img {
+    transform: translateX(1rem);
+  }
+
+}
+
+.backlink__title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: $font-size-h1;
+  color: $text-primary;
+  text-align: center;
+}
+
+@media screen and (max-width: $tablet) {
+  .backlink__title {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin-left: 1rem;
+    text-align: left;
+  }
+
+  .backlink {
+    img {
+      transform: translateX(0);
+    }
+  }
+
+  .backlink-container {
+    margin-left: 1rem;
+  }
+}
+
+
+

@@ -1,0 +1,18 @@
+<div class="comment-list">
+  <div class="comment-list__header">
+    <p>
+      <span class="comment-list__title">Commentaires</span>
+    </p>
+  </div>
+
+  @if (comments.length === 0) {
+    <span class="comment-list__empty">Aucun commentaire disponible... Écrivez-en un ci-dessous.</span>
+  } @else {
+    <div class="comment-list__container">
+      @for (comment of comments; track comment.id) {
+        <comment-card [comment]="comment"></comment-card>
+      }
+    </div>
+  }
+</div>
+  

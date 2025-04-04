@@ -1,0 +1,29 @@
+@import '../../../../styles/variables';
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  
+  &__image {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+// Mobile styles
+@media screen and (max-width: $tablet) {
+  .logo {
+    width: 100%;
+    justify-content: left;
+    padding: 0 20px;
+    margin: 0;
+    
+    &__image {
+      height: 50px;
+      width: auto;
+    }
+  }
+}
+

@@ -1,0 +1,13 @@
+<article class="post-card" [attr.id]="'post-' + id">
+  <header class="post-card__header">
+    <h2 class="post-card__title">{{ title }}</h2>
+    <div class="post-card__meta">
+      <time class="post-card__date" [attr.datetime]="date">{{ formattedDate }}</time>
+      <span class="post-card__author" aria-label="Auteur">{{ author }}</span>
+    </div>
+  </header>
+  <div class="post-card__content">
+    <p class="post-card__description">{{ description }}</p>
+  </div>
+</article>
+  

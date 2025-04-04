@@ -1,0 +1,20 @@
+<div class="comment-form">
+    <div class="comment-form__input-container">
+      <textarea 
+        class="comment-form__textarea"
+        [(ngModel)]="commentText" 
+        placeholder="Écrivez votre commentaire..." 
+        rows="4" 
+        maxlength="{{maxLengthCommentText}}" 
+        (input)="updateRemainingCharacters()">
+      </textarea>
+      <div class="comment-form__char-count">{{remainingCharacters}} caractères restants</div>
+    </div>
+    <app-btn
+      type="submit"
+      [disabled]="false"
+      (btnClick)="onSubmit()"
+      ariaLabel="Envoyer le commentaire"
+    ></app-btn>
+  </div>
+  

@@ -1,0 +1,156 @@
+@import '../../../../styles/variables';
+
+// Le composant utilise les styles globaux définis dans styles.scss
+
+
+.error-message {
+  color: $error;
+  font-size: $font-size-base;
+  margin-top: $spacing-xs;
+}
+
+.post-create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-xl;
+  min-height: calc(100vh - 64px);
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: $spacing-xl;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    textarea {
+      min-height: 150px;
+    }
+
+    button {
+      align-self: center;
+      min-width: 120px;
+    }
+  }
+
+  &__field {
+    margin-bottom: $spacing-lg;
+
+    input, textarea {
+      width: 100%;
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-base;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba($primary, 0.2);
+      }
+
+      &:hover {
+        border-color: $primary-light;
+      }
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+  }
+
+  &__error {
+    color: $error;
+    font-size: $font-size-base;
+    margin-top: $spacing-xs;
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacing-xl;
+
+    button {
+      min-width: 200px;
+      padding: $spacing-sm;
+      font-size: $font-size-base;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Personnalisation des champs Material
+::ng-deep {
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mdc-text-field--outlined {
+    --mdc-outlined-text-field-outline-color: #673ab7;
+    --mdc-outlined-text-field-hover-outline-color: #673ab7;
+    --mdc-outlined-text-field-focus-outline-color: #673ab7;
+    --mdc-outlined-text-field-label-text-color: rgba(0, 0, 0, 0.6);
+    --mdc-outlined-text-field-focus-label-text-color: #673ab7;
+  }
+
+  .mdc-text-field--outlined.mdc-text-field--invalid {
+    --mdc-outlined-text-field-outline-color: #{$error};
+    --mdc-outlined-text-field-hover-outline-color: #{$error};
+    --mdc-outlined-text-field-focus-outline-color: #{$error};
+    --mdc-outlined-text-field-label-text-color: #{$error};
+    --mdc-outlined-text-field-focus-label-text-color: #{$error};
+  }
+
+  .mat-mdc-form-field-error {
+    color: $error;
+  }
+
+  h1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+  }
+
+  .backlink-container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  
+  h1 {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .post-create {
+    padding: $spacing-md;
+
+    &__form {
+      padding: $spacing-lg;
+    }
+  }
+}
+
