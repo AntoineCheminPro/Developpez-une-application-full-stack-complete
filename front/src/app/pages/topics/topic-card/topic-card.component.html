@@ -6,24 +6,13 @@
   </div>
   
   <div class="topic-card__footer">
-    <button 
-      mat-flat-button 
-      color="primary" 
-      type="submit" 
-      [class.topic-card__button--disabled]="isSubscribed && disableButton"
-      [disabled]="isSubscribed && disableButton"
-      (click)="fn()"
-      class="topic-card__button">
-      @if (isSubscribeCase) {
-        @if (isSubscribed) {
-          Abonné
-        } @else {
-          S'abonner
-        }
-      } @else {
-        Se désabonner
-      }
-    </button>
+    <app-btn
+      [text]="isSubscribeCase ? (isSubscribed ? 'Abonné' : 'S\'abonner') : 'Se désabonner'"
+      [disabled]="isSubscribeCase && isSubscribed"
+      [type]="'cta'"
+      (btnClick)="fn()"
+      >
+    </app-btn>
   </div>
 </div>
-  
+  clear

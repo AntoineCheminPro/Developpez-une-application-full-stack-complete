@@ -1,12 +1,12 @@
-import { MatButtonModule } from "@angular/material/button";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TopicEvent } from "../../../core/EventEmitters/topic-event.interface";
+import { BtnComponent } from '../../../components/btn/btn.component';
 
 @Component({
   selector: 'app-topic-card',
   standalone: true,
   imports: [
-    MatButtonModule
+    BtnComponent
   ],
   templateUrl: './topic-card.component.html',
   styleUrl: './topic-card.component.scss'
@@ -18,7 +18,7 @@ export class TopicCardComponent {
   @Input() public description!: string;
   @Input() public isSubscribed!: boolean;
   @Input() public isSubscribeCase: boolean = false;
-  @Input() public disableButton: boolean = true;
+  @Input() public disableButton: boolean = false;
 
   // Outputs
   @Output() public onSubscribe: EventEmitter<TopicEvent> = new EventEmitter<TopicEvent>();

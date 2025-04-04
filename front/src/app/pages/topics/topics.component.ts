@@ -56,6 +56,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
 
   @Input() externalIsLoading?: boolean;
   @Input() externalHasError?: boolean;
+  @Input() isSubscribeMode: boolean = true;
 
   public topics: Topic[] = [];
   public hasData = false;
@@ -109,9 +110,19 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   public subscribeTopic(event: TopicEvent): void {
-    this.topicsService.subscribe(event.id).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => this.getTopics());
+    if (this.isSubscribeMode) {
+      this.topicsService.subscribe(event.id).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(() => this.getTopics());
+    } else {
+      this.topicsService.unsubscribe(event.id).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
+        this.topics = this.topics.filter(topic => topic.id !== event.id);
+        this.hasData = this.topics.length > 0;
+        this.cdr.markForCheck();
+      });
+    }
   }
 
   ngOnDestroy(): void {

@@ -24,7 +24,7 @@
             [title]="topic.title"
             [description]="topic.description"
             [isSubscribed]="topic.isSubscribed"
-            [isSubscribeCase]="true"
+            [isSubscribeCase]="isSubscribeMode"
             (onSubscribe)="subscribeTopic($event)">
           </app-topic-card>
         </div>

@@ -61,22 +61,17 @@ export class BtnComponent implements OnInit, OnChanges {
     this.changeDetectorRef.markForCheck();
   }
 
-  protected readonly btnClasses = computed(() => {
+  protected readonly btnClasses = (): string => {
     const classes = ['btn'];
     
     // Type
-    classes.push(`btn--${this.type}`);
+    if (this.type !== 'none') {
+      classes.push(`btn--${this.type}`);
+    }
     
     // États
     if (this.disabled || this.loading) {
       classes.push('btn--disabled');
-    } else {
-      // Retirer explicitement la classe si le bouton n'est plus désactivé
-      classes.push('btn--enabled');
-    }
-    
-    if (this.loading) {
-      classes.push('btn--loading');
     }
     
     // Positions
@@ -88,7 +83,7 @@ export class BtnComponent implements OnInit, OnChanges {
     }
     
     return classes.join(' ');
-  });
+  };
 
   protected onClick(event: Event): void {
     if (this.disabled || this.loading) {
