@@ -12,7 +12,9 @@ const STORAGE_KEYS = {
   providedIn: 'root',
 })
 export class AuthStorageService {
-  constructor(private readonly storage: Storage = sessionStorage) { }
+  constructor(private readonly storage: Storage = sessionStorage) {
+    console.log('🔑 AuthStorageService initialized');
+  }
 
   public getToken(): string | null {
     return this.storage.getItem(STORAGE_KEYS.TOKEN);

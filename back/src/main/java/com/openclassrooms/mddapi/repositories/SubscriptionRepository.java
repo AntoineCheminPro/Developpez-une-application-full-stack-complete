@@ -23,7 +23,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
      * @param userId L'identifiant de l'utilisateur
      * @return Une liste optionnelle des identifiants des topics
      */
-    @Query("SELECT s.Topic.id FROM Subscription s " +
+    @Query("SELECT s.topic.id FROM Subscription s " +
            "WHERE s.user.id = :userId")
     Optional<List<Integer>> findAllThemeIdsSubscribedByUser(Integer userId);
 
@@ -35,7 +35,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
      * @return L'abonnement trouvé, encapsulé dans un Optional
      */
     @Query("SELECT s FROM Subscription s " +
-           "WHERE s.Topic.id = :topicId " +
+           "WHERE s.topic.id = :topicId " +
            "AND s.user.id = :userId")
     Optional<Subscription> findUniqueSubscriptionForThemeByUser(Integer topicId, Integer userId);
 
@@ -48,7 +48,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
     @Transactional
     @Modifying
     @Query("DELETE FROM Subscription s " +
-           "WHERE s.Topic.id = :topicId " +
+           "WHERE s.topic.id = :topicId " +
            "AND s.user.id = :userId")
     void deleteByThemeIdAndUserId(Integer topicId, Integer userId);
 }

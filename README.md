@@ -23,7 +23,7 @@ ng serve
 
 #### Mode développement avec Faker
 ```bash
-ng serve --configuration=development
+ng dev
 ```
 
 #### Mode production
@@ -75,6 +75,91 @@ Les artefacts de build seront stockés dans le répertoire `dist/`.
 Le projet utilise `@angular/material`, une des bibliothèques UI les plus populaires de l'écosystème Angular. Vous pouvez consulter la documentation ici : https://material.angular.io/
 
 Note : L'utilisation de Material est recommandée mais n'est pas obligatoire. Vous pouvez l'enlever si vous préférez.
+
+## Back
+
+### Prérequis
+- Java 21
+- Maven
+- MySQL
+
+### Configuration
+1. Créez un fichier `secrets.properties` à la racine du projet backend avec :
+```properties
+mysql-root-pass=votre_mot_de_passe_mysql
+jwt-secret-pass=votre_secret_jwt
+```
+
+2. Assurez-vous que MySQL est en cours d'exécution sur le port 3306
+
+### Installation et démarrage
+
+#### Windows PowerShell
+```powershell
+cd Developpez-une-application-full-stack-complete/back
+mvn spring-boot:run
+```
+
+#### Linux/MacOS
+```bash
+cd Developpez-une-application-full-stack-complete/back
+mvn spring-boot:run
+```
+
+### Documentation API (Swagger)
+
+La documentation de l'API est disponible via Swagger UI. Une fois l'application démarrée, vous pouvez y accéder de deux façons :
+
+1. **Interface Swagger UI (recommandée)**
+   - URL : `http://localhost:8080/swagger-ui.html`
+   - Interface interactive permettant de :
+     - Explorer tous les endpoints de l'API
+     - Tester les requêtes directement
+     - Voir les modèles de données
+     - Consulter les schémas de requêtes et réponses
+
+2. **Documentation OpenAPI brute**
+   - URL : `http://localhost:8080/v3/api-docs`
+   - Documentation au format JSON
+
+### Points d'accès publics
+Les endpoints suivants sont accessibles sans authentification :
+- `/api/auth/register` : Inscription
+- `/api/auth/login` : Connexion
+- `/swagger-ui.html` : Interface Swagger
+- `/v3/api-docs` : Documentation OpenAPI
+
+### Authentification
+Pour les endpoints protégés :
+1. Utilisez d'abord `/api/auth/login` pour obtenir un token JWT
+2. Ajoutez le token dans le header `Authorization: Bearer <votre_token>`
+
+### Structure du projet
+```
+back/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/openclassrooms/mddapi/
+│   │   │       ├── controllers/
+│   │   │       ├── models/
+│   │   │       ├── repositories/
+│   │   │       ├── security/
+│   │   │       └── services/
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── data.sql
+│   └── test/
+└── pom.xml
+```
+
+### Technologies utilisées
+- Spring Boot 3.2.4
+- Spring Security avec JWT
+- Spring Data JPA
+- MySQL
+- Lombok
+- Swagger/OpenAPI
 
 ### Documentation
 

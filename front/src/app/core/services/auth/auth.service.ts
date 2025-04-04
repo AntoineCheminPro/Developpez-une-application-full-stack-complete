@@ -16,7 +16,12 @@ const API_PATHS = {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) {
+    console.log('🔐 AuthService initialized with config:', {
+      useFaker: environment.useFaker,
+      apiUrl: API_PATHS.AUTH_BASE
+    });
+  }
 
   public createUser(registerRequest: RegisterRequest): Observable<void> {
     return this.httpClient.post<void>(API_PATHS.REGISTER, registerRequest);

@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * Point d'entrée principal de l'application MDD API.
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * et le scan des composants Spring.
  */
 @SpringBootApplication
+@EnableConfigurationProperties
 public class MddApiApplication {
 
 	/**

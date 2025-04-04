@@ -29,7 +29,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
      */
     @Query("SELECT p FROM Post p " +
            "INNER JOIN p.topic t " +
-           "INNER JOIN Subscription s ON s.Topic = t " +
+           "INNER JOIN Subscription s ON s.topic = t " +
            "WHERE s.user.id = :userId")
     List<Post> findPostsBySubscriptionUserId(@Param("userId") Integer userId);
 }

@@ -23,6 +23,7 @@ export class SessionService implements OnDestroy {
     private readonly router: Router,
     private readonly snackBar: MatSnackBar
   ) {
+    console.log('🔑 SessionService initialized');
     this.session$.subscribe((sessionInfo: SessionInformation) => {
       if (sessionInfo.isAuthenticated) {
         this.authStorageService.setToken(sessionInfo.token!);
