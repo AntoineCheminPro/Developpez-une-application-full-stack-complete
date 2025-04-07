@@ -14,6 +14,7 @@ export class PostCardComponent {
   @Input({ required: true }) title!: string;
   @Input({ required: true }) date!: string;
   @Input({ required: true }) author!: string;
+  @Input({ required: true }) topicName!: string;
   @Input({ required: true }) description!: string;
   @Input() id?: string;
 
