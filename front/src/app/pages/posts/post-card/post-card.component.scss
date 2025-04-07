@@ -39,16 +39,17 @@ $card-border: #e0e0e0;
 
   &__meta {
     display: flex;
-    justify-content: space-between;
     align-items: left;
     color: $card-meta;
     font-size: 0.875rem;
+    gap: 1rem;
   }
 
   &__author {
     font-weight: 500;
     align-self: left;
-    width: 50%;
+    text-align: center;
+    margin: 0 1rem;
   }
 
   &__date {
